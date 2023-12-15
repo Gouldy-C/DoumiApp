@@ -8,17 +8,24 @@ import { TextInput, View, Text, Pressable, StyleSheet } from "react-native";
 type FormData = {
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
 function SignInForm() {
   const [email, onChangeEmail] = React.useState('')
   const [password, onChangePassword] = React.useState('')
+  const [confirmPassword, onChangeConfirmPassword] = React.useState('')
 
   const schema: ZodType<FormData> = z
     .object({
       email: z.string().email(),
       password: z.string().min(5).max(20),
+      confirmPassword: z.string().min(5).max(20),
     })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    });
 
   const {
     register,
@@ -58,9 +65,21 @@ function SignInForm() {
       />
       <Text style={styles.inputError}>{errors.password && errors.password.message}</Text>
 
+      <Text style={styles.inputLabel}>Confirm Password</Text>
+      <TextInput
+        {...register("confirmPassword")}
+        style={styles.input}
+        onChangeText={onChangeConfirmPassword}
+        value={confirmPassword}
+        placeholder="Confirm"
+        keyboardType="visible-password"
+        secureTextEntry={true}
+      />
+      <Text style={styles.inputError}>{errors.confirmPassword && errors.confirmPassword.message}</Text>
+
       <Pressable
         onPress={handleSubmit(submitData)}>
-        <Text style={{fontSize: 20, margin: 10, padding: 10}}>Sign In</Text>
+        <Text style={{fontSize: 20, margin: 10, padding: 10}}>Sign Up</Text>
       </Pressable>
     </View>
   );
