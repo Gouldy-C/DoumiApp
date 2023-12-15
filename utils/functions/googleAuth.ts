@@ -15,15 +15,10 @@ export const googleSignIn = async () => {
     await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     // Get the users ID token
     const  googleUser = await GoogleSignin.signIn();
-  
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(googleUser.idToken);
-  
     // Sign-in the user with the credential
-    const user =  auth().signInWithCredential(googleCredential);
-
-    console.log(user);
-    //return user
+    auth().signInWithCredential(googleCredential);
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
@@ -40,8 +35,12 @@ export const googleSignIn = async () => {
 
 export const googleSilentlySignIn = async () => {
   try {
-    const newUser = await GoogleSignin.signInSilently();
-    console.log(newUser)
+    const googleUser = await GoogleSignin.signInSilently()
+
+    const googleCredential = auth.GoogleAuthProvider.credential(googleUser.idToken)
+    // Sign-in the user with the credential
+    auth().signInWithCredential(googleCredential)
+    
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
       // user has not signed in yet
@@ -53,14 +52,14 @@ export const googleSilentlySignIn = async () => {
 
 export const isGoogleSignedIn = async () => {
   const isSignedIn = await GoogleSignin.isSignedIn();
-  console.log(isSignedIn);
+  return isSignedIn
   //setState({ isLoginScreenPresented: !isSignedIn });
 };
 
 
 export const getCurrentUser = async () => {
-  const currentUser = await GoogleSignin.getCurrentUser();
-  console.log(currentUser)
+  const googleUser = await GoogleSignin.getCurrentUser();
+  return(googleUser)
 };
 
 
