@@ -52,6 +52,12 @@
         "projectId": "a092c25b-d38a-40ed-80a8-036f068050de"
       }
     },
-    "owner": "gouldy-c"
+    "owner": "gouldy-c",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a092c25b-d38a-40ed-80a8-036f068050de"
+    }
   }
 }
