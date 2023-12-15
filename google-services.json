@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "799118216573",
+    "project_id": "caretaker-app-colab25",
+    "storage_bucket": "caretaker-app-colab25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799118216573:android:82ed8affec36311e5c1014",
+        "android_client_info": {
+          "package_name": "com.gouldyc.caretakersocial"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799118216573-rq4nlp2bcndsm695istct68p4q7eu99e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gouldyc.caretakersocial",
+            "certificate_hash": "c6314df22583f3fe0457732b332db506cf3a4af8"
+          }
+        },
+        {
+          "client_id": "799118216573-scipircju4b9d6l4025t27gp5fut1b5a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gouldyc.caretakersocial",
+            "certificate_hash": "7430a143ce9af17a20cce62e0bf4f134968691c2"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3iBKJEx4xSa8_RcoMpjVlBHy2Mh99WSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799118216573-7a56r5tqlbrnuvb8va93hke1aj77qktm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gouldyc.caretakersocial"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
