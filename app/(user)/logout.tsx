@@ -1,11 +1,20 @@
-import {Text, View, StyleSheet} from 'react-native'
-import React from 'react'
+import { StyleSheet} from 'react-native'
+import React, { useEffect } from 'react'
+import { googleSignOut } from '@utils/functions/googleAuth'
+import { Redirect } from 'expo-router'
+import { userStore } from '@utils/stores/userStore'
 
 const UserLogout = () => {
+  const {setUser} = userStore((state) => state)
+
+  useEffect(() => {
+    googleSignOut()
+    setUser(null)
+  }, [])
+  
+  
   return (
-      <View style={styles.safeView}>
-        <Text style={{fontSize: 18, paddingVertical: 10}}>User Logout</Text>
-      </View>
+    <Redirect href={'/'}/>
   )
 }
 
