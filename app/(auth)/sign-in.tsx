@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { googleSignIn } from '@utils/functions/googleFunctions';
+import { googleSignIn } from '../../utils/functions/googleAuth';
 
 const SignIn = () => {
   return (
