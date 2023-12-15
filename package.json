@@ -14,7 +14,11 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
+    "@react-native-firebase/analytics": "^18.7.3",
     "@react-native-firebase/app": "^18.7.3",
+    "@react-native-firebase/auth": "^18.7.3",
+    "@react-native-firebase/crashlytics": "^18.7.3",
+    "@react-native-firebase/firestore": "^18.7.3",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.0.2",
     "expo": "~49.0.15",
