@@ -1,21 +1,29 @@
 import {
   GoogleSignin,
-  GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin'
-import { userStore } from '@utils/stores/userStore';
+import auth from '@react-native-firebase/auth';
 
 
-GoogleSignin.configure();
+GoogleSignin.configure({
+  webClientId: '799118216573-q97u3nk64ukhgol2nk3bh9nrnvaim03r.apps.googleusercontent.com',
+});
 
-const { user, setUser} = userStore((state) => state)
 
 export const googleSignIn = async () => {
   try {
-    await GoogleSignin.hasPlayServices();
-    const newUser = await GoogleSignin.signIn();
-    setUser(newUser);
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    // Get the users ID token
+    const  googleUser = await GoogleSignin.signIn();
+  
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(googleUser.idToken);
+  
+    // Sign-in the user with the credential
+    const user =  auth().signInWithCredential(googleCredential);
+
     console.log(user);
+    //return user
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
@@ -33,7 +41,7 @@ export const googleSignIn = async () => {
 export const googleSilentlySignIn = async () => {
   try {
     const newUser = await GoogleSignin.signInSilently();
-    setUser(newUser)
+    console.log(newUser)
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
       // user has not signed in yet
@@ -52,14 +60,14 @@ export const isGoogleSignedIn = async () => {
 
 export const getCurrentUser = async () => {
   const currentUser = await GoogleSignin.getCurrentUser();
-  setUser(currentUser)
+  console.log(currentUser)
 };
 
 
 export const googleSignOut = async () => {
   try {
     await GoogleSignin.signOut();
-    setUser( null ); // Remember to remove the user from your app's state as well
+    // Remember to remove the user from your app's state as well
   } catch (error) {
     console.error(error);
   }

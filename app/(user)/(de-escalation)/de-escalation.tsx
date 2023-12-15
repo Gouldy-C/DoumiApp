@@ -4,7 +4,7 @@ import React from 'react'
 const DeEscalationPage = () => {
   return (
       <View style={styles.safeView}>
-        <Text style={{fontSize: 18, paddingVertical: 10}}> De Escalation Page</Text>
+        <Text style={{fontSize: 18, paddingVertical: 10}}>De Escalation Page</Text>
       </View>
   )
 }
