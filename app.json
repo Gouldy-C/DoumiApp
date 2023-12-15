@@ -34,16 +34,11 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "useFrameworks": "static"
-          }}],
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       "@react-native-firebase/crashlytics",
-      "expo-router",
+      "expo-dev-client",
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
