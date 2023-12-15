@@ -11,10 +11,12 @@ type FormData = {
   confirmPassword: string;
 };
 
-function SignInForm() {
+
+function SignUpForm() {
   const [email, onChangeEmail] = React.useState('')
   const [password, onChangePassword] = React.useState('')
   const [confirmPassword, onChangeConfirmPassword] = React.useState('')
+
 
   const schema: ZodType<FormData> = z
     .object({
@@ -25,7 +27,9 @@ function SignInForm() {
     .refine((data) => data.password === data.confirmPassword, {
       message: "Passwords do not match",
       path: ["confirmPassword"],
-    });
+    })
+
+  
 
   const {
     register,
@@ -40,10 +44,10 @@ function SignInForm() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.inputLabel}>Email</Text>
       <TextInput
-        {...register("email")}
+        {...register('email')}
         style={styles.input}
         onChangeText={onChangeEmail}
         value={email}
@@ -79,27 +83,44 @@ function SignInForm() {
 
       <Pressable
         onPress={handleSubmit(submitData)}>
-        <Text style={{fontSize: 20, margin: 10, padding: 10}}>Sign Up</Text>
+        <Text style={styles.button}>Sign Up</Text>
       </Pressable>
     </View>
   );
 }
 
-export default SignInForm;
+export default SignUpForm;
 
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
-    margin: 12,
+    height: 50,
+    marginTop: 10,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 5,
+    fontSize: 18,
   },
   inputError: {
-    color: 'red'
+    color: 'red',
+    marginTop: 4,
+    marginBottom: 10,
   },
   inputLabel: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  button: {
+    textAlign: 'center',
+    fontSize: 20,
+    margin: 10,
+    padding: 10,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  container: {
+    width: '80%',
+    marginVertical: 20,
   }
 });

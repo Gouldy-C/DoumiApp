@@ -33,7 +33,7 @@ function SignInForm() {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.inputLabel}>Email</Text>
       <TextInput
         {...register("email")}
@@ -60,7 +60,7 @@ function SignInForm() {
 
       <Pressable
         onPress={handleSubmit(submitData)}>
-        <Text style={{fontSize: 20, margin: 10, padding: 10}}>Sign In</Text>
+        <Text style={styles.button}>Sign In</Text>
       </Pressable>
     </View>
   );
@@ -71,16 +71,33 @@ export default SignInForm;
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
-    margin: 12,
+    height: 50,
+    marginTop: 10,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 5,
+    fontSize: 18,
   },
   inputError: {
-    color: 'red'
+    color: 'red',
+    marginTop: 4,
+    marginBottom: 10,
   },
   inputLabel: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  button: {
+    textAlign: 'center',
+    fontSize: 20,
+    margin: 10,
+    padding: 10,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  container: {
+    width: '80%',
+    marginVertical: 20,
   }
 });

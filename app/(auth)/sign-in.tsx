@@ -17,7 +17,7 @@ const SignIn = () => {
 
   return (
     <View style={styles.safeView}>
-      <Text>Sign In</Text>
+
       <SignInForm/>
       <Link href={'/(user)/feed'}>To User Home</Link>
         <Pressable

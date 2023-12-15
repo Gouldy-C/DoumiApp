@@ -5,7 +5,6 @@ import SignUpForm from '@components/SignUpForm'
 const SignUp = () => {
   return (
     <View style={styles.safeView}>
-      <Text>Sign Up</Text>
       <SignUpForm/>
     </View>
   )
