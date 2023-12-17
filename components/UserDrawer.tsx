@@ -1,14 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import {  router } from 'expo-router'
+import { userStore } from '@utils/stores/userStore'
 
 const UserDrawer = (props : DrawerContentComponentProps) => {
+  const {user} = userStore((state) => state)
+
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
-        <View>
-          <Text> User Menu</Text>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',}}>
+          {user?.photoURL && 
+          <Image 
+            source={{uri: user.photoURL}}
+            style={{height: 90, aspectRatio: 1, borderRadius: 50, margin: 10,}}
+            />}
+          <View>
+            <Text>{user?.displayName}</Text>
+            <Text>{user?.email}</Text>
+          </View>
         </View>
 
           <DrawerItem

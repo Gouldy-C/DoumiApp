@@ -11,13 +11,13 @@ const AppEntry = () => {
   const {user, setUser} = userStore((state) => state);
 
   // Handle user state changes
-  function onAuthStateChanged(user : FirebaseAuthTypes.User | null) {
+  function userChange(user: FirebaseAuthTypes.User | null) {
     setUser(user);
     if (loading) setLoading(false);
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    const subscriber =  auth().onAuthStateChanged(userChange);
     return subscriber; // unsubscribe on unmount
   }, []);
 

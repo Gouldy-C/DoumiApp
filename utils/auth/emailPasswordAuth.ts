@@ -1,8 +1,8 @@
 import auth from '@react-native-firebase/auth';
 import { router } from 'expo-router';
 
-export const signUpEmailPassword = (email : string, password : string) => { 
-  auth()
+export const signUpEmailPassword = async (email : string, password : string) => { 
+    await auth()
     .createUserWithEmailAndPassword(email, password)
     .then((result) => {
       console.log(result);
@@ -21,8 +21,8 @@ export const signUpEmailPassword = (email : string, password : string) => {
     })
   }
 
-export const signInEmailPassword = (email : string, password : string) => { 
-  auth()
+export const signInEmailPassword = async (email : string, password : string) => { 
+  await auth()
     .signInWithEmailAndPassword(email, password)
     .then((result) => {
       console.log(result);

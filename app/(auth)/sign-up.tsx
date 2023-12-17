@@ -1,12 +1,16 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import SignUpForm from '@components/SignUpForm'
+import GoogleSignInButton from '@components/GoogleSignInButton'
 
 const SignUp = () => {
   return (
-    <View style={styles.safeView}>
+    <ScrollView style={styles.safeView}>
+      
       <SignUpForm/>
-    </View>
+
+      <GoogleSignInButton/>
+    </ScrollView>
   )
 }
 
@@ -15,6 +19,5 @@ export default SignUp
 const styles = StyleSheet.create({
   safeView: {
     flex: 1,
-    alignItems: "center",
   }
 })

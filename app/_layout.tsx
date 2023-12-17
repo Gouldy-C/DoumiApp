@@ -2,7 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useLoading } from '@utils/stores/loadingStore';
 import { userStore } from '@utils/stores/userStore';
-import auth from '@react-native-firebase/auth'
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen} from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -27,15 +27,16 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  useEffect(() => {
-    setLoading(true)
-    auth().onAuthStateChanged(userState => {
-      setUser(userState);
 
-      if (loading) {
-        setLoading(false);
-      }
-    });
+  // Handle user state changes
+  function userChange(user: FirebaseAuthTypes.User | null) {
+    setUser(user);
+    if (loading) setLoading(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(userChange);
+    return subscriber; // unsubscribe on unmount
   }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -50,7 +51,7 @@ export default function RootLayout() {
   }, [loaded, loading]);
 
 
-  if (!loaded) {
+  if (!loaded || loading) {
     return null;
   }
 

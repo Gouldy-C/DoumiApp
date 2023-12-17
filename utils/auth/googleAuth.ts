@@ -18,7 +18,7 @@ export const googleSignIn = async () => {
     // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(googleUser.idToken);
     // Sign-in the user with the credential
-    auth().signInWithCredential(googleCredential);
+    await auth().signInWithCredential(googleCredential);
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       // user cancelled the login flow
@@ -39,7 +39,7 @@ export const googleSilentlySignIn = async () => {
 
     const googleCredential = auth.GoogleAuthProvider.credential(googleUser.idToken)
     // Sign-in the user with the credential
-    auth().signInWithCredential(googleCredential)
+    await auth().signInWithCredential(googleCredential)
     
   } catch (error: any) {
     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
@@ -66,7 +66,7 @@ export const getCurrentUser = async () => {
 export const googleSignOut = async () => {
   try {
     await GoogleSignin.signOut();
-    // Remember to remove the user from your app's state as well
+    await auth().signOut()
   } catch (error) {
     console.error(error);
   }

@@ -1,8 +1,16 @@
 import React from 'react'
 import Drawer from 'expo-router/drawer'
 import UserDrawer from '../../components/UserDrawer'
+import { userStore } from '@utils/stores/userStore'
+import { Redirect } from 'expo-router'
 
 const UserLayout = () => {
+  const {user} = userStore((state) => state)
+
+  if (!user){
+    return <Redirect href={'/(auth)/sign-in'}/>
+  }
+
   return (
     <Drawer drawerContent={(props) => <UserDrawer {...props}/>}>
       <Drawer.Screen
