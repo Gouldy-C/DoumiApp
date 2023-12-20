@@ -9,6 +9,7 @@ import ControlledTextInput from "@components/ControlledTextInput";
 import { signInEmailPassword } from "@utils/auth/emailPasswordAuth";
 import auth from "@react-native-firebase/auth";
 import { userStore } from "@utils/stores/userStore";
+import { checkAndCreateFirestoreUser } from "@utils/firestore/firestoreFunctions";
 
 type FormData = {
   email: string;
@@ -22,7 +23,7 @@ const specialRe = new RegExp(`[!#$%&*+-.:;<=>?@^_]`);
 
 function SignInForm() {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
-  const { setUser } = userStore((state) => state);
+  const { user, setUser } = userStore((state) => state);
 
   const schema: ZodType<FormData> = z.object({
     email: z.string().email(),
@@ -46,10 +47,6 @@ function SignInForm() {
 
   const submitData = async (data: FormData) => {
     await signInEmailPassword(data.email, data.password);
-    if (!auth().currentUser?.emailVerified) {
-      auth().currentUser?.sendEmailVerification();
-    }
-    setUser(auth().currentUser);
   };
 
   return (

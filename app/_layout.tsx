@@ -9,6 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { checkAndCreateFirestoreUser } from '@utils/firestore/firestoreFunctions';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -29,8 +30,12 @@ export default function RootLayout() {
 
 
   // Handle user state changes
-  function userChange(user: FirebaseAuthTypes.User | null) {
+  async function userChange(user: FirebaseAuthTypes.User | null) {
     setUser(user);
+    console.log(user, 'layout user change');
+    if (user) {
+      await checkAndCreateFirestoreUser(user)
+    }
     if (loading) setLoading(false);
   }
 

@@ -9,6 +9,7 @@ import ControlledTextInput from "@components/ControlledTextInput";
 import { signUpEmailPassword } from "@utils/auth/emailPasswordAuth";
 import { userStore } from "@utils/stores/userStore";
 import auth from "@react-native-firebase/auth";
+import { checkAndCreateFirestoreUser } from "@utils/firestore/firestoreFunctions";
 
 type FormData = {
   email: string;
@@ -52,10 +53,6 @@ function SignUpForm() {
 
   const submitData = async (data: FormData) => {
     await signUpEmailPassword(data.email, data.password);
-    if (!auth().currentUser?.emailVerified) {
-      auth().currentUser?.sendEmailVerification();
-    }
-    setUser(auth().currentUser);
   };
 
   return (

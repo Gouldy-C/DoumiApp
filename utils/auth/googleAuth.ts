@@ -66,7 +66,6 @@ export const getCurrentUser = async () => {
 export const googleSignOut = async () => {
   try {
     await GoogleSignin.signOut();
-    await auth().signOut()
   } catch (error) {
     console.error(error);
   }

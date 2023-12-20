@@ -3,6 +3,7 @@ import React from 'react'
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import {  router } from 'expo-router'
 import { userStore } from '@utils/stores/userStore'
+import { logout } from '@utils/auth/general'
 
 const UserDrawer = (props : DrawerContentComponentProps) => {
   const {user} = userStore((state) => state)
@@ -41,7 +42,7 @@ const UserDrawer = (props : DrawerContentComponentProps) => {
           onPress={() => router.push('/(user)/settings')}/>
         <DrawerItem
           label={'Logout'}
-          onPress={() => router.push('/(user)/logout')}/>
+          onPress={() => logout()}/>
       </View>
     </View>
   )

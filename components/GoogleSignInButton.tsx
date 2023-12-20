@@ -4,14 +4,13 @@ import { userStore } from "@utils/stores/userStore";
 import { googleSignIn } from "@utils/auth/googleAuth";
 import { router } from "expo-router";
 import auth from "@react-native-firebase/auth";
+import { checkAndCreateFirestoreUser } from "@utils/firestore/firestoreFunctions";
 
 const GoogleSignInButton = () => {
-  const { setUser } = userStore((state) => state);
+  const { user, setUser } = userStore((state) => state);
 
   const handleGoogleSignIn = async () => {
-    await googleSignIn();
-    setUser(auth().currentUser);
-    //router.replace('/(user)/feed')
+    await googleSignIn()
   };
 
   return (

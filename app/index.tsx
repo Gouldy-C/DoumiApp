@@ -1,26 +1,15 @@
 
 import { Redirect } from 'expo-router'
-import React, { useEffect } from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { userStore } from '../utils/stores/userStore';
-import { useLoading } from '../utils/stores/loadingStore';
+import React from 'react'
+import { userStore } from '../utils/stores/userStore'
+import { useLoading } from '../utils/stores/loadingStore'
 
 
 const AppEntry = () => {
-  const {loading, setLoading} = useLoading((state) => state);
-  const {user, setUser} = userStore((state) => state);
+  const {loading} = useLoading((state) => state);
+  const {user} = userStore((state) => state);
 
-  // Handle user state changes
-  function userChange(user: FirebaseAuthTypes.User | null) {
-    setUser(user);
-    if (loading) setLoading(false);
-  }
-
-  useEffect(() => {
-    const subscriber =  auth().onAuthStateChanged(userChange);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
+  
   if (loading) return null;
 
   if (!user) {
