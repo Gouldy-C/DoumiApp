@@ -43,14 +43,14 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "tsconfigPaths": true 
+      "tsconfigPaths": true
     },
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "a092c25b-d38a-40ed-80a8-036f068050de"
+        "projectId": "1dd16c19-c159-4473-a68b-24b91a52081e"
       }
     },
     "owner": "gouldy-c",
@@ -58,7 +58,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/a092c25b-d38a-40ed-80a8-036f068050de"
+      "url": "https://u.expo.dev/1dd16c19-c159-4473-a68b-24b91a52081e"
     }
   }
 }
