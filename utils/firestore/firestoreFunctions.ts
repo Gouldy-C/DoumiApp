@@ -18,13 +18,12 @@ export const checkAndCreateFirestoreUser = async (user : FirebaseAuthTypes.User 
 
 
 export const checkFirestoreForUser =async (user : FirebaseAuthTypes.User) => {
-  const documentSnapshot = await firestore()
-  .collection('users')
+  const document = await firestore()
+  .collection('Users')
   .doc(user.uid)
   .get()
 
-  return documentSnapshot.exists
-
+  return document.exists
 }
 
 
