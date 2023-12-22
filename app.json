@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "caretaker_social",
-    "slug": "caretaker_social",
+    "slug": "doumi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -53,7 +53,7 @@
         "projectId": "1dd16c19-c159-4473-a68b-24b91a52081e"
       }
     },
-    "owner": "gouldy-c",
+    "owner": "caretaker_social",
     "runtimeVersion": {
       "policy": "appVersion"
     },
