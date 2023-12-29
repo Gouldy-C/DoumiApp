@@ -39,7 +39,7 @@ const UserDrawer = (props : DrawerContentComponentProps) => {
       <View style={styles.drawerFooter}>
         <DrawerItem
           label={'Settings'}
-          onPress={() => router.push('/(user)/settings')}/>
+          onPress={() => router.push('/(user)/profile')}/>
         <DrawerItem
           label={'Logout'}
           onPress={() => logout()}/>

@@ -1,15 +1,39 @@
-import {Text, View, StyleSheet} from 'react-native'
-import React from 'react'
-import { userStore } from '@utils/stores/userStore';
+import React from 'react';
+import { StyleSheet } from 'react-native'
+import { View, useWindowDimensions } from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
+
+
+const FirstRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+);
+
+const SecondRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+);
+
+const renderScene = SceneMap({
+  first: FirstRoute,
+  second: SecondRoute,
+});
 
 const UserFeed = () => {
-  const {user} = userStore((state) => state)
-  
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'First' },
+    { key: 'second', title: 'Second' },
+  ]);
+
   return (
-      <View style={styles.safeView}>
-        <Text style={{fontSize: 18, paddingVertical: 10}}>User Feed</Text>
-      </View>
-  )
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+    />
+  );
 }
 
 export default UserFeed

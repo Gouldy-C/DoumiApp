@@ -1,8 +1,8 @@
 import React from 'react'
-import Drawer from 'expo-router/drawer'
-import AuthDrawer from '../../components/AuthDrawer'
 import { userStore } from '@utils/stores/userStore'
-import { Redirect } from 'expo-router'
+import { Redirect, Tabs } from 'expo-router'
+import { CustomTabs } from '@components/CustomTabs'
+import { AntDesign } from '@expo/vector-icons'
 
 const AuthLayout = () => {
   const {user} = userStore((state) => state)
@@ -12,18 +12,20 @@ const AuthLayout = () => {
   }
 
   return (
-    <Drawer drawerContent={(props) => <AuthDrawer {...props}/>}>
-      <Drawer.Screen
+    <Tabs tabBar={props => <CustomTabs {...props} />}>
+      <Tabs.Screen
         name='sign-in'
         options={{
-          headerTitle: 'Sign In',
-        }}/>
-      <Drawer.Screen
+          title: "Sign In",
+          tabBarIcon: ({color, size}) => <AntDesign name="login" size={size} color={color}/>,
+          }}/>
+      <Tabs.Screen
         name='sign-up'
         options={{
-          headerTitle: 'Sign Up',
-        }}/>
-    </Drawer>
+          title: "Sign Up",
+          tabBarIcon: ({color, size}) => <AntDesign name="arrowup" size={size} color={color}/>,
+          }}/>
+    </Tabs>
   )
 }
 

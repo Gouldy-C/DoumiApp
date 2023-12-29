@@ -1,32 +1,28 @@
 import React from 'react'
-import { Tabs } from 'expo-router'
-import { DrawerToggleButton } from '@react-navigation/drawer'
+import { Stack, Tabs } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
 import { StyleSheet } from 'react-native'
 
 
 const DeEscalationLayout = () => {
   return (
-    <Tabs
+    <Stack 
       screenOptions={{
-        headerLeft: () => <DrawerToggleButton tintColor='#000000'/>
+        headerShown: false,
       }}>
-      <Tabs.Screen
-      
+      <Stack.Screen
         name='de-escalation'
         options={{
-          tabBarIcon: () => <AntDesign name='checkcircleo' size={20}/>,
           title: 'De Escalation',
           headerTitle: 'De Escalation'
         }}/>
-      <Tabs.Screen
+      <Stack.Screen
         name='de-escalation-favorites'
         options={{
-          tabBarIcon: () => <AntDesign name='staro' size={20}/>,
           title: 'Favorites',
           headerTitle: 'De Escalation'
         }}/>
-    </Tabs>
+    </Stack>
   )
 }
 

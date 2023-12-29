@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
-import {  router } from 'expo-router'
+import { router } from 'expo-router'
 
 const AuthDrawer = (props : DrawerContentComponentProps) => {
   return (
@@ -21,4 +21,6 @@ const AuthDrawer = (props : DrawerContentComponentProps) => {
 
 export default AuthDrawer
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  
+})

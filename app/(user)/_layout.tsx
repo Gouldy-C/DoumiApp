@@ -1,8 +1,8 @@
 import React from 'react'
-import Drawer from 'expo-router/drawer'
-import UserDrawer from '../../components/UserDrawer'
 import { userStore } from '@utils/stores/userStore'
-import { Redirect } from 'expo-router'
+import { Redirect, Tabs } from 'expo-router'
+import { CustomTabs } from '@components/CustomTabs'
+import { AntDesign } from '@expo/vector-icons'
 
 const UserLayout = () => {
   const {user} = userStore((state) => state)
@@ -12,33 +12,37 @@ const UserLayout = () => {
   }
 
   return (
-    <Drawer drawerContent={(props) => <UserDrawer {...props}/>}>
-      <Drawer.Screen
+    <Tabs
+      tabBar={props => <CustomTabs {...props} />}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Tabs.Screen
         name='feed'
         options={{
-          headerTitle: 'Feed',
+          title: "Feed",
         }}/>
-      <Drawer.Screen
+      <Tabs.Screen
         name='groups'
         options={{
-          headerTitle: 'Your Groups',
+          title: "Groups",
         }}/>
-      <Drawer.Screen
+      <Tabs.Screen
         name='favorites'
         options={{
-          headerTitle: 'Favorites',
+            tabBarShowLabel: false,
         }}/>
-      <Drawer.Screen
+      <Tabs.Screen
         name='(de-escalation)'
         options={{
-          headerShown: false,
+          title: 'Helpful\nTips',
         }}/>
-      <Drawer.Screen
-        name='settings'
+      <Tabs.Screen
+        name='profile'
         options={{
-          headerTitle: 'Settings',
+          title: "Profile",
         }}/>
-    </Drawer>
+    </Tabs>
   )
 }
 
