@@ -6,6 +6,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import UserFeed from "./userFeed";
 import FavoritePosts from "./favoritePosts";
 import UserPosts from "./userPosts";
+import { Dimensions } from "react-native";
 
 const FeedLayout = () => {
   const { user } = userStore((state) => state);
@@ -18,7 +19,9 @@ const FeedLayout = () => {
 
   return (
     <TopTab.Navigator
-      initialRouteName="Feed"
+      initialLayout={{
+        width: Dimensions.get('window').width,
+      }}
       tabBar={(props) => <TopTabBar {...props} />}
       screenOptions={{
       }}>
