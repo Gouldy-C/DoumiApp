@@ -25,7 +25,7 @@ const UserDrawer = (props : DrawerContentComponentProps) => {
 
           <DrawerItem
             label={'Feed'}
-            onPress={() => router.push('/(user)/feed')}/>
+            onPress={() => router.push('/(user)/(feed)/feed')}/>
           <DrawerItem
             label={'Groups'}
             onPress={() => router.push('/(user)/groups')}/>

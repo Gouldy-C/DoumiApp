@@ -1,8 +1,7 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { Route } from 'expo-router';
+import { Animated, View, TouchableOpacity } from 'react-native';
+import { MaterialTopTabBarProps } from "@react-navigation/material-top-tabs";
 
-export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps) {
+function TopTabBar({ state, descriptors, navigation, position }: MaterialTopTabBarProps) {
   return (
     <View style={{ flexDirection: 'row' }}>
       {state.routes.map((route, index) => {
@@ -24,9 +23,9 @@ export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name)
+            navigation.navigate(route.name, route.params);
           }
-        }
+        };
 
         const onLongPress = () => {
           navigation.emit({
@@ -35,28 +34,30 @@ export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps
           });
         };
 
-        if (options.tabBarShowLabel === false){
-          return null
-        }
+        const inputRange = state.routes.map((_, i) => i);
+        const opacity = position.interpolate({
+          inputRange,
+          outputRange: inputRange.map(i => (i === index ? 1 : 0)),
+        });
 
         return (
           <TouchableOpacity
-            key={index}
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 5 }}
+            style={{ flex: 1 }}
           >
-            {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#673ab7' : '#222', focused: isFocused, size: 20})}
-            <Text style={{ color: isFocused ? '#673ab7' : '#222', fontSize: 17, textAlign: "center"}}>
+            <Animated.Text style={{ opacity }}>
               {label as string}
-            </Text>
+            </Animated.Text>
           </TouchableOpacity>
         );
       })}
     </View>
   );
 }
+
+export { TopTabBar }

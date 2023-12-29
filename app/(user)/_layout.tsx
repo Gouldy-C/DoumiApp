@@ -1,49 +1,53 @@
-import React from 'react'
-import { userStore } from '@utils/stores/userStore'
-import { Redirect, Tabs } from 'expo-router'
-import { CustomTabs } from '@components/CustomTabs'
-import { AntDesign } from '@expo/vector-icons'
+import React from "react";
+import { userStore } from "@utils/stores/userStore";
+import { Redirect, Tabs } from "expo-router";
+import { CustomTabs } from "@components/CustomBottomTabs";
 
 const UserLayout = () => {
-  const {user} = userStore((state) => state)
+  const { user } = userStore((state) => state);
 
-  if (!user){
-    return <Redirect href={'/(auth)/sign-in'}/>
+  if (!user) {
+    return <Redirect href={"/(auth)/sign-in"} />;
   }
 
   return (
     <Tabs
-      tabBar={props => <CustomTabs {...props} />}
+      tabBar={(props) => <CustomTabs {...props} />}
       screenOptions={{
         headerShown: false,
       }}>
       <Tabs.Screen
-        name='feed'
+        name="(feed)"
         options={{
           title: "Feed",
-        }}/>
+        }}
+      />
       <Tabs.Screen
-        name='groups'
+        name="groups"
         options={{
           title: "Groups",
-        }}/>
+        }}
+      />
       <Tabs.Screen
-        name='favorites'
+        name="favorites"
         options={{
-            tabBarShowLabel: false,
-        }}/>
+          tabBarShowLabel: false,
+        }}
+      />
       <Tabs.Screen
-        name='(de-escalation)'
+        name="(de-escalation)"
         options={{
-          title: 'Helpful\nTips',
-        }}/>
+          title: "Helpful\nTips",
+        }}
+      />
       <Tabs.Screen
-        name='profile'
+        name="profile"
         options={{
           title: "Profile",
-        }}/>
+        }}
+      />
     </Tabs>
-  )
-}
+  );
+};
 
-export default UserLayout
+export default UserLayout;

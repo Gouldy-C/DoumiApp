@@ -19,7 +19,7 @@ const AppEntry = () => {
   }
 
   return (
-    <Redirect  href={'/(user)/feed'}/>
+    <Redirect  href={'/(user)/(feed)/userFeed'}/>
   );
 }
 
