@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { checkAndCreateFirestoreUser } from '@utils/firestore/firestoreFunctions';
-import { NavigationContainer } from '@react-navigation/native'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -70,14 +69,12 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}>
-      <NavigationContainer>
-        <StatusBar style="dark" translucent={true}/>
-        <SafeAreaProvider>
+      <StatusBar style="dark" translucent={true}/>
+      <SafeAreaProvider>
 
-          <Slot/>
-          
-        </SafeAreaProvider>
-      </NavigationContainer>
+        <Slot/>
+        
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }
