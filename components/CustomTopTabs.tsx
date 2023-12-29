@@ -42,6 +42,7 @@ function TopTabBar({ state, descriptors, navigation, position }: MaterialTopTabB
 
         return (
           <TouchableOpacity
+            key={index}
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
