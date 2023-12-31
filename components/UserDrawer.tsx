@@ -25,13 +25,16 @@ const UserDrawer = (props : DrawerContentComponentProps) => {
 
           <DrawerItem
             label={'Feed'}
-            onPress={() => router.push('/(user)/feed')}/>
+            onPress={() => router.push('/(user)/CommunityFeed/feed')}/>
           <DrawerItem
             label={'Groups'}
             onPress={() => router.push('/(user)/groups')}/>
           <DrawerItem
             label={'Favorites'}
             onPress={() => router.push('/(user)/favorites')}/>
+          <DrawerItem
+            label={'Your Posts'}
+            onPress={() => router.push('/(user)/yourPosts')}/>
           <DrawerItem
             label={'De Escalation'}
             onPress={() => router.push('/(user)/(de-escalation)/de-escalation')}/>

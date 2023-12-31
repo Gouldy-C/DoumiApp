@@ -14,7 +14,7 @@ export const checkAndCreateFirestoreUser = async (user : FirebaseAuthTypes.User 
   } catch (error) {
     console.log(error);
   }
-}
+}   
 
 
 export const checkFirestoreForUser =async (user : FirebaseAuthTypes.User) => {

@@ -15,6 +15,9 @@ const AuthDrawer = (props : DrawerContentComponentProps) => {
       <DrawerItem
         label={'Sign In'}
         onPress={() => router.push('/(auth)/sign-in')}/>
+      <DrawerItem
+        label={'Community Feed'}
+        onPress={() => router.push('/(user)/feed')}/>
     </DrawerContentScrollView>
   )
 }

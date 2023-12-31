@@ -1,4 +1,3 @@
-
 import { Redirect } from 'expo-router'
 import React from 'react'
 import { userStore } from '../utils/stores/userStore'

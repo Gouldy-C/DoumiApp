@@ -24,6 +24,11 @@ const UserLayout = () => {
           headerTitle: 'Your Groups',
         }}/>
       <Drawer.Screen
+        name='Your Posts'
+        options={{
+          headerTitle: 'Your Posts',
+        }}/>
+      <Drawer.Screen
         name='favorites'
         options={{
           headerTitle: 'Favorites',
