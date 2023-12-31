@@ -4,16 +4,7 @@ import { userStore, useUserFeedStore } from '@utils/stores/userStore';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-interface FirestoreDocument {
-  content: string;
-  uid: string;
-  timestamp: string;
-  post_id: string;
-  displayName: string;
-  likedPost: [];
-}
-
+import { FirestoreDocument } from '@utils/types/types';
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state

@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { create } from 'zustand'
-import FirestoreDocument from '@app/(user)/CommunityFeed/feed'
+import { FirestoreDocument } from '@utils/types/types';
 
 // Auth Store 
 
@@ -19,12 +19,12 @@ export const userStore = create<UserState>()((set) => ({
 
 interface UserFeedState {
   inputValue: string;
-  posts: [];
+  posts: FirestoreDocument[];
 }
 
 interface UserFeedActions {
   setInputValue: (text: string) => void;
-  setPosts: (newPosts: []) => void;
+  setPosts: (newPosts: FirestoreDocument[]) => void;
 }
 
 export const useUserFeedStore = create<UserFeedState & UserFeedActions>((set) => ({
