@@ -8,7 +8,7 @@ import { Slot, SplashScreen} from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { checkAndCreateFirestoreUser } from '@utils/firestore/firestoreFunctions';
 
 export {
@@ -69,11 +69,11 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}>
-      <StatusBar style="dark" translucent={true}/>
       <SafeAreaProvider>
-
-        <Slot/>
-        
+        <SafeAreaView style={{flex:1}}>
+          <StatusBar style="dark" translucent={true}/>
+          <Slot/>
+        </SafeAreaView>
       </SafeAreaProvider>
     </ThemeProvider>
   );

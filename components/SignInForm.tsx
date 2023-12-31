@@ -80,9 +80,9 @@ function SignInForm() {
       <Pressable onPress={handleSubmit(submitData)}>
         <Text style={styles.button}>Sign In</Text>
       </Pressable>
-      <Text style={{ textAlign: "right", fontSize: 15, marginVertical: 10 }}>
+      <Text style={{ textAlign: "right", fontSize: 16, marginVertical: 15 }}>
         Need to Sign Up -{" "}
-        <Link href={"/(auth)/sign-up"} style={{ paddingVertical: 8 }}>
+        <Link href={"/(auth)/sign-up"} style={{ fontSize: 17, textDecorationLine: "underline" }}>
           Click Here
         </Link>
       </Text>

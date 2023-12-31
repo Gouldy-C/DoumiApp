@@ -25,7 +25,7 @@ const UserDrawer = (props : DrawerContentComponentProps) => {
 
           <DrawerItem
             label={'Feed'}
-            onPress={() => router.push('/(user)/(feed)/feed')}/>
+            onPress={() => router.push('/(user)/(feed)/userFeed')}/>
           <DrawerItem
             label={'Groups'}
             onPress={() => router.push('/(user)/groups')}/>
@@ -54,5 +54,4 @@ const styles = StyleSheet.create({
   drawerFooter: {
     justifyContent: 'flex-end'
   }
-
 })

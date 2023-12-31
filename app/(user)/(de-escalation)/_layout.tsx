@@ -1,35 +1,43 @@
-import React from 'react'
-import { Stack, Tabs } from 'expo-router'
-import { AntDesign } from '@expo/vector-icons'
-import { StyleSheet } from 'react-native'
+import React from "react";
+import { userStore } from "@utils/stores/userStore";
+import { Redirect} from "expo-router";
+import { TopTabBar } from "@components/CustomTopTabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { Dimensions, View } from "react-native";
+import DeEscalationFavorites from "./de-escalation-favorites";
+import DeEscalationPage from "./de-escalation";
 
+const HelpLayout = () => {
+  const { user } = userStore((state) => state);
 
-const DeEscalationLayout = () => {
-  return (
-    <Stack 
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen
-        name='de-escalation'
-        options={{
-          title: 'De Escalation',
-          headerTitle: 'De Escalation'
-        }}/>
-      <Stack.Screen
-        name='de-escalation-favorites'
-        options={{
-          title: 'Favorites',
-          headerTitle: 'De Escalation'
-        }}/>
-    </Stack>
-  )
-}
-
-export default DeEscalationLayout
-
-const styles = StyleSheet.create({
-  tabText:{
-    fontSize: 12
+  if (!user) {
+    return <Redirect href={"/(auth)/sign-in"} />;
   }
-})
+
+  const TopTab = createMaterialTopTabNavigator();
+
+  return (
+    <View style={{flex: 1}}>
+      <TopTab.Navigator
+        initialLayout={{
+          width: Dimensions.get('window').width,
+        }}
+        tabBar={(props) => <TopTabBar {...props} />}
+        screenOptions={{
+        }}>
+          <TopTab.Screen
+          name="DeEscalation"
+          component={DeEscalationPage}
+          options={{ tabBarLabel: 'DeEscalation' }}
+        />
+        <TopTab.Screen
+          name="Favorites"
+          component={DeEscalationFavorites}
+          options={{ tabBarLabel: 'Favorites' }}
+        />
+      </TopTab.Navigator>
+    </View>
+  );
+};
+
+export default HelpLayout

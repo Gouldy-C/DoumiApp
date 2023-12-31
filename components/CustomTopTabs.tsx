@@ -49,9 +49,10 @@ function TopTabBar({ state, descriptors, navigation, position }: MaterialTopTabB
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1 }}
+            style={{ flex: 1, borderBottomWidth: isFocused ? 2 : 0 }}
           >
-            <Animated.Text style={{ opacity }}>
+            {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#673ab7' : '#222', focused: isFocused})}
+            <Animated.Text style={{ color: '#222', fontSize: 18, textAlign: "center", paddingVertical: 10}}>
               {label as string}
             </Animated.Text>
           </TouchableOpacity>
