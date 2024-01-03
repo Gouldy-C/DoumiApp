@@ -9,11 +9,10 @@ import { FirestoreDocument } from '@utils/types/types';
 
 
 const yourPosts = () => {
-  const {posts, setPosts } = useUserFeedStore();
   const currentUser =  auth().currentUser;
-
+  const {posts, setPosts, deletePost } = useUserFeedStore();
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState({});
 
   // QUERY ONLY THE POSTS FROM THE CURRENT USER*******************
   useFocusEffect(
@@ -49,11 +48,33 @@ const yourPosts = () => {
   };
 
   const closeModal = () => {
-    setSelectedPost(null);
+    setSelectedPost({});
     setModalVisible(false);
   }
 
   // DELETE POST*************************************
+  const confirmDelete = async () => {
+    const { post_id } = selectedPost;
+
+    try {
+      // Delete the document with the specified post_id
+      await firestore().collection('Posts').where('post_id', '==', post_id).get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          doc.ref.delete();
+        });
+      });
+      console.log('Document successfully deleted!');
+
+      // Use the store function to delete the post from the local state
+      deletePost(post_id);
+    } catch (error) {
+      console.error('Error deleting document:', error);
+    }
+
+    // Close the modal after deleting
+    closeModal();
+  };
+
 
   return (
         <View style={styles.safeView}>
@@ -82,12 +103,12 @@ const yourPosts = () => {
               ></Pressable>
                 <View style={styles.modalContainer}>
                   <View style={styles.modalContent}>
-                    <Text>{selectedPost?.content}</Text>
-                    <Pressable onPress={closeModal}>
-                      <Text>Delete Post</Text>
+                    <Text>{selectedPost?.content || 'No content available'}</Text>
+                    <Pressable onPress={confirmDelete}>
+                      <Text>Click here to confirm delete</Text>
                     </Pressable>
                     <Pressable onPress={closeModal}>
-                      <Text>Close Modal</Text>
+                      <Text>Close</Text>
                     </Pressable>
                   </View>
                 </View>

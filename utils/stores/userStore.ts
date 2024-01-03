@@ -25,6 +25,7 @@ interface UserFeedState {
 interface UserFeedActions {
   setInputValue: (text: string) => void;
   setPosts: (newPosts: FirestoreDocument[]) => void;
+  deletePost: (post_id: string) => void;
 }
 
 export const useUserFeedStore = create<UserFeedState & UserFeedActions>((set) => ({
@@ -32,4 +33,7 @@ export const useUserFeedStore = create<UserFeedState & UserFeedActions>((set) =>
   posts: [],
   setInputValue: (text) => set((state) => ({ inputValue: text })),
   setPosts: (newPosts) => set((state) => ({ posts: newPosts })),
+  deletePost: (post_id) => set((state) => ({
+    posts: state.posts.filter((post)=> post.post_id !== post_id),
+  }))
 }));
