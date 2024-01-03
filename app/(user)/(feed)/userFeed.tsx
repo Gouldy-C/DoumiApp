@@ -1,25 +1,21 @@
 import {Text, View, StyleSheet, Button, TextInput, FlatList, Pressable} from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useUserFeedStore } from '@utils/stores/userStore';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
-import * as Crypto from 'expo-crypto';
+import { handleLike, handlePost } from '@utils/posting/functions';
 
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
-  const { inputValue, posts, setInputValue, setPosts } = useUserFeedStore();
-  const [likedPosts, setLikedPosts] = useState(0)
+  const { inputValue, posts, setInputValue, setPosts } = useUserFeedStore()
+  const orderedPostsRef = firestore().collection('Posts').orderBy('timestamp', "desc")
 
 
   // UPDATE THE POST POST STATE *******************************************
   // Set up an effect to subscribe to updates in the 'posts' collection
   useEffect(() => {
-    const postsRef = firestore().collection('Posts');
-    const orderedPostsRef = postsRef.orderBy('timestamp')
-
     // Subscribe to updates in the 'posts' collection
     const unsubscribe = orderedPostsRef.onSnapshot((querySnapshot) => {
     // Create an array to store updated posts
@@ -50,84 +46,12 @@ const UserFeed = () => {
   };
 
 
-  // POST A POST ******************************************************
-  const handlePost = async () => {
-    try {
-      const currentUser = auth().currentUser;
-
-
-      if (!currentUser || inputValue.trim() === '') {
-        // Don't post empty messages and if the user is not logged in
-        return;
-      }
-
-      // Reference to the 'posts' and 'users' collection in Firestore
-      const postsRef = firestore().collection('Posts');
-      const displayNameRef = firestore().collection('Users');
-
-      // Fetch the username based on the current user's UID
-      const userSnapshot = await displayNameRef.doc(currentUser.uid).get();
-
-      if (userSnapshot.exists) {
-        const userDoc = userSnapshot.data();
-
-        if (userDoc) {
-          const displayName = userDoc.displayName;
-          const postId = Crypto.randomUUID()
-
-          // Add a new post document
-          await postsRef.add({
-            uid: currentUser.uid,
-            content: inputValue,
-            timestamp: firestore.FieldValue.serverTimestamp(),
-            displayName: displayName,
-            post_id: postId,
-            likedPost: []
-          });
-
-          // Clear the input after posting
-          setInputValue('');
-        } else {
-          console.error('User document is undefined in the Users collection');
-        }
-      } else {
-        console.error('User not found in the Users collection');
-      }
-    } catch (error) {
-      console.error('Error posting message:', error);
-    }
+  // submit A POST ******************************************************
+  const submitPost = async () => {
+    handlePost(inputValue)
+    setInputValue('')
   };
 
-
-  //  LIKE A POST *****************************************************
-  const handleLike = async (post_id: string) => {
-    const likedPostArray = firestore().collection('Posts'); // Note: Collection name should match
-
-    try {
-      const currentUser = auth().currentUser;
-      const userId = currentUser?.uid;
-
-      // Get a reference to the document with the specified post_id
-      const postDocRef = likedPostArray.doc(post_id);
-
-      // Check if the document exists
-      const postDocSnapshot = await postDocRef.get();
-
-      if (postDocSnapshot.exists) {
-        // Document with post_id exists, update likedPosts array
-        await postDocRef.update({
-          likedPosts: firestore.FieldValue.arrayUnion(userId),
-        });
-        setLikedPosts((prevLikedPosts)=> prevLikedPosts + 1);
-        console.log('Like added successfully!');
-      } else {
-        console.log(`Document with post_id ${post_id} does not exist`);
-        // Handle the case where the document doesn't exist (if needed)
-      }
-    } catch (error) {
-      console.error('Error adding like:', error);
-    }
-  };
 
   // FORM ***************************************************************
   return (
@@ -142,7 +66,7 @@ const UserFeed = () => {
           />
         </View>
         <View style={styles.button}>
-          <Button title="Post" onPress={handlePost} />
+          <Button title="Post" onPress={submitPost} />
         </View>
         <View style={styles.postsContainer}>
           <FlatList
@@ -152,7 +76,7 @@ const UserFeed = () => {
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
                 <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
-                <Text>{likedPosts}</Text>
+                <Text>{item.likedPost.length}</Text>
               </View>
             )}
           />
