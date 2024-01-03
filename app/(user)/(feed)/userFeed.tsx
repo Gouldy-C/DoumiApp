@@ -1,15 +1,14 @@
 import {Text, View, StyleSheet, Button, TextInput, FlatList, Pressable} from 'react-native';
-import React, { useEffect } from 'react';
-import { useUserFeedStore } from '@utils/stores/userStore';
+import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
 import { handleLike, handlePost } from '@utils/posting/functions';
 
-
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
-  const { inputValue, posts, setInputValue, setPosts } = useUserFeedStore()
+  const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
+  const [ inputValue, setInputValue ] = useState('')
   const orderedPostsRef = firestore().collection('Posts').orderBy('timestamp', "desc")
 
 
@@ -19,8 +18,9 @@ const UserFeed = () => {
     // Subscribe to updates in the 'posts' collection
     const unsubscribe = orderedPostsRef.onSnapshot((querySnapshot) => {
     // Create an array to store updated posts
-      const updatedPosts: FirestoreDocument[] = [];
-    // Iterate through each document in the 'Posts' collection     
+      if (querySnapshot !== null){ 
+        const updatedPosts: FirestoreDocument[] = [];
+      // Iterate through each document in the 'Posts' collection     
       querySnapshot.forEach((doc) => {
         updatedPosts.push({ 
           content: doc.get('content'),
@@ -34,6 +34,7 @@ const UserFeed = () => {
 
       // Update the state with the new posts
       setPosts(updatedPosts);
+    }
     });
 
     // Unsubscribe when the component unmounts
@@ -72,7 +73,7 @@ const UserFeed = () => {
           <FlatList
             data={posts}
             renderItem={({ item }) => (
-              <View>
+              <View key={item.post_id}>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
                 <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
