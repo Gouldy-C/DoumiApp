@@ -1,5 +1,7 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { create } from 'zustand'
+import { FirestoreDocument } from '@utils/types/types';
+
 
 interface UserState {
   user: FirebaseAuthTypes.User | null,
@@ -10,3 +12,21 @@ export const userStore = create<UserState>()((set) => ({
   user: null,
   setUser: (newUser: FirebaseAuthTypes.User | null) => set({user: newUser})
 }))
+
+
+interface UserFeedState {
+  inputValue: string;
+  posts: FirestoreDocument[];
+}
+
+interface UserFeedActions {
+  setInputValue: (text: string) => void;
+  setPosts: (newPosts: FirestoreDocument[]) => void;
+}
+
+export const useUserFeedStore = create<UserFeedState & UserFeedActions>((set) => ({
+  inputValue: '',
+  posts: [],
+  setInputValue: (text) => set((state) => ({ inputValue: text })),
+  setPosts: (newPosts) => set((state) => ({ posts: newPosts })),
+}));

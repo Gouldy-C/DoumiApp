@@ -1,5 +1,5 @@
 
-interface googleUser {
+interface GoogleUser {
   idToken: string,
   serverAuthCode: string,
   scopes: Array<string>
@@ -13,4 +13,11 @@ interface googleUser {
   }
 }
 
-
+export interface FirestoreDocument {
+  content: string;
+  uid: string;
+  timestamp: string;
+  post_id: string;
+  displayName: string;
+  likedPost: string[];
+}

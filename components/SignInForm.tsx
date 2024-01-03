@@ -7,30 +7,30 @@ import { Entypo } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import ControlledTextInput from "@components/ControlledTextInput";
 import { signInEmailPassword } from "@utils/auth/emailPasswordAuth";
-import auth from "@react-native-firebase/auth";
-import { userStore } from "@utils/stores/userStore";
-import { checkAndCreateFirestoreUser } from "@utils/firestore/firestoreFunctions";
+
 
 type FormData = {
   email: string;
   password: string;
 };
 
+
 const lowercaseRe = new RegExp(`[a-z]`);
 const uppercaseRe = new RegExp(`[A-Z]`);
 const numberRe = new RegExp(`[0-9]`);
 const specialRe = new RegExp(`[!#$%&*+-.:;<=>?@^_]`);
 
+
 function SignInForm() {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
-  const { user, setUser } = userStore((state) => state);
 
+  
   const schema: ZodType<FormData> = z.object({
     email: z.string().email(),
     password: z
       .string()
       .min(8)
-      .max(20)
+      .max(25)
       .regex(lowercaseRe, "Must contain a lowercase letter.")
       .regex(uppercaseRe, "Must contain a uppercase letter.")
       .regex(numberRe, "Must contain a number.")

@@ -47,7 +47,8 @@
     "react-native-viewpager": "^0.2.13",
     "react-native-web": "~0.19.6",
     "zod": "^3.22.4",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "expo-crypto": "~12.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

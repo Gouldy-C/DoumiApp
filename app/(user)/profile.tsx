@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Button, Image} from 'react-native'
+import {Text, View, StyleSheet, Button, Image, Pressable} from 'react-native'
 import React from 'react'
 import { logout } from '@utils/auth/general'
 import { userStore } from '@utils/stores/userStore'
@@ -16,14 +16,16 @@ const UserProfile = () => {
             source={{uri: user.photoURL}}
             style={{height: 90, aspectRatio: 1, borderRadius: 50, margin: 10,}}
             />}
-          <View>
+          <View style={{marginHorizontal: 10}}>
             <Text>{user?.displayName}</Text>
             <Text>{user?.email}</Text>
+            <View style={{marginVertical: 10}}>
+              <Button
+                onPress={logout}
+                title='Logout'/>
+            </View>
           </View>
         </View>
-        <Button
-          onPress={logout}
-          title='Logout'/>
       </View>
   )
 }
