@@ -13,13 +13,13 @@ const userId = auth().currentUser?.uid
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
   const { posts, setPosts } = useUserFeedStore()
-  const orderedPostsRef = firestore().collection('Posts').where("uid", "==", userId)
+  const usersPostsRef = firestore().collection('Posts').where("uid", "==", userId)
 
   // UPDATE THE POST POST STATE *******************************************
   // Set up an effect to subscribe to updates in the 'posts' collection
   useEffect(() => {
     // Subscribe to updates in the 'posts' collection
-    const unsubscribe = orderedPostsRef.onSnapshot((querySnapshot) => {
+    const unsubscribe = usersPostsRef.onSnapshot((querySnapshot) => {
       if (querySnapshot === null){
         return
       }
@@ -43,7 +43,7 @@ const UserFeed = () => {
 
     // Unsubscribe when the component unmounts
     return () => unsubscribe();
-  }, []); // Only run this effect once on mount
+  }, [])
   
   useEffect(() => {
 

@@ -12,13 +12,13 @@ const userId = auth().currentUser?.uid
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
   const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
-  const orderedPostsRef = firestore().collection('Posts').where("likedPost", "array-contains", userId)
+  const favPostsRef = firestore().collection('Posts').where("likedPost", "array-contains", userId)
 
   // UPDATE THE POST POST STATE *******************************************
   // Set up an effect to subscribe to updates in the 'posts' collection
   useEffect(() => {
     // Subscribe to updates in the 'posts' collection
-    const unsubscribe =  orderedPostsRef.onSnapshot((querySnapshot) => {
+    const unsubscribe =  favPostsRef.onSnapshot((querySnapshot) => {
         const updatedPosts: FirestoreDocument[] = [];
         // Iterate through each document in the 'Posts' collection     
         querySnapshot.forEach((doc) => {
