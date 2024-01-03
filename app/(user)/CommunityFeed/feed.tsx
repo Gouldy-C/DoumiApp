@@ -111,7 +111,7 @@ const handlePost = async () => {
   
 
 //  LIKE A POST *****************************************************
-const likedPostArray = firestore().collection('Post'); // Note: Collection name should match
+const likedPostArray = firestore().collection('Posts'); // Note: Collection name should match
 
 const handleLike = async (post_id: string) => {
   try {
@@ -164,7 +164,7 @@ const handleLike = async (post_id: string) => {
               <View>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
-                <Pressable onPress={handleLike}><Icon name="heart" size={20} color="red" /></Pressable>
+                <Pressable onPress={()=>handleLike(item.post_id)}><Icon name="heart" size={20} color="red" /></Pressable>
                 <Text>{likedPosts}</Text>
               </View>
             )}

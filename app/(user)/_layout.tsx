@@ -14,7 +14,7 @@ const UserLayout = () => {
   return (
     <Drawer drawerContent={(props) => <UserDrawer {...props}/>}>
       <Drawer.Screen
-        name='feed'
+        name='CommunityFeed/feed'
         options={{
           headerTitle: 'Feed',
         }}/>
@@ -24,7 +24,7 @@ const UserLayout = () => {
           headerTitle: 'Your Groups',
         }}/>
       <Drawer.Screen
-        name='Your Posts'
+        name='yourPosts'
         options={{
           headerTitle: 'Your Posts',
         }}/>
