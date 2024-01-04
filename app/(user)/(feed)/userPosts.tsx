@@ -2,8 +2,9 @@ import {Text, View, StyleSheet, FlatList, Pressable, Modal} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { FirestoreDocument } from '@utils/types/types';
-import { deletePost} from '@utils/posting/functions';
+import { deletePost, handleLike} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
+import { FontAwesome } from '@expo/vector-icons';
 
 
 interface SelectedPost {
@@ -81,7 +82,12 @@ const UserFeed = () => {
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.posts}>
-              <Text>{item.content}</Text>
+              <View key={item.post_id}>
+                <Text>{item.content}</Text>
+                <Text>{item.displayName}</Text>
+                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
+                <Text>{item.likedPost.length}</Text>
+              </View>
               <Pressable onPress={()=> openModal(item.post_id, item.content)}>
                 <Text>Delete</Text>
               </Pressable>
