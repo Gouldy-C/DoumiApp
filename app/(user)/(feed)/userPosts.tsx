@@ -1,19 +1,24 @@
-import {Text, View, StyleSheet, FlatList, Pressable} from 'react-native';
-import React, { useEffect } from 'react';
-import { useUserFeedStore } from '@utils/stores/userStore';
+import {Text, View, StyleSheet, FlatList, Pressable, Modal} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
-import { handleLike } from '@utils/posting/functions';
+import { deletePost} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
 
 
-const userId = auth().currentUser?.uid
+interface SelectedPost {
+  content?: string,
+  post_id: string,
+}
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
-  const { posts, setPosts } = useUserFeedStore()
+  const userId = auth().currentUser?.uid
+  const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<SelectedPost | null>(null);
   const usersPostsRef = firestore().collection('Posts').where("uid", "==", userId)
+
 
   // UPDATE THE POST POST STATE *******************************************
   // Set up an effect to subscribe to updates in the 'posts' collection
@@ -45,29 +50,69 @@ const UserFeed = () => {
     return () => unsubscribe();
   }, [])
   
-  useEffect(() => {
+  // OPEN MODAL WITH CLICKED POST*******************
+  const openModal = (post_id: string, content?:string) => {
+    setModalVisible(true);
+    setSelectedPost({ post_id, content});
+  };
 
-  }, [posts])
+  const closeModal = () => {
+    setSelectedPost(null);
+    setModalVisible(false);
+  }
+
+  // DELETE POST*************************************
+  const confirmDelete = async () => {
+    if (selectedPost ){
+      const { post_id } = selectedPost;
+      deletePost(post_id);
+      closeModal();
+    }
+  };
+
   
 
   // FORM ***************************************************************
   return (
     <View style={styles.postsContainer}>
       {posts !== null ?
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => (
-          <View>
-            <Text>{item.content}</Text>
-            <Text>{item.displayName}</Text>
-            <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
-            <Text>{item.likedPost.length}</Text>
-          </View>
-        )}
-      />
+        <FlatList
+          style={styles.list}
+          data={posts}
+          renderItem={({ item }) => (
+            <View style={styles.posts}>
+              <Text>{item.content}</Text>
+              <Pressable onPress={()=> openModal(item.post_id, item.content)}>
+                <Text>Delete</Text>
+              </Pressable>
+            </View>
+          )}
+        />
       :
       <Text>You have no Liked Posts</Text>
       }
+      <Modal
+        animationType='none'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={()=> setModalVisible(false)}
+      >
+      <Pressable
+        style={styles.modalContainer}
+        onPress={() => setModalVisible(false)} // Close modal when overlay is pressed
+      ></Pressable>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text>{selectedPost?.content || 'No content available'}</Text>
+            <Pressable onPress={() => confirmDelete()}>
+              <Text>Click here to confirm delete</Text>
+            </Pressable>
+            <Pressable onPress={closeModal}>
+              <Text>Close</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -81,5 +126,29 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: "90%",
     alignSelf: "center",
-  }
+  },
+  posts: {
+    flex: 1,
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  list: {
+    width: '100%'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 10,
+    width: '80%',
+    height: '60%', 
+    elevation: 5,
+  },
 })
