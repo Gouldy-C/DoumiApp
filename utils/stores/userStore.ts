@@ -2,7 +2,6 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { create } from 'zustand'
 import { FirestoreDocument } from '@utils/types/types';
 
-// Auth Store 
 
 interface UserState {
   user: FirebaseAuthTypes.User | null,

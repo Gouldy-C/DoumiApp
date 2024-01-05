@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import React from 'react'
 import SignInForm from '@components/SignInForm';
 import GoogleSignInButton from '@components/GoogleSignInButton';

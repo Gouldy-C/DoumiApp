@@ -1,50 +1,53 @@
-import React from 'react'
-import Drawer from 'expo-router/drawer'
-import UserDrawer from '../../components/UserDrawer'
-import { userStore } from '@utils/stores/userStore'
-import { Redirect } from 'expo-router'
+import React from "react";
+import { userStore } from "@utils/stores/userStore";
+import { Redirect, Tabs } from "expo-router";
+import { CustomTabs } from "@components/CustomBottomTabs";
 
 const UserLayout = () => {
-  const {user} = userStore((state) => state)
+  const { user } = userStore((state) => state);
 
-  if (!user){
-    return <Redirect href={'/(auth)/sign-in'}/>
+  if (!user) {
+    return <Redirect href={"/(auth)/sign-in"} />;
   }
 
   return (
-    <Drawer drawerContent={(props) => <UserDrawer {...props}/>}>
-      <Drawer.Screen
-        name='CommunityFeed/feed'
+    <Tabs
+      tabBar={(props) => <CustomTabs {...props} />}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Tabs.Screen
+        name="(feed)"
         options={{
-          headerTitle: 'Feed',
-        }}/>
-      <Drawer.Screen
-        name='groups'
+          title: "Feed",
+        }}
+      />
+      <Tabs.Screen
+        name="groups"
         options={{
-          headerTitle: 'Your Groups',
-        }}/>
-      <Drawer.Screen
-        name='yourPosts'
+          title: "Groups",
+        }}
+      />
+      <Tabs.Screen
+        name="favorites"
         options={{
-          headerTitle: 'Your Posts',
-        }}/>
-      <Drawer.Screen
-        name='favorites'
+          tabBarShowLabel: false,
+        }}
+      />
+      <Tabs.Screen
+        name="(de-escalation)"
         options={{
-          headerTitle: 'Favorites',
-        }}/>
-      <Drawer.Screen
-        name='(de-escalation)'
+          title: "Helpful\nTips",
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
         options={{
-          headerShown: false,
-        }}/>
-      <Drawer.Screen
-        name='settings'
-        options={{
-          headerTitle: 'Settings',
-        }}/>
-    </Drawer>
-  )
-}
+          title: "Profile",
+        }}
+      />
+    </Tabs>
+  );
+};
 
-export default UserLayout
+export default UserLayout;

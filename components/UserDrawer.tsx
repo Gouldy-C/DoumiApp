@@ -25,7 +25,7 @@ const UserDrawer = (props : DrawerContentComponentProps) => {
 
           <DrawerItem
             label={'Feed'}
-            onPress={() => router.push('/(user)/CommunityFeed/feed')}/>
+            onPress={() => router.push('/(user)/(feed)/userFeed')}/>
           <DrawerItem
             label={'Groups'}
             onPress={() => router.push('/(user)/groups')}/>
@@ -42,7 +42,7 @@ const UserDrawer = (props : DrawerContentComponentProps) => {
       <View style={styles.drawerFooter}>
         <DrawerItem
           label={'Settings'}
-          onPress={() => router.push('/(user)/settings')}/>
+          onPress={() => router.push('/(user)/profile')}/>
         <DrawerItem
           label={'Logout'}
           onPress={() => logout()}/>
@@ -57,5 +57,4 @@ const styles = StyleSheet.create({
   drawerFooter: {
     justifyContent: 'flex-end'
   }
-
 })

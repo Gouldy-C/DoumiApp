@@ -1,5 +1,5 @@
 
-interface googleUser {
+interface GoogleUser {
   idToken: string,
   serverAuthCode: string,
   scopes: Array<string>
@@ -12,7 +12,6 @@ interface googleUser {
     name: string | null // full name
   }
 }
-
 
 export interface FirestoreDocument {
   content: string;

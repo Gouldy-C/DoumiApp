@@ -3,11 +3,12 @@ import { userStore } from "@utils/stores/userStore";
 import { Redirect} from "expo-router";
 import { TopTabBar } from "@components/CustomTopTabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import UserFeed from "./userFeed";
+import FavoritePosts from "./favoritePosts";
+import UserPosts from "./userPosts";
 import { Dimensions, View } from "react-native";
-import DeEscalationFavorites from "./de-escalation-favorites";
-import DeEscalationPage from "./de-escalation";
 
-const HelpLayout = () => {
+const FeedLayout = () => {
   const { user } = userStore((state) => state);
 
   if (!user) {
@@ -26,18 +27,23 @@ const HelpLayout = () => {
         screenOptions={{
         }}>
           <TopTab.Screen
-          name="DeEscalation"
-          component={DeEscalationPage}
-          options={{ tabBarLabel: 'DeEscalation' }}
+          name="Feed"
+          component={UserFeed}
+          options={{ tabBarLabel: 'Feed' }}
         />
         <TopTab.Screen
           name="Favorites"
-          component={DeEscalationFavorites}
+          component={FavoritePosts}
           options={{ tabBarLabel: 'Favorites' }}
+        />
+        <TopTab.Screen
+          name="My Posts"
+          component={UserPosts}
+          options={{ tabBarLabel: 'My Posts' }}
         />
       </TopTab.Navigator>
     </View>
   );
 };
 
-export default HelpLayout
+export default FeedLayout;
