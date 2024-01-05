@@ -1,5 +1,5 @@
-import {Text, View, StyleSheet, TextInput, Button, Pressable} from 'react-native'
-import React, { useState } from 'react'
+import {Text, View, StyleSheet, Pressable} from 'react-native'
+import React, { useEffect } from 'react'
 import { handlePost } from '@utils/posting/functions';
 import { router } from 'expo-router';
 import { ZodType, z } from 'zod';
@@ -16,13 +16,15 @@ const NewPost = () => {
   const schema: ZodType<FormData> = z.object({
     post: z
       .string()
-      .min(2)
-      .max(1000)
+      .min(2, "Post must be longer then 2 characters")
+      .max(1000,"Post must be less then 1000 characters")
   });
 
   const {
     control,
     handleSubmit,
+    reset,
+    formState,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -31,6 +33,7 @@ const NewPost = () => {
   const submitData = async (data: FormData) => {
     handlePost(data.post)
     router.push('/(user)/(feed)/userFeed')
+    reset({ post: "" })
   };
 
   return (
