@@ -21,7 +21,7 @@ const UserLayout = () => {
         name="(feed)"
         options={{
           title: "Feed",
-          tabBarIcon: (props) => <Forum color={props.color} size={props.size}/>,
+          tabBarIcon: (props) => <Forum color={props.color} />,
         }}
       />
       <Tabs.Screen
