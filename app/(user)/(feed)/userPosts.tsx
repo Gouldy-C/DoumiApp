@@ -5,6 +5,9 @@ import { FirestoreDocument } from '@utils/types/types';
 import { deletePost, handleLike} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
 import { FontAwesome } from '@expo/vector-icons';
+import UnlikedHeart from '@components/svg-components/unlikedHeart';
+import LikedHeart from '@components/svg-components/likedHeart';
+import LikeAPost from '@components/LikeAPost';
 
 
 interface SelectedPost {
@@ -71,26 +74,19 @@ const UserFeed = () => {
     }
   };
 
-  
 
   // FORM ***************************************************************
   return (
     <View style={styles.postsContainer}>
       {posts !== null ?
         <FlatList
-          style={styles.list}
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.posts}>
               <View key={item.post_id}>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
-                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color={
-                  item.likedPost.includes(userId as string) ?
-                  "red" 
-                  :
-                  "black"} />
-                </Pressable>
+                <LikeAPost post_id={item.post_id} likedPost={item.likedPost}/>
                 <Text>{item.likedPost.length}</Text>
               </View>
               <Pressable onPress={()=> openModal(item.post_id, item.content)}>
@@ -108,19 +104,22 @@ const UserFeed = () => {
         visible={modalVisible}
         onRequestClose={()=> setModalVisible(false)}
       >
-      <Pressable
-        style={styles.modalContainer}
-        onPress={() => setModalVisible(false)} // Close modal when overlay is pressed
-      ></Pressable>
+        <Pressable
+          style={styles.outsideContainer}
+          onPress={() => setModalVisible(false)} // Close modal when overlay is pressed
+        />
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text>{selectedPost?.content || 'No content available'}</Text>
-            <Pressable onPress={() => confirmDelete()}>
-              <Text>Click here to confirm delete</Text>
-            </Pressable>
-            <Pressable onPress={closeModal}>
-              <Text>Close</Text>
-            </Pressable>
+            <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Are you sure you want to delete this post?</Text>
+            <Text style={{textAlign: 'center'}}>{selectedPost?.content || 'No content available'}</Text>
+            <View style={{flexDirection:'row', justifyContent: 'space-evenly', marginVertical: 20}}>
+              <Pressable onPress={() => confirmDelete()}>
+                <Text style={[styles.button, {borderColor: 'red'}]}>Delete Post</Text>
+              </Pressable>
+              <Pressable onPress={closeModal}>
+                <Text style={[styles.button, {borderColor: 'black'}]}>Close</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>
@@ -131,6 +130,12 @@ const UserFeed = () => {
 export default UserFeed
 
 const styles = StyleSheet.create({
+  button: {
+    textAlign: 'center',
+    padding: 10,
+    borderRadius: 15,
+    borderWidth: 3,
+  },
   postsContainer: {
     marginTop: 30,
     borderColor: 'black',
@@ -146,9 +151,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  list: {
-    width: '100%'
-  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -159,7 +161,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     width: '80%',
-    height: '60%', 
-    elevation: 5,
+    elevation: 10,
+  },
+  outsideContainer: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
   },
 })

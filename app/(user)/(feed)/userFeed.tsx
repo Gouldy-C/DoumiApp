@@ -5,6 +5,9 @@ import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
 import { handleLike } from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
+import UnlikedHeart from '@components/svg-components/unlikedHeart';
+import LikedHeart from '@components/svg-components/likedHeart';
+import LikeAPost from '@components/LikeAPost';
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
@@ -54,12 +57,7 @@ const UserFeed = () => {
               <View key={item.post_id}>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
-                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color={
-                  item.likedPost.includes(userId as string) ?
-                  "red" 
-                  :
-                  "black"} />
-                </Pressable>
+                <LikeAPost post_id={item.post_id} likedPost={item.likedPost}/>
                 <Text>{item.likedPost.length}</Text>
               </View>
             )}
