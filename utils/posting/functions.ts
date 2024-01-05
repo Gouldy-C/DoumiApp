@@ -10,14 +10,17 @@ const usersRef = firestore().collection('Users');
 
 
 // DELETE A POST ****************************************************
-export const handleDelete = async (documentId:string) => {
+export const deletePost = async (post_id:string) => {
   try {
-    // Delete the entire document based on the document ID
-    await firestore().collection('Posts').doc(documentId).delete();
-
+    // Delete the document with the specified post_id
+    await firestore()
+    .collection('Posts')
+    .doc(post_id)
+    .delete()
+    console.log('Document successfully deleted!');
   } catch (error) {
-    console.error('Error deleting post:', error);
-  }
+    console.error('Error deleting document:', error);
+}
 };
 
 //  LIKE A POST *****************************************************
@@ -38,9 +41,6 @@ export const handleLike = async (post_id: string) => {
         await postDocRef.update({
           likedPost: firestore.FieldValue.arrayRemove(userId),
         })
-        await usersRef.doc(userId).update({
-          likedPosts: firestore.FieldValue.arrayRemove(post_id),
-        })
         return
       } 
       else {
@@ -48,9 +48,6 @@ export const handleLike = async (post_id: string) => {
         await postDocRef.update({
           likedPost: firestore.FieldValue.arrayUnion(userId),
         });
-        await usersRef.doc(userId).update({
-          likedPosts: firestore.FieldValue.arrayUnion(post_id),
-        })
         console.log('Like added successfully!');
       }
     } else {
