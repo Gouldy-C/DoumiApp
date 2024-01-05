@@ -85,7 +85,12 @@ const UserFeed = () => {
               <View key={item.post_id}>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
-                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
+                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color={
+                  item.likedPost.includes(userId as string) ?
+                  "red" 
+                  :
+                  "black"} />
+                </Pressable>
                 <Text>{item.likedPost.length}</Text>
               </View>
               <Pressable onPress={()=> openModal(item.post_id, item.content)}>

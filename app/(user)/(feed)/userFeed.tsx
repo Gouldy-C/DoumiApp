@@ -4,9 +4,11 @@ import firestore from '@react-native-firebase/firestore';
 import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
 import { handleLike, handlePost } from '@utils/posting/functions';
+import auth from '@react-native-firebase/auth'
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
+  const userId = auth().currentUser?.uid
   const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
   const [ inputValue, setInputValue ] = useState('')
   const orderedPostsRef = firestore().collection('Posts').orderBy('timestamp', "desc")
@@ -76,7 +78,12 @@ const UserFeed = () => {
               <View key={item.post_id}>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
-                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
+                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color={
+                  item.likedPost.includes(userId as string) ?
+                  "red" 
+                  :
+                  "black"} />
+                </Pressable>
                 <Text>{item.likedPost.length}</Text>
               </View>
             )}

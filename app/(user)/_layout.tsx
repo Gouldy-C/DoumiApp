@@ -2,6 +2,7 @@ import React from "react";
 import { userStore } from "@utils/stores/userStore";
 import { Redirect, Tabs } from "expo-router";
 import { CustomTabs } from "@components/CustomBottomTabs";
+import Forum from '@assets/images/icons/forum.svg';
 
 const UserLayout = () => {
   const { user } = userStore((state) => state);
@@ -20,18 +21,14 @@ const UserLayout = () => {
         name="(feed)"
         options={{
           title: "Feed",
+          tabBarIcon: (props) => <Forum color={props.color} size={props.size}/>,
         }}
       />
       <Tabs.Screen
-        name="groups"
+        name="newPost"
         options={{
-          title: "Groups",
-        }}
-      />
-      <Tabs.Screen
-        name="favorites"
-        options={{
-          tabBarShowLabel: false,
+          title: "New Post",
+          //tabBarIcon: (props) => <MaterialIcons name="post-add" size={props.size} color={props.color}/>,
         }}
       />
       <Tabs.Screen

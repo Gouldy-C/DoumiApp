@@ -1,15 +1,15 @@
 import {Text, View, StyleSheet} from 'react-native'
 import React from 'react'
 
-const UserFavorites = () => {
+const NewPost = () => {
   return (
       <View style={styles.safeView}>
-        <Text style={{fontSize: 18, paddingVertical: 10}}>User Favorites</Text>
+        <Text style={{fontSize: 18, paddingVertical: 10}}>New Post</Text>
       </View>
   )
 }
 
-export default UserFavorites
+export default NewPost
 
 const styles = StyleSheet.create({
   safeView: {

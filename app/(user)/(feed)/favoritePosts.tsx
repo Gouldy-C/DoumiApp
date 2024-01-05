@@ -7,10 +7,11 @@ import { handleLike } from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
 
 
-const userId = auth().currentUser?.uid
+
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
+  const userId = auth().currentUser?.uid
   const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
   const favPostsRef = firestore().collection('Posts').where("likedPost", "array-contains", userId)
 
@@ -41,8 +42,6 @@ const UserFeed = () => {
   }, []); // Only run this effect once on mount
   
   
-
-  // FORM ***************************************************************
   return (
     <View style={styles.postsContainer}>
       {posts !== null ?
@@ -52,7 +51,12 @@ const UserFeed = () => {
           <View key={item.post_id}>
             <Text>{item.content}</Text>
             <Text>{item.displayName}</Text>
-            <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
+            <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color={
+              item.likedPost.includes(userId as string) ?
+              "red" 
+              :
+              "black"} />
+            </Pressable>
             <Text>{item.likedPost.length}</Text>
           </View>
         )}

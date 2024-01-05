@@ -1,6 +1,7 @@
 import { Animated, View, TouchableOpacity } from 'react-native';
 import { MaterialTopTabBarProps } from "@react-navigation/material-top-tabs";
 
+
 function TopTabBar({ state, descriptors, navigation, position }: MaterialTopTabBarProps) {
   return (
     <View style={{ flexDirection: 'row' }}>

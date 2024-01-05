@@ -49,8 +49,8 @@ export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps
             onLongPress={onLongPress}
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 5 }}
           >
-            {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#673ab7' : '#222', focused: isFocused, size: 20})}
-            <Text style={{ color: isFocused ? '#673ab7' : '#222', fontSize: 17, textAlign: "center"}}>
+            {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#673ab7' : '#222', focused: isFocused, size: 38})}
+            <Text style={{ color: isFocused ? '#673ab7' : '#222', fontSize: 15, textAlign: "center"}}>
               {label as string}
             </Text>
           </TouchableOpacity>
