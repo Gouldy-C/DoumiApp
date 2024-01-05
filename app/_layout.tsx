@@ -69,9 +69,9 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}>
+    <StatusBar style='dark' translucent={false} backgroundColor='transparent'/>
       <SafeAreaProvider>
         <SafeAreaView style={{flex:1}}>
-          <StatusBar style="dark" translucent={true}/>
           <Slot/>
         </SafeAreaView>
       </SafeAreaProvider>

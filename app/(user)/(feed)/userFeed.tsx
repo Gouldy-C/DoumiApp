@@ -3,14 +3,13 @@ import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
-import { handleLike, handlePost } from '@utils/posting/functions';
+import { handleLike } from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
   const userId = auth().currentUser?.uid
   const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
-  const [ inputValue, setInputValue ] = useState('')
   const orderedPostsRef = firestore().collection('Posts').orderBy('timestamp', "desc")
 
 
@@ -41,36 +40,13 @@ const UserFeed = () => {
 
     // Unsubscribe when the component unmounts
     return () => unsubscribe();
-  }, []); // Only run this effect once on mount
-  
-
-  const handleInputChange = (text:string) => {
-    setInputValue(text);
-  };
-
-
-  // submit A POST ******************************************************
-  const submitPost = async () => {
-    handlePost(inputValue)
-    setInputValue('')
-  };
+  }, [])
 
 
   // FORM ***************************************************************
   return (
       <View style={styles.safeView}>
         <Text style={{fontSize: 18, paddingVertical: 10}}>Your Feed</Text>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder='Type something...'
-            onChangeText={handleInputChange}
-            value={inputValue}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button title="Post" onPress={submitPost} />
-        </View>
         <View style={styles.postsContainer}>
           <FlatList
             data={posts}
@@ -116,7 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   postsContainer: {
-    marginTop: 30,
+    marginTop: 10,
     borderColor: 'black',
     borderWidth: 1,
     width: "90%"
