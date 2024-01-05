@@ -1,9 +1,15 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { LinearGradient } from 'expo-linear-gradient';
 
 export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row'}}>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={['rgba(0,0,0,0.8)', 'transparent']}
+        style={{width: '100%', height: 4}}
+      />
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -49,8 +55,8 @@ export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps
             onLongPress={onLongPress}
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 5 }}
           >
-            {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#673ab7' : '#222', focused: isFocused, size: 38})}
-            <Text style={{ color: isFocused ? '#673ab7' : '#222', fontSize: 15, textAlign: "center"}}>
+            {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#94EBD1' : '#424052', focused: isFocused, size: 38})}
+            <Text style={{ color: isFocused ? '#94EBD1' : '#424052', fontSize: 16, textAlign: "center"}}>
               {label as string}
             </Text>
           </TouchableOpacity>
