@@ -24,28 +24,28 @@ const UserLayout = () => {
         name="(feed)"
         options={{
           title: "Feed",
-          tabBarIcon: (props) => <ForumSvg color={props.color}/>,
+          tabBarIcon: (props) => <ForumSvg color={props.color} height={34} width={34}/>,
         }}
       />
       <Tabs.Screen
         name="newPost"
         options={{
           title: "New Post",
-          tabBarIcon: (props) => <NewPostsSvg color={props.color}/>,
+          tabBarIcon: (props) => <NewPostsSvg color={props.color} height={34} width={34}/>,
         }}
       />
       <Tabs.Screen
         name="(de-escalation)"
         options={{
           title: "Strategies",
-          tabBarIcon: (props) => <StrategiesSvg color={props.color}/>
+          tabBarIcon: (props) => <StrategiesSvg color={props.color} height={34} width={34}/>
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: (props) => <SmallProfileSvg color={props.color}/>
+          tabBarIcon: (props) => <SmallProfileSvg color={props.color} height={34} width={34}/>
         }}
       />
     </Tabs>
