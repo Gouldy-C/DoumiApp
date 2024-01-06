@@ -16,5 +16,6 @@ const LikedHeart = (props : SvgProps) => (
     />
   </Svg>
 )
+
 export default LikedHeart
 
