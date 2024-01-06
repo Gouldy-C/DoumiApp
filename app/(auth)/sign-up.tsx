@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import SignUpForm from "@components/SignUpForm";
-import GoogleButtonSvg from "@components/googleButton";
+import GoogleButtonSvg from "@components/GoogleButton";
 
 const SignUp = () => {
   return (

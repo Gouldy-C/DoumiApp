@@ -116,13 +116,13 @@ export default SignUpForm;
 
 const styles = StyleSheet.create({
   button: {
+    backgroundColor: 'white',
     textAlign: "center",
     fontSize: 20,
     margin: 10,
     padding: 10,
-    borderColor: "black",
-    borderWidth: 1,
     borderRadius: 10,
+    elevation: 5,
   },
   container: {
     width: "80%",

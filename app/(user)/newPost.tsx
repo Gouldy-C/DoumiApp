@@ -6,6 +6,8 @@ import { ZodType, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ControlledTextInput from '@components/ControlledTextInput';
+import { LinearGradient } from 'expo-linear-gradient';
+import PublishArrowSvg from '@components/svg-components/publishArrowSvg';
 
 
 type FormData = {
@@ -37,19 +39,26 @@ const NewPost = () => {
   };
 
   return (
-      <View style={styles.safeView}>
-        <View style={styles.container}>
-          <ControlledTextInput
-            control={control}
-            placeholder={"Your Post"}
-            name={"post"}
-            label={"New Post"}
-          />
-          <Pressable onPress={handleSubmit(submitData)}>
-            <Text style={styles.button}>Post</Text>
-          </Pressable>
-        </View>
-      </View>
+    <View style={styles.container}>
+      <ControlledTextInput
+        control={control}
+        placeholder={"Your Post"}
+        name={"post"}
+        label={"New Post"}
+      />
+      <Pressable  onPress={handleSubmit(submitData)}>
+        <LinearGradient
+          start={{x: 0, y: 0.0}}
+          end={{x: 1, y: 0.0}}
+          colors={['#514AA4', '#744696']}
+          style={styles.button}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <PublishArrowSvg color='white' height={14} width={16}/>
+              <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 15}}>Publish</Text>
+            </View>
+        </LinearGradient>
+      </Pressable>
+    </View>
   )
 }
 
@@ -61,18 +70,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
+    flex: 1,
     marginVertical: 20,
     width: "80%",
     alignSelf: "center",
     paddingLeft: 1,
   },
   button: {
-    textAlign: "center",
-    fontSize: 20,
-    margin: 10,
-    padding: 10,
-    borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 10,
+    marginVertical: 30,
+    borderRadius: 60,
+    elevation: 8,
+    paddingVertical: 10,
   },
 })

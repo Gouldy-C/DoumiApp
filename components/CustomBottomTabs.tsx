@@ -6,11 +6,12 @@ export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps
   return (
     <View >
       <LinearGradient
-        // Border Linear Gradient
-        colors={['#94EBD1', '#90D5F0', '#94EBD1']}
-        style={{width: '100%', height: 3}}
+        start={{x: 0, y: 0.0}}
+        end={{x: 1, y: 0.0}}
+        colors={['#A58FF3', '#8EA2F6', '#A58FF3']}
+        style={{width: '100%', height: 2}}
       />
-      <View style={{ flexDirection: 'row', paddingBottom: 2}}>
+      <View style={{ flexDirection: 'row', paddingBottom: 2, backgroundColor: 'white'}}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label =
@@ -55,10 +56,10 @@ export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 5 }}
+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: 5, paddingTop:8 }}
             >
-              {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#94EBD1' : '#424052', focused: isFocused, size: 30})}
-              <Text style={{ color: isFocused ? '#94EBD1' : '#424052', fontSize: 16, textAlign: "center"}}>
+              {options.tabBarIcon && options.tabBarIcon({color: isFocused ? '#5049A4' : '#6D6B82', focused: isFocused, size: 30})}
+              <Text style={{ color: isFocused ? '#5049A4' : '#6D6B82', fontSize: 16, textAlign: "center"}}>
                 {label as string}
               </Text>
             </TouchableOpacity>
