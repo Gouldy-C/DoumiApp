@@ -26,7 +26,7 @@ const FeedLayout = () => {
         tabBar={(props) => <TopTabBar {...props} />}
         screenOptions={{
         }}>
-          <TopTab.Screen
+        <TopTab.Screen
           name="Feed"
           component={UserFeed}
           options={{ tabBarLabel: 'Feed' }}

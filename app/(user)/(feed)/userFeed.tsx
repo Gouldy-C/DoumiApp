@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Button, TextInput, FlatList, Pressable} from 'react-native';
+import {Text, View, StyleSheet, Button, TextInput, FlatList, Pressable, TouchableOpacity} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { FontAwesome } from "@expo/vector-icons"
@@ -53,9 +53,27 @@ const UserFeed = () => {
     setInputValue('')
   };
 
+  // Search Consts
+  const topics = ['Aggression', 'Non-compliance', 'Loneliness']
 
   // FORM ***************************************************************
   return (
+    <>
+      <View style={{ flex: 1}}>
+        <Text>Filter Bar</Text>
+        <View style={styles.filterContainer}>
+          <FlatList
+            data={topics}
+            renderItem={({item}) => (
+              <TouchableOpacity style={styles.filterButton}>
+                <Text>{item}</Text>
+              </TouchableOpacity>
+            )}
+          >
+          </FlatList>
+        </View>
+
+      </View>
       <View style={styles.safeView}>
         <Text style={{fontSize: 18, paddingVertical: 10}}>Your Feed</Text>
         <View style={styles.container}>
@@ -83,6 +101,7 @@ const UserFeed = () => {
           />
         </View>
       </View>
+    </>
   )
 }
 
@@ -113,5 +132,15 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     width: "90%"
+  },
+  filterContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  filterButton: {
+    borderColor: 'black',
+    borderWidth: 1,
+    width: "40%",
+    alignItems: 'center'
   }
 })
