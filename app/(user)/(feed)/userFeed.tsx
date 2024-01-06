@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
-import { handleLike, handlePost } from '@utils/posting/functions';
+import { handleLike } from '@utils/posting/functions';
+import auth from '@react-native-firebase/auth'
+import UnlikedHeart from '@components/svg-components/unlikedHeart';
+import LikedHeart from '@components/svg-components/likedHeart';
+import LikeAPost from '@components/LikeAPost';
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
+  const userId = auth().currentUser?.uid
   const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
-  const [ inputValue, setInputValue ] = useState('')
   const orderedPostsRef = firestore().collection('Posts').orderBy('timestamp', "desc")
 
 
@@ -39,19 +43,7 @@ const UserFeed = () => {
 
     // Unsubscribe when the component unmounts
     return () => unsubscribe();
-  }, []); // Only run this effect once on mount
-  
-
-  const handleInputChange = (text:string) => {
-    setInputValue(text);
-  };
-
-
-  // submit A POST ******************************************************
-  const submitPost = async () => {
-    handlePost(inputValue)
-    setInputValue('')
-  };
+  }, [])
 
   // Search Consts
   const topics = ['Aggression', 'Non-compliance', 'Loneliness']
@@ -76,17 +68,6 @@ const UserFeed = () => {
       </View>
       <View style={styles.safeView}>
         <Text style={{fontSize: 18, paddingVertical: 10}}>Your Feed</Text>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder='Type something...'
-            onChangeText={handleInputChange}
-            value={inputValue}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button title="Post" onPress={submitPost} />
-        </View>
         <View style={styles.postsContainer}>
           <FlatList
             data={posts}
@@ -94,7 +75,7 @@ const UserFeed = () => {
               <View key={item.post_id}>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
-                <Pressable onPress={()=>handleLike(item.post_id)}><FontAwesome name="heart" size={20} color="red" /></Pressable>
+                <LikeAPost post_id={item.post_id} likedPost={item.likedPost}/>
                 <Text>{item.likedPost.length}</Text>
               </View>
             )}
@@ -128,7 +109,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   postsContainer: {
-    marginTop: 30,
+    marginTop: 10,
     borderColor: 'black',
     borderWidth: 1,
     width: "90%"

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import SignUpForm from '@components/SignUpForm'
-import GoogleSignInButton from '@components/GoogleSignInButton'
+import GoogleButtonSvg from '@components/svg-components/googleButton'
 
 const SignUp = () => {
   return (
@@ -9,7 +9,8 @@ const SignUp = () => {
       
       <SignUpForm/>
 
-      <GoogleSignInButton/>
+      <GoogleButtonSvg buttonType='up'/>
+
     </ScrollView>
   )
 }

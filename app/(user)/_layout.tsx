@@ -2,6 +2,10 @@ import React from "react";
 import { userStore } from "@utils/stores/userStore";
 import { Redirect, Tabs } from "expo-router";
 import { CustomTabs } from "@components/CustomBottomTabs";
+import ForumSvg from "@components/svg-components/forumSvg";
+import NewPostsSvg from "@components/svg-components/newPostsSvg";
+import SmallProfileSvg from "@components/svg-components/smallProfileSvg";
+import StrategiesSvg from "@components/svg-components/strategiesSvg";
 
 const UserLayout = () => {
   const { user } = userStore((state) => state);
@@ -20,30 +24,28 @@ const UserLayout = () => {
         name="(feed)"
         options={{
           title: "Feed",
+          tabBarIcon: (props) => <ForumSvg color={props.color}/>,
         }}
       />
       <Tabs.Screen
-        name="groups"
+        name="newPost"
         options={{
-          title: "Groups",
-        }}
-      />
-      <Tabs.Screen
-        name="favorites"
-        options={{
-          tabBarShowLabel: false,
+          title: "New Post",
+          tabBarIcon: (props) => <NewPostsSvg color={props.color}/>,
         }}
       />
       <Tabs.Screen
         name="(de-escalation)"
         options={{
-          title: "Helpful\nTips",
+          title: "Strategies",
+          tabBarIcon: (props) => <StrategiesSvg color={props.color}/>
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
+          tabBarIcon: (props) => <SmallProfileSvg color={props.color}/>
         }}
       />
     </Tabs>
