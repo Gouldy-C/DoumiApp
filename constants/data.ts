@@ -1,6 +1,37 @@
 
 
-export const strategyCatagories = ['Self Harm', 'Self Destruction', 'Self Care', 'Hygiene', 'Favorites']
+export const strategyCatagories = [
+  {
+    title: 'Patient Self Harm',
+    image: 'Image',
+    addresses: 'pacient-self-harm'
+  }, 
+  {
+    title: 'Patient Depression',
+    image: 'Image',
+    addresses: 'pacient-self-harm'
+  }, 
+  {
+    title: 'Self Care',
+    image: 'Image',
+    addresses: 'pacient-self-harm'
+  }, 
+  {
+    title: 'Patient Hygiene',
+    image: 'Image',
+    addresses: 'pacient-self-harm'
+  }, 
+  {
+    title: 'Bookmarked',
+    image: 'Image',
+    addresses: 'Bookmarked Strategies'
+  },
+  {
+    title: 'All Strategies',
+    image: 'Image',
+    addresses: 'Every Strategy'
+  }, 
+]
 
 
 
