@@ -14,7 +14,6 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
         width: "90%",
         alignSelf: "center",
         backgroundColor: "white",
-        elevation: 8,
         shadowColor: "#000000",
         borderRadius: 15,
         borderWidth: 1,

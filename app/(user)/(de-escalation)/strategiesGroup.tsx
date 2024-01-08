@@ -1,12 +1,15 @@
 import { Text, View, StyleSheet, ScrollView, Pressable } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { strategies } from "@constants/strategiesData";
 import { useLocalSearchParams } from "expo-router";
 import StrategyCard from "@components/StrategyCard";
+import StrategyModal from "@components/StrategyModal";
+import { Strategy } from "@utils/types/types";
+
 
 const StrategiesGroup = () => {
   const params = useLocalSearchParams();
-
+  const [selectedStrategy, setSelectedStrategy] = useState<Strategy | null>(null);
 
   if (params.category === 'All Strategies'){
     return(
@@ -16,20 +19,21 @@ const StrategiesGroup = () => {
           <Pressable
             style={{marginVertical: 14}}
             key={index}
-            onPress={() => console.log('strategy: ' + strategy.uuid)}
+            onPress={() => setSelectedStrategy(strategy)}
             >
             <StrategyCard strategy={strategy}/>
   
           </Pressable>
         ))}
+        <StrategyModal selectedStrategy={selectedStrategy} setSelectedStrategy={setSelectedStrategy}/>
       </ScrollView>
     )
   }
-  else if (params.category === 'Bookmarked'){
-    return(
-      <Text>Bookmarked</Text>
-    )
-  }
+  // else if (params.category === 'Bookmarked'){
+  //   return(
+  //     <Text>Bookmarked</Text>
+  //   )
+  // }
   else {
     return (
       <ScrollView style={{ flex: 1 }}>
@@ -39,11 +43,12 @@ const StrategiesGroup = () => {
           <Pressable
             style={{marginVertical: 14}}
             key={index}
-            onPress={() => console.log('strategy: ' + strategy.uuid)}
+            onPress={() => setSelectedStrategy(strategy)}
             >
             <StrategyCard strategy={strategy}/>
           </Pressable>
         ))}
+        <StrategyModal selectedStrategy={selectedStrategy} setSelectedStrategy={setSelectedStrategy}/>
       </ScrollView>
     )
   }

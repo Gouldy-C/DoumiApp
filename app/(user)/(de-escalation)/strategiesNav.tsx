@@ -32,7 +32,6 @@ const DeEscalationPage = () => {
                 alignItems: "center",
                 minWidth: "90%",
                 backgroundColor: "white",
-                elevation: 8,
                 shadowColor: "#000000",
                 borderRadius: 15,
                 borderWidth: 1,

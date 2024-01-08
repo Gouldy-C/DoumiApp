@@ -19,11 +19,11 @@ export const strategyCatagories = [
     image: "Image",
     addresses: "pacient-self-harm",
   },
-  {
-    title: "Bookmarked",
-    image: "Image",
-    addresses: "Bookmarked Strategies",
-  },
+  // {
+  //   title: "Bookmarked",
+  //   image: "Image",
+  //   addresses: "Bookmarked Strategies",
+  // },
   {
     title: "All Strategies",
     image: "Image",
