@@ -8,6 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import UnlikedHeart from '@components/svg-components/unlikedHeart';
 import LikedHeart from '@components/svg-components/likedHeart';
 import LikeAPost from '@components/LikeAPost';
+import { constStyles } from '@constants/Styles';
 
 
 interface SelectedPost {
@@ -86,8 +87,10 @@ const UserFeed = () => {
               <View key={item.post_id}>
                 <Text>{item.content}</Text>
                 <Text>{item.displayName}</Text>
-                <LikeAPost post_id={item.post_id} likedPost={item.likedPost}/>
-                <Text>{item.likedPost.length}</Text>
+                <View style={constStyles.labels}>
+                  <LikeAPost post_id={item.post_id} likedPost={item.likedPost}/>
+                  <Text>{item.likedPost.length}</Text>
+                </View>
               </View>
               <Pressable onPress={()=> openModal(item.post_id, item.content)}>
                 <Text>Delete</Text>

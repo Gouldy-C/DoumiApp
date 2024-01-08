@@ -36,11 +36,9 @@ export default ControlledTextInput
 
 const styles = StyleSheet.create({
   input: {
-    height: 50,
+    height: '70%',
     marginTop: 10,
-    borderWidth: 1,
     padding: 10,
-    borderRadius: 5,
     fontSize: 18,
   },
   inputError: {
