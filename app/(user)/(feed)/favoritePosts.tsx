@@ -1,12 +1,8 @@
-import {Text, View, StyleSheet, FlatList, Pressable} from 'react-native';
+import {Text, View, StyleSheet, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
-import { handleLike } from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
-import LikedHeart from '@components/svg-components/likedHeart';
-import UnlikedHeart from '@components/svg-components/unlikedHeart';
 import LikeAPost from '@components/LikeAPost';
 
 
@@ -35,7 +31,6 @@ const UserFeed = () => {
             likedPost:doc.get('likedPost')
           } as FirestoreDocument);
         });
-        console.log("liked post page");
         // Update the state with the new posts
         setPosts(updatedPosts);
     });

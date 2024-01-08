@@ -21,3 +21,11 @@ export interface FirestoreDocument {
   displayName: string;
   likedPost: string[];
 }
+
+
+export interface Strategy {
+  title: string;
+  description: string;
+  categories: string[];
+  uuid: string;
+}

@@ -32,7 +32,6 @@ export default function RootLayout() {
   // Handle user state changes
   async function userChange(user: FirebaseAuthTypes.User | null) {
     setUser(user);
-    console.log(user, 'layout user change');
     if (user) {
       await checkAndCreateFirestoreUser(user)
     }

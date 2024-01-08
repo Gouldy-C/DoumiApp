@@ -27,7 +27,7 @@ const StrategiesNav = () => {
         }}
       />
       <Stack.Screen
-        name="strategiesGroups"
+        name="strategiesGroup"
         options={{
           headerTitleAlign: 'center',
           headerShown: true,

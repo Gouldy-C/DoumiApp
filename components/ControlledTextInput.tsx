@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput } from 'react-native'
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
 
@@ -10,42 +10,44 @@ type ControlledInputProps = {
   secureTextEntry?: boolean
 }
 
-const ControlledTextInput = ({control, placeholder, name, label, secureTextEntry = false}: ControlledInputProps ) => {
+const ControlledTextInput = ({ control, placeholder, name, label, secureTextEntry = false}: ControlledInputProps ) => {
   return (
-    <Controller        
-        control={control}        
-        name={name}        
-        render={({field: {value, onChange,  onBlur}, fieldState: {error, invalid}}) => (
-          <>
-            <Text style={styles.inputLabel}>{label}</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={onChange}
-              value={value}
-              onBlur={onBlur}
-              placeholder={placeholder}
-              secureTextEntry={secureTextEntry}/>
-            {error?.message && <Text style={styles.inputError}>{error.message}</Text>}
-          </>
-        )}
-      />
+    <Controller
+      control={control}        
+      name={name}        
+      render={({field: {value, onChange,  onBlur}, fieldState: {error, invalid}}) => (
+        <>
+          <Text style={style.inputLabel}>{label}</Text>
+          <TextInput
+            style={style.input}
+            onChangeText={onChange}
+            value={value}
+            onBlur={onBlur}
+            placeholder={placeholder}
+            secureTextEntry={secureTextEntry}/>
+          {error?.message && <Text style={style.inputError}>{error.message}</Text>}
+        </>
+      )}
+    />
   )
 }
 
 export default ControlledTextInput
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   input: {
     backgroundColor: 'white',
+    borderColor: 'gray',
+    borderWidth: 1,
     height: 50,
-    marginTop: 10,
+    marginVertical: 10,
     padding: 10,
     borderRadius: 5,
     fontSize: 18,
+    elevation: 15,
   },
   inputError: {
     color: 'red',
-    marginTop: 4,
     marginBottom: 10,
   },
   inputLabel: {

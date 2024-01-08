@@ -2,11 +2,8 @@ import {Text, View, StyleSheet, FlatList, Pressable, Modal} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { FirestoreDocument } from '@utils/types/types';
-import { deletePost, handleLike} from '@utils/posting/functions';
+import { deletePost} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
-import { FontAwesome } from '@expo/vector-icons';
-import UnlikedHeart from '@components/svg-components/unlikedHeart';
-import LikedHeart from '@components/svg-components/likedHeart';
 import LikeAPost from '@components/LikeAPost';
 
 
@@ -99,7 +96,7 @@ const UserFeed = () => {
       <Text>You have no Liked Posts</Text>
       }
       <Modal
-        animationType='none'
+        animationType='slide'
         transparent={true}
         visible={modalVisible}
         onRequestClose={()=> setModalVisible(false)}

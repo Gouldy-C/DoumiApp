@@ -82,6 +82,7 @@ function SignUpForm() {
 
       <View style={styles.passBox}>
         <ControlledTextInput
+          
           control={control}
           placeholder={"Confirm"}
           name={"confirmPassword"}
@@ -123,6 +124,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     elevation: 5,
+    borderColor: 'gray',
+    borderWidth: 1,
   },
   container: {
     width: "80%",

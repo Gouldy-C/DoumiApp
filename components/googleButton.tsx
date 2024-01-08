@@ -12,7 +12,8 @@ const GoogleButton = ({buttonType} : {buttonType: 'in' | 'up'}) => {
   
   return (
       <Pressable 
-        style={{flexDirection: 'row', 
+        style={{
+          flexDirection: 'row', 
           alignItems: 'center',
           justifyContent: 'space-evenly',
           padding: 10, 
@@ -23,6 +24,8 @@ const GoogleButton = ({buttonType} : {buttonType: 'in' | 'up'}) => {
           shadowColor: '#000000',
           elevation: 5,
           margin: 12,
+          borderColor: 'gray',
+          borderWidth: 1,
         }}
         onPress={handleGoogleSignIn} 
       >

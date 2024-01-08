@@ -1,17 +1,13 @@
-import {Text, View, StyleSheet, Button, TextInput, FlatList, Pressable} from 'react-native';
+import {Text, View, StyleSheet, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import { FontAwesome } from "@expo/vector-icons"
 import { FirestoreDocument } from '@utils/types/types';
-import { handleLike } from '@utils/posting/functions';
-import auth from '@react-native-firebase/auth'
-import UnlikedHeart from '@components/svg-components/unlikedHeart';
-import LikedHeart from '@components/svg-components/likedHeart';
 import LikeAPost from '@components/LikeAPost';
+
+
 
 const UserFeed = () => {
   // Use custom stores to retrieve user information and user feed state
-  const userId = auth().currentUser?.uid
   const [ posts, setPosts ]= useState<FirestoreDocument[] | null>(null)
   const orderedPostsRef = firestore().collection('Posts').orderBy('timestamp', "desc")
 
