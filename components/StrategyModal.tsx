@@ -63,11 +63,6 @@ const StrategyModal = ({selectedStrategy, setSelectedStrategy}:{selectedStrategy
                 Image
               </Text>
             <Text style={{fontSize: 18, paddingHorizontal: '5%'}}>{selectedStrategy?.description}</Text>
-            <View style={{flexDirection:'row', justifyContent: 'center', marginVertical: 20}}>
-              <Pressable onPress={closeModal}>
-                <Text style={[styles.button, {borderColor: 'black'}]}>Close</Text>
-              </Pressable>
-            </View>
           </View>
         </View>
       </Modal>

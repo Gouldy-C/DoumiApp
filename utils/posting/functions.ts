@@ -48,7 +48,6 @@ export const handleLike = async (post_id: string) => {
         await postDocRef.update({
           likedPost: firestore.FieldValue.arrayUnion(userId),
         });
-        console.log('Like added successfully!');
       }
     } else {
       console.log(`Document with post_id ${post_id} does not exist`);
