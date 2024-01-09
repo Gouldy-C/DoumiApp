@@ -14,7 +14,7 @@ const UserFeed = () => {
 
   
   return (
-    <>
+    <View style={{flex: 1}}>
       <View style={{marginTop: 10, alignItems:'center'}}>
         <TextInput
           placeholder='Search tags'
@@ -26,7 +26,7 @@ const UserFeed = () => {
           <Posts  postsRef={favPostsRef}/>
         </View>
       </SafeAreaView>
-    </>
+    </View>
   )
 }
 
