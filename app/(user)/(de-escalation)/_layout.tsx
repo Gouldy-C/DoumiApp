@@ -22,16 +22,12 @@ const StrategiesNav = () => {
         name="strategiesNav"
         options={{
           headerTitleAlign: 'center',
-          headerShown: true,
-          title: 'Strategies Groups'
         }}
       />
       <Stack.Screen
         name="strategiesGroup"
         options={{
           headerTitleAlign: 'center',
-          headerShown: true,
-          title: 'Strategies'
         }}
       />
     </Stack>

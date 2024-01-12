@@ -1,64 +1,39 @@
-import { Text, View, StyleSheet, ScrollView, Pressable } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 import React, { useState } from "react";
-import { strategies } from "@constants/strategiesData";
-import { useLocalSearchParams } from "expo-router";
-import StrategyCard from "@components/StrategyCard";
 import StrategyModal from "@components/StrategyModal";
-import { Strategy } from "@utils/types/types";
+import StrategiesGroupScroll from "@components/strategiesGroupScroll";
+import { useLocalSearchParams } from "expo-router";
+import StrategiesGroupHeader from "@components/StrategiesGroupHeader";
+import AgitatedBehavior from '@assets/images/Agitated-Behavior.png'
+import { filterStrategies } from "@utils/strategiesFunctions";
 
 
 const StrategiesGroup = () => {
   const params = useLocalSearchParams();
-  const [selectedStrategy, setSelectedStrategy] = useState<Strategy | null>(null);
+  const [selectedStrategyIndex, setSelectedStrategyIndex] = useState<number | null>(null);
+  const filteredStrategies = filterStrategies(Number(params.index))
 
-  if (params.category === 'All Strategies'){
-    return(
-      <ScrollView style={{ flex: 1 }}>
-        {strategies
-        .map((strategy, index) => (
-          <Pressable
-            style={{marginVertical: 14}}
-            key={index}
-            onPress={() => setSelectedStrategy(strategy)}
-            >
-            <StrategyCard strategy={strategy}/>
-  
-          </Pressable>
-        ))}
-        <StrategyModal selectedStrategy={selectedStrategy} setSelectedStrategy={setSelectedStrategy}/>
-      </ScrollView>
-    )
-  }
-  // else if (params.category === 'Bookmarked'){
-  //   return(
-  //     <Text>Bookmarked</Text>
-  //   )
-  // }
-  else {
-    return (
-      <ScrollView style={{ flex: 1 }}>
-        {strategies
-        .filter((strategy) => strategy.categories.includes(params.category as string))
-        .map((strategy, index) => (
-          <Pressable
-            style={{marginVertical: 14}}
-            key={index}
-            onPress={() => setSelectedStrategy(strategy)}
-            >
-            <StrategyCard strategy={strategy}/>
-          </Pressable>
-        ))}
-        <StrategyModal selectedStrategy={selectedStrategy} setSelectedStrategy={setSelectedStrategy}/>
-      </ScrollView>
-    )
-  }
-};
+
+  return(
+    <ScrollView 
+      style={{}}
+    >
+      <StrategiesGroupHeader groupIndex={Number(params.index)} image={AgitatedBehavior} variant="back"/>
+
+      <StrategiesGroupScroll 
+        groupIndex={Number(params.index)} 
+        setSelectedStrategyIndex={setSelectedStrategyIndex}
+      />
+
+      <StrategiesGroupHeader groupIndex={Number(params.index)} image={AgitatedBehavior} variant="next"/>
+
+      <StrategyModal selectedStrategyIndex={selectedStrategyIndex} setSelectedStrategyIndex={setSelectedStrategyIndex} filteredStrategies={filteredStrategies}/>
+    </ScrollView>
+  )
+}
 
 export default StrategiesGroup;
 
 const styles = StyleSheet.create({
-  safeView: {
-    flex: 1,
-    alignItems: "center",
-  },
+
 });

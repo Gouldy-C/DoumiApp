@@ -5,7 +5,6 @@ import { TopTabBar } from "@components/CustomTopTabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import UserFeed from "./userFeed";
 import FavoritePosts from "./favoritePosts";
-import UserPosts from "./userPosts";
 import { Dimensions, View } from "react-native";
 
 const FeedLayout = () => {
@@ -35,11 +34,6 @@ const FeedLayout = () => {
           name="Favorites"
           component={FavoritePosts}
           options={{ tabBarLabel: 'Favorites' }}
-        />
-        <TopTab.Screen
-          name="My Posts"
-          component={UserPosts}
-          options={{ tabBarLabel: 'My Posts' }}
         />
       </TopTab.Navigator>
     </View>

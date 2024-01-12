@@ -1,7 +1,8 @@
-import {Text, View, StyleSheet, Button, Image, Pressable} from 'react-native'
+import {Text, View, StyleSheet, Button, Image } from 'react-native'
 import React from 'react'
 import { logout } from '@utils/auth/general'
 import { userStore } from '@utils/stores/userStore'
+import UserPosts from '@components/UserPosts'
 
 const UserProfile = () => {
 
@@ -9,7 +10,6 @@ const UserProfile = () => {
 
   return (
       <View style={styles.safeView}>
-        <Text style={{fontSize: 18, paddingVertical:10}}>User Profile</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center',}}>
           {user?.photoURL && 
           <Image 
@@ -26,6 +26,7 @@ const UserProfile = () => {
             </View>
           </View>
         </View>
+        <UserPosts/>
       </View>
   )
 }
@@ -35,6 +36,5 @@ export default UserProfile
 const styles = StyleSheet.create({
   safeView: {
     flex: 1,
-    alignItems: "center",
   }
 })

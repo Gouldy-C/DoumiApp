@@ -1,10 +1,8 @@
-import {Text, View, StyleSheet, FlatList, Pressable, Modal, TextInput, SafeAreaView} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {Text, View, StyleSheet, FlatList, Pressable, Modal, TextInput, SafeAreaView, ScrollView} from 'react-native';
+import React, { useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
-import { FirestoreDocument } from '@utils/types/types';
 import { deletePost} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
-import LikeAPost from '@components/LikeAPost';
 import Posts from '@components/Posts';
 
 
@@ -13,7 +11,7 @@ interface SelectedPost {
   post_id: string,
 }
 
-const UserFeed = () => {
+const UserPosts = () => {
   // Use custom stores to retrieve user information and user feed state
   const userId = auth().currentUser?.uid
   const [modalVisible, setModalVisible] = useState(false);
@@ -45,17 +43,17 @@ const UserFeed = () => {
   // FORM ***************************************************************
   return (
     <View style={{flex: 1}}>
-      <View style={{marginTop: 10, alignItems:'center'}}>
+      <View style={{marginVertical: 10, alignItems:'center'}}>
         <TextInput
           placeholder='Search tags'
-          style={{backgroundColor:'purple', height: 50, width: '80%', borderRadius: 8}}>
+          style={{borderColor: 'grey', borderWidth:1, height: 50, width: '80%', fontSize: 18, borderRadius: 8, paddingHorizontal:10}}>
         </TextInput>
       </View>
-      <SafeAreaView style={styles.safeView}>
-        <View style={styles.container}>
-          <Posts  postsRef={usersPostsRef}/>
-        </View>
-      </SafeAreaView>
+
+      <View style={styles.container}>
+        <Posts  postsRef={usersPostsRef}/>
+      </View>
+
       <Modal
         animationType='slide'
         transparent={true}
@@ -85,7 +83,7 @@ const UserFeed = () => {
   )
 }
 
-export default UserFeed
+export default UserPosts
 
 const styles = StyleSheet.create({
   button: {

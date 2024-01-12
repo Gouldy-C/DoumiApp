@@ -1,28 +1,47 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
-import { Strategy } from '@utils/types/types';
 import CloseXSvg from './svg-components/closeXSvg';
 import NotBookmarkedSvg from './svg-components/notBookmarkedSvg';
+import { LinearGradient } from 'expo-linear-gradient';
+import PublishArrowSvg from './svg-components/publishArrowSvg';
+import { Strategy } from '@utils/types/types';
+import BackArrowSvg from './svg-components/backArrowSvg';
 
 
 
-const StrategyModal = ({selectedStrategy, setSelectedStrategy}:{selectedStrategy: Strategy | null, setSelectedStrategy: React.Dispatch<React.SetStateAction<Strategy | null>>}) => {
+const StrategyModal = ({
+  selectedStrategyIndex,
+  setSelectedStrategyIndex,
+  filteredStrategies
+}:{
+  selectedStrategyIndex: number | null,
+  setSelectedStrategyIndex: React.Dispatch<React.SetStateAction<number | null>>,
+  filteredStrategies: Strategy[]
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  
+  const strategy = filteredStrategies[selectedStrategyIndex ? selectedStrategyIndex : 0];
+
+
 
   const closeModal = () => {
     setModalVisible(false);
-    setSelectedStrategy(null);
+    setSelectedStrategyIndex(null);
+  }
+
+  const nextStrategy = () => {
+    const newIndex = selectedStrategyIndex! + 1 < filteredStrategies.length ? selectedStrategyIndex! + 1 : 0
+    setSelectedStrategyIndex(newIndex);
   }
 
   useLayoutEffect(() => {
-    if (selectedStrategy === null){
+    if (selectedStrategyIndex === null){
       setModalVisible(false);
     }
     else {
       setModalVisible(true);
     }
-  
-  }, [selectedStrategy])
+  }, [selectedStrategyIndex])
   
 
   return (
@@ -35,13 +54,13 @@ const StrategyModal = ({selectedStrategy, setSelectedStrategy}:{selectedStrategy
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-              <Pressable onPress={closeModal} style={{paddingVertical:10, paddingHorizontal:15}}>
-                <NotBookmarkedSvg height={28} width={25} color={'black'} scale={0.95}/>
-              </Pressable>
-              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 22}}>{selectedStrategy?.title}</Text>
+            <View style={{flexDirection:'row', justifyContent: 'space-between', alignItems: 'center'}}>
               <Pressable onPress={closeModal} style={{padding:15}}>
-                  <CloseXSvg height={25} width={25} color={'black'}/>
+                  <BackArrowSvg height={26} width={20} color={'black'} scale={1.2}/>
+              </Pressable>
+              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center'}}>{strategy.title}</Text>
+              <Pressable onPress={closeModal} style={{ padding:15}}>
+                <NotBookmarkedSvg height={28} width={25} color={'black'} scale={0.95}/>
               </Pressable>
             </View>
             {/* <Image
@@ -62,7 +81,21 @@ const StrategyModal = ({selectedStrategy, setSelectedStrategy}:{selectedStrategy
               }}>
                 Image
               </Text>
-            <Text style={{fontSize: 18, paddingHorizontal: '5%'}}>{selectedStrategy?.description}</Text>
+            <Text style={{fontSize: 18, paddingHorizontal: '5%'}}>{strategy.description}</Text>
+            { filteredStrategies.length > 1 &&
+              <Pressable  onPress={nextStrategy}>
+                <LinearGradient
+                  start={{x: 0, y: 0.0}}
+                  end={{x: 1, y: 0.0}}
+                  colors={['#514AA4', '#744696']}
+                  style={styles.button}>
+                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10}}>
+                      <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 15}}>Next Strategy</Text>
+                      <BackArrowSvg height={20} width={10} scale={0.95} color={'white'} rotation={180}/>
+                    </View>
+                </LinearGradient>
+              </Pressable>
+            }
           </View>
         </View>
       </Modal>
@@ -74,10 +107,10 @@ export default StrategyModal
 
 const styles = StyleSheet.create({
   button: {
-    textAlign: 'center',
-    padding: 10,
-    borderRadius: 15,
-    borderWidth: 3,
+    marginVertical: 30,
+    borderRadius: 60,
+    elevation: 8,
+    paddingVertical: 10,
   },
   modalContainer: {
     flex: 1,

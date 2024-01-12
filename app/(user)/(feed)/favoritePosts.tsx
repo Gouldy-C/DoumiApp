@@ -15,10 +15,10 @@ const UserFeed = () => {
   
   return (
     <View style={{flex: 1}}>
-      <View style={{marginTop: 10, alignItems:'center'}}>
+      <View style={{marginVertical: 10, alignItems:'center'}}>
         <TextInput
           placeholder='Search tags'
-          style={{backgroundColor:'purple', height: 50, width: '80%', borderRadius: 8, fontSize: 20}}>
+          style={{ height: 50, width: '80%', borderRadius: 8, fontSize: 18, borderColor: 'grey', borderWidth:1, paddingHorizontal:10}}>
         </TextInput>
       </View>
       <SafeAreaView style={styles.safeView}>

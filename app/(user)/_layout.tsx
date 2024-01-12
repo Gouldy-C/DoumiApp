@@ -47,17 +47,6 @@ const UserLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(de-escalation)"
-        options={{
-          title: "Strategies",
-          tabBarIcon: (props) => (props.focused ? 
-            <StrategiesFilledSvg color={props.color} height={31} width={32}/>
-            :
-            <StrategiesSvg color={props.color} height={31} width={32}/>
-          )
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
@@ -65,6 +54,17 @@ const UserLayout = () => {
             <ProfileFilledSvg color={props.color} height={31} width={32} scale={1.18}/>
             :
             <SmallProfileSvg color={props.color} height={31} width={32} scale={1.18}/>
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="(de-escalation)"
+        options={{
+          title: "Strategies",
+          tabBarIcon: (props) => (props.focused ? 
+            <StrategiesFilledSvg color='#734595' height={31} width={32}/>
+            :
+            <StrategiesSvg color={props.color} height={31} width={32}/>
           )
         }}
       />

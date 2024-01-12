@@ -43,19 +43,19 @@ const Posts = ({postsRef}:{postsRef : FirebaseFirestoreTypes.Query<FirebaseFires
     // FORM ***************************************************************
     return (
       <>
-              <FlatList
-                data={posts}
-                renderItem={({ item }) => (
-                  <View key={item.post_id} style={styles.postsContainer}>
-                    <Text>{item.displayName}</Text>
-                    <Text style={constStyles.postText}>{item.content}</Text>
-                    <View style={{ flexDirection:'row', gap: 15}}>
-                        <LikeAPost post_id={item.post_id} likedPost={item.likedPost}/>
-                        <CommentPost/>
-                    </View>
-                  </View>
-                )}
-              />
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => (
+            <View key={item.post_id} style={styles.postsContainer}>
+              <Text>{item.displayName}</Text>
+              <Text style={constStyles.postText}>{item.content}</Text>
+              <View style={{ flexDirection:'row', gap: 15}}>
+                  <LikeAPost post_id={item.post_id} likedPost={item.likedPost}/>
+                  <CommentPost/>
+              </View>
+            </View>
+          )}
+        />
       </>
     )
   }

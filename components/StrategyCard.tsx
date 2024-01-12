@@ -42,7 +42,6 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
           style={{ fontSize: 22, fontWeight: "500", paddingBottom: 5 }}>
           {strategy.title}
         </Text>
-        <Text>{strategy.uuid}</Text>
       </View>
     </View>
   )
