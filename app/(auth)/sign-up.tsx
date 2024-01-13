@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import SignUpForm from "@components/SignUpForm";
-import GoogleButtonSvg from "@components/GoogleButton";
+import GoogleButton from "@components/GoogleButton";
 
 const SignUp = () => {
   return (
     <ScrollView style={styles.safeView}>
       <SignUpForm />
 
-      <GoogleButtonSvg buttonType="up" />
+      <GoogleButton buttonType="up" />
     </ScrollView>
   );
 };
