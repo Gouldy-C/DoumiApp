@@ -6,10 +6,12 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen} from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { checkAndCreateFirestoreUser } from '@utils/firestore/firestoreFunctions';
+import firestore from '@react-native-firebase/firestore';
+
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -22,14 +24,14 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const {loading, setLoading} = useLoading((state) => state);
-  const {user, setUser} = userStore((state) => state);
+  const { setUser, setUserDoc} = userStore((state) => state);
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
-  });
+  })
+  const userId = auth().currentUser?.uid;
 
-
-  // Handle user state changes
+  
   async function userChange(user: FirebaseAuthTypes.User | null) {
     setUser(user);
     if (user) {
@@ -42,6 +44,33 @@ export default function RootLayout() {
     const subscriber = auth().onAuthStateChanged(userChange);
     return subscriber; // unsubscribe on unmount
   }, []);
+
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('Users')
+      .doc(userId)
+      .onSnapshot(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          setUserDoc({
+            authProvider: documentSnapshot.get('authProvider'),
+            createdTime: documentSnapshot.get('createdTime'),
+            displayName: documentSnapshot.get('displayName'),
+            email: documentSnapshot.get('email'),
+            emailVerified: documentSnapshot.get('emailVerified'),
+            lastSignInTime: documentSnapshot.get('lastSignInTime'),
+            lastUpdatedTime: documentSnapshot.get('lastUpdatedTime'),
+            phoneNumber: documentSnapshot.get('phoneNumber'),
+            photoURL: documentSnapshot.get('photoURL'),
+            providerId: documentSnapshot.get('providerId'),
+            uid: documentSnapshot.get('uid'),
+            bookmarkedStrategies: documentSnapshot.get('bookmarkedStrategies'),
+          })
+        }
+      }, err => {console.log(err)});
+    return () => subscriber();
+  }, [userId]);
+
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {

@@ -1,18 +1,28 @@
 import { strategies } from "@constants/strategiesData"
 import { Strategy } from "./types/types"
 import { strategyCatagories } from "@constants/strategiesData";
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import { userStore } from "./stores/userStore";
 
 
-export const filterStrategies = (catIndex: number): Strategy[] => {
+
+// const currentUser = auth().currentUser
+// const usersRef = firestore().collection('Users');
+
+
+
+export const filterStrategies = (catIndex: number, usersBookmarkedStrategies: string[]): Strategy[] => {
   const cat = strategyCatagories[catIndex].title
   if (cat === 'All Strategies'){
     return strategies
   }
-  // else if (cat === 'Bookmarked'){
-  //   return(
-  //     <Text>Bookmarked</Text>
-  //   )
-  // }
+  else if (cat === 'Bookmarked'){
+    return(
+      strategies
+        .filter((strategy) => usersBookmarkedStrategies.includes(strategy.uuid))
+    )
+  }
   else {
     return (
       strategies
@@ -20,3 +30,34 @@ export const filterStrategies = (catIndex: number): Strategy[] => {
     )
   }
 }
+
+
+export const bookmarkStrategy = async (strategy_id: string) => {
+  const userId = auth().currentUser?.uid
+  const usersRef = firestore().collection('Users')
+
+  try {
+    const userDocRef = usersRef.doc(userId);
+    const userDocSnapshot = await userDocRef.get();
+    const data = userDocSnapshot.data();
+
+    if (userDocSnapshot && data) {
+      if (data.bookmarkedStrategies.includes(strategy_id)){
+        await userDocRef.update({
+          bookmarkedStrategies: firestore.FieldValue.arrayRemove(strategy_id),
+        })
+        
+      } 
+      else {
+        await userDocRef.update({
+          bookmarkedStrategies: firestore.FieldValue.arrayUnion(strategy_id),
+        })
+        return
+      }
+    } else {
+      console.log(`Document with userId ${userId} does not exist`)
+    }
+  } catch (error) {
+    console.error('Error adding like:', error);
+  }
+};

@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const UserFeed = () => {
 
-  const orderedPostsRef = firestore().collection('Posts').orderBy('timestamp', "desc")
+  const postsRef = firestore().collection('Posts')
 
 
   return (
@@ -18,7 +18,7 @@ const UserFeed = () => {
       </View>
       <SafeAreaView style={styles.safeView}>
         <View style={styles.container}>
-          <Posts  postsRef={orderedPostsRef}/>
+          <Posts  postsRef={postsRef}/>
         </View>
       </SafeAreaView>
     </View>

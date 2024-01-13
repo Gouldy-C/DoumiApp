@@ -1,11 +1,9 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
-import CloseXSvg from './svg-components/closeXSvg';
-import NotBookmarkedSvg from './svg-components/notBookmarkedSvg';
 import { LinearGradient } from 'expo-linear-gradient';
-import PublishArrowSvg from './svg-components/publishArrowSvg';
 import { Strategy } from '@utils/types/types';
 import BackArrowSvg from './svg-components/backArrowSvg';
+import BookmarkStrategy from './BookmarkStrategy';
 
 
 
@@ -19,21 +17,18 @@ const StrategyModal = ({
   filteredStrategies: Strategy[]
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  
   const strategy = filteredStrategies[selectedStrategyIndex ? selectedStrategyIndex : 0];
-
-
-
+  
   const closeModal = () => {
     setModalVisible(false);
     setSelectedStrategyIndex(null);
   }
-
+  
   const nextStrategy = () => {
     const newIndex = selectedStrategyIndex! + 1 < filteredStrategies.length ? selectedStrategyIndex! + 1 : 0
     setSelectedStrategyIndex(newIndex);
   }
-
+  
   useLayoutEffect(() => {
     if (selectedStrategyIndex === null){
       setModalVisible(false);
@@ -42,7 +37,6 @@ const StrategyModal = ({
       setModalVisible(true);
     }
   }, [selectedStrategyIndex])
-  
 
   return (
     <View>
@@ -59,9 +53,7 @@ const StrategyModal = ({
                   <BackArrowSvg height={26} width={20} color={'black'} scale={1.2}/>
               </Pressable>
               <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center'}}>{strategy.title}</Text>
-              <Pressable onPress={closeModal} style={{ padding:15}}>
-                <NotBookmarkedSvg height={28} width={25} color={'black'} scale={0.95}/>
-              </Pressable>
+              <BookmarkStrategy strategy_id={strategy.uuid}/>
             </View>
             {/* <Image
                 style={{}}

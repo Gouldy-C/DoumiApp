@@ -4,8 +4,11 @@ import { Redirect, Stack} from "expo-router";
 import { View } from "react-native";
 
 
+
+
 const StrategiesNav = () => {
   const { user } = userStore((state) => state);
+
 
   if (!user) {
     return <Redirect href={"/(auth)/sign-in"} />;

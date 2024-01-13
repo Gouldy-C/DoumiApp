@@ -1,5 +1,7 @@
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 
-interface GoogleUser {
+export interface GoogleUser {
   idToken: string,
   serverAuthCode: string,
   scopes: Array<string>
@@ -13,10 +15,10 @@ interface GoogleUser {
   }
 }
 
-export interface FirestoreDocument {
+export interface FirestorePost {
   content: string;
   uid: string;
-  timestamp: string;
+  timestamp: any;
   post_id: string;
   displayName: string;
   likedPost: string[];
@@ -28,4 +30,20 @@ export interface Strategy {
   description: string;
   categories: string[];
   uuid: string;
+}
+
+
+export interface UserDoc {
+  displayName: string | null,
+  email: string | null,
+  emailVerified: boolean,
+  phoneNumber: string | null,
+  photoURL: string | null,
+  providerId: string,
+  authProvider: string,
+  uid: string,
+  createdTime: any,
+  lastSignInTime: any,
+  lastUpdatedTime: FirebaseFirestoreTypes.FieldValue,
+  bookmarkedStrategies: string[],
 }

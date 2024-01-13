@@ -2,6 +2,7 @@ import { Pressable } from 'react-native'
 import React from 'react'
 import StrategyCard from './StrategyCard';
 import { filterStrategies } from '@utils/strategiesFunctions';
+import { userStore } from '@utils/stores/userStore';
 
 
 
@@ -12,14 +13,15 @@ const StrategiesGroupScroll = ({
   groupIndex: number,
   setSelectedStrategyIndex: React.Dispatch<React.SetStateAction<number | null>>,
 }) => {
-  const filteredStrategies = filterStrategies(groupIndex)
+  const {userDoc} = userStore((state) => state)
+  const filteredStrategies = filterStrategies(groupIndex, userDoc?.bookmarkedStrategies!)
   
   return(
     <>
       {filteredStrategies
       .map((strategy, index) => (
         <Pressable
-          style={{marginVertical: 14}}
+          style={{marginBottom: 22}}
           key={index}
           onPress={() => setSelectedStrategyIndex(index)}
           >

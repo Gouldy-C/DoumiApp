@@ -4,25 +4,26 @@ import firestore from '@react-native-firebase/firestore';
 import { deletePost} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
 import Posts from '@components/Posts';
+import { FirestorePost } from '@utils/types/types';
 
 
 interface SelectedPost {
   content?: string,
   post_id: string,
+  uid: string,
 }
 
 const UserPosts = () => {
   // Use custom stores to retrieve user information and user feed state
   const userId = auth().currentUser?.uid
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<SelectedPost | null>(null);
+  const [selectedPost, setSelectedPost] = useState<FirestorePost | null>(null);
   const usersPostsRef = firestore().collection('Posts').where("uid", "==", userId)
 
   
-  // OPEN MODAL WITH CLICKED POST*******************
-  const openModal = (post_id: string, content?:string) => {
+  const openModal = (post : FirestorePost) => {
     setModalVisible(true);
-    setSelectedPost({ post_id, content});
+    setSelectedPost(post);
   };
 
   const closeModal = () => {
@@ -30,19 +31,18 @@ const UserPosts = () => {
     setModalVisible(false);
   }
 
-  // DELETE POST*************************************
+
   const confirmDelete = async () => {
     if (selectedPost ){
-      const { post_id } = selectedPost;
-      deletePost(post_id);
+      deletePost(selectedPost);
       closeModal();
     }
   };
 
 
-  // FORM ***************************************************************
   return (
     <View style={{flex: 1}}>
+
       <View style={{marginVertical: 10, alignItems:'center'}}>
         <TextInput
           placeholder='Search tags'
@@ -50,9 +50,7 @@ const UserPosts = () => {
         </TextInput>
       </View>
 
-      <View style={styles.container}>
-        <Posts  postsRef={usersPostsRef}/>
-      </View>
+      <Posts  postsRef={usersPostsRef} openModal={openModal}/>
 
       <Modal
         animationType='slide'

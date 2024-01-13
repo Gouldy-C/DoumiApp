@@ -44,7 +44,8 @@ export const createNewUserFirestore = async (user : FirebaseAuthTypes.User) => {
       uid: user.uid,
       createdTime: user.metadata.creationTime,
       lastSignInTime: user.metadata.lastSignInTime,
-      lastUpdatedTime: firestore.FieldValue.serverTimestamp()
+      lastUpdatedTime: firestore.FieldValue.serverTimestamp(),
+      bookmarkedStrategies: [],
     })
     .then(() => {
       console.log('User added!');

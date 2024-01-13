@@ -1,21 +1,21 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import * as Crypto from 'expo-crypto';
+import { FirestorePost } from '@utils/types/types';
 
 
 
-const postsRef = firestore().collection('Posts');
-const currentUser = auth().currentUser
-const usersRef = firestore().collection('Users');
+// const postsRef = firestore().collection('Posts');
+
+// const usersRef = firestore().collection('Users');
 
 
 // DELETE A POST ****************************************************
-export const deletePost = async (post_id:string) => {
+export const deletePost = async (post:FirestorePost) => {
   try {
-    // Delete the document with the specified post_id
     await firestore()
     .collection('Posts')
-    .doc(post_id)
+    .doc(post.post_id)
     .delete()
     console.log('Document successfully deleted!');
   } catch (error) {
@@ -26,26 +26,22 @@ export const deletePost = async (post_id:string) => {
 //  LIKE A POST *****************************************************
 export const handleLike = async (post_id: string) => {
   const userId = auth().currentUser?.uid;
-  const postsRef = firestore().collection('Posts');
+  const postRef = firestore().collection('Posts').doc(post_id)
 
   try {
-    // Get a reference to the document with the specified post_id
-    const postDocRef = postsRef.doc(post_id);
-
-    // Check if the document exists
-    const postDocSnapshot = await postDocRef.get();
+    const postDocSnapshot = await postRef.get();
     const data = postDocSnapshot.data();
 
     if (postDocSnapshot && data) {
       if (data.likedPost.includes(userId)){
-        await postDocRef.update({
+        await postRef.update({
           likedPost: firestore.FieldValue.arrayRemove(userId),
         })
         return
       } 
       else {
         // Document with post_id exists, update likedPosts array
-        await postDocRef.update({
+        await postRef.update({
           likedPost: firestore.FieldValue.arrayUnion(userId),
         });
       }
@@ -61,14 +57,17 @@ export const handleLike = async (post_id: string) => {
 
 // POST A POST ******************************************************
 export const handlePost = async (input: string) => {
+  const usersRef = firestore().collection('Users')
+  const postsRef = firestore().collection('Posts')
+
   try {
-    if (!currentUser || input.trim() === '') {
+    if (!auth().currentUser || input.trim() === '') {
       // Don't post empty messages and if the user is not logged in
       return;
     }
 
     // Fetch the username based on the current user's UID
-    const userSnapshot = await usersRef.doc(currentUser.uid).get();
+    const userSnapshot = await usersRef.doc(auth().currentUser?.uid).get();
 
     if (userSnapshot.exists) {
       const userDoc = userSnapshot.data();
@@ -80,7 +79,7 @@ export const handlePost = async (input: string) => {
         // Add a new post document
         await postsRef.doc(postId)
         .set({
-          uid: currentUser.uid,
+          uid: auth().currentUser?.uid,
           content: input,
           timestamp: firestore.FieldValue.serverTimestamp(),
           displayName: displayName,

@@ -14,9 +14,8 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
         width: "90%",
         alignSelf: "center",
         backgroundColor: "white",
-        shadowColor: "#000000",
-        borderRadius: 15,
-        borderWidth: 1,
+        borderBottomWidth: 1,
+        borderRadius: 20,
         borderColor: "grey",
     }}>
       {/* <Image
@@ -37,9 +36,9 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
         }}>
         Image
       </Text>
-      <View style={{ alignItems: "flex-start"}}>
+      <View style={{}} >
         <Text
-          style={{ fontSize: 22, fontWeight: "500", paddingBottom: 5 }}>
+          style={{ fontSize: 22, fontWeight: "500", marginLeft: 10}}>
           {strategy.title}
         </Text>
       </View>

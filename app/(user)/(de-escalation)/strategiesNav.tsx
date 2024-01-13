@@ -27,7 +27,7 @@ const DeEscalationPage = () => {
           Explore ways to support your loved one's dementia experience.
         </Text>
         <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 20}}>
-          {strategyCatagories.map((strategy, index) => (
+          {strategyCatagories.map((strategyCat, index) => (
             <Pressable
               key={index}
               onPress={() =>
@@ -49,12 +49,12 @@ const DeEscalationPage = () => {
                 }}>
                   <Text
                     style={{ fontSize: 20, fontWeight: "700", paddingBottom: 5, textAlign: "center", color: '#ffffff',}}>
-                    {strategy.title.toLocaleUpperCase()}
+                    {strategyCat.title.toLocaleUpperCase()}
                   </Text>
 
                   {/* <Image
                     style={{}}
-                    source={strategy.image}
+                    source={strategyCat.image}
                     placeholder={'placeholder'}
                     contentFit="cover"
                     transition={1000}
@@ -71,7 +71,7 @@ const DeEscalationPage = () => {
                       borderRadius: 500,
                       color: '#000',
                     }}>
-                    {strategy.image}
+                    {strategyCat.image}
                   </Text>
                 </View>
             </Pressable>
