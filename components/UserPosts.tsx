@@ -1,17 +1,19 @@
-import {Text, View, StyleSheet, FlatList, Pressable, Modal, TextInput, SafeAreaView, ScrollView} from 'react-native';
+import {Text, 
+  View, 
+  StyleSheet, 
+  Pressable, 
+  Modal, 
+  SafeAreaView,
+  ScrollView} from 'react-native';
 import React, { useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { deletePost} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
 import Posts from '@components/Posts';
 import { FirestorePost } from '@utils/types/types';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
-interface SelectedPost {
-  content?: string,
-  post_id: string,
-  uid: string,
-}
 
 const UserPosts = () => {
   // Use custom stores to retrieve user information and user feed state
@@ -41,16 +43,15 @@ const UserPosts = () => {
 
 
   return (
-    <View style={{flex: 1}}>
-
-      <View style={{marginVertical: 10, alignItems:'center'}}>
-        <TextInput
-          placeholder='Search tags'
-          style={{borderColor: 'grey', borderWidth:1, height: 50, width: '80%', fontSize: 18, borderRadius: 8, paddingHorizontal:10}}>
-        </TextInput>
+    <LinearGradient
+        start={{ x: 0, y: 0.0 }}
+        end={{ x: 1, y: 0.0 }}
+        colors={['rgba(115, 69, 149, 0.2)', 'rgba(72, 104, 167, 0.2)']}
+        style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <Posts postsRef={usersPostsRef} openDeleteModal={openModal}/>
       </View>
-
-      <Posts  postsRef={usersPostsRef} openModal={openModal}/>
 
       <Modal
         animationType='slide'
@@ -77,7 +78,7 @@ const UserPosts = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </LinearGradient>
   )
 }
 
@@ -122,7 +123,6 @@ const styles = StyleSheet.create({
   },
   safeView: {
     flex: 1,
-    alignItems: "center",
   },
   container: {
     width: "100%",

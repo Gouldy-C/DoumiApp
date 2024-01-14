@@ -7,6 +7,8 @@ const UnlikedHeart = (props : SvgProps) => (
     width={props.width}
     height={props.height}
     fill="none"
+    stroke={props.stroke}
+    strokeWidth={props.strokeWidth}
     scale={props.scale}
   >
     <Path

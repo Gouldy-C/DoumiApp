@@ -1,68 +1,120 @@
-import {Text, View, StyleSheet, Pressable, ScrollView} from 'react-native';
+import { FirestorePost } from '@utils/types/types'
+import {Text, 
+  View, 
+  StyleSheet,
+  Image, 
+  Pressable,
+  Modal,
+  TextInput,
+  ScrollView} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
-import { FirestorePost } from '@utils/types/types'
 import LikeAPost from '@components/LikeAPost';
 import { constStyles } from '@constants/Styles';
 import CommentPost from './CommentPost';
+import { userStore } from '@utils/stores/userStore';
+import EllipsisMenu from './svg-components/ellipsisMenu';
+import { BlurView } from 'expo-blur';
 
-const Posts = ({postsRef, openModal}:{
+
+const Posts = ({postsRef, openDeleteModal}:{
   postsRef : FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>,
-  openModal?: (post: FirestorePost) => void
+  openDeleteModal?: (post: FirestorePost) => void
 }) => {
-  const [ posts, setPosts ]= useState<FirestorePost[] | null>(null)
+    const [ posts, setPosts ]= useState<FirestorePost[] | null>(null)
+    const [ openCommentModal, setOpenCommentModal ] = useState(false)
+    const {user} = userStore((state) => state)
 
-  useEffect(() => {
-    const subscriber = postsRef.onSnapshot((querySnapshot) => {
-      if (querySnapshot){ 
-        const updatedPosts: FirestorePost[] = []
-        querySnapshot.forEach((doc) => {
-          updatedPosts.push({ 
-            content: doc.get('content'),
-            uid: doc.get('uid'),
-            timestamp: doc.get('timestamp'),
-            displayName:doc.get('displayName'),
-            post_id: doc.get('post_id'),
-            likedPost: doc.get('likedPost')
-          } as FirestorePost);
-        });
-      setPosts(updatedPosts);
-    }
-    });
-    return subscriber // On unmount end listener
-  }, [])
+    useEffect(() => {
+      const subscriber = postsRef.onSnapshot((querySnapshot) => {
+        if (querySnapshot){ 
+          const updatedPosts: FirestorePost[] = []   
+          querySnapshot.forEach((doc) => {
+            updatedPosts.push({ 
+              content: doc.get('content'),
+              uid: doc.get('uid'),
+              timestamp: doc.get('timestamp'),
+              displayName:doc.get('displayName'),
+              post_id: doc.get('post_id'),
+              likedPost: doc.get('likedPost')
+            } as FirestorePost);
+          });
+        setPosts(updatedPosts);
+      }
+      });
+      return subscriber // On unmount end listener
+    }, [])
+
+  
+    // FORM ***************************************************************
+    return (
+      <>
+        <ScrollView>
+          {posts?.sort((a,b) => b.timestamp?.seconds - a.timestamp?.seconds).map((post) => (
+            <View key={post.post_id} style={{flexDirection: 'row', justifyContent:'space-around', position: 'relative'}}>
+              <View key={post.post_id} style={styles.postsContainer}>
+                <View style={styles.labels}>
+                {user?.photoURL && post.uid === user.uid && (
+                  <Image
+                    source={{ uri: user.photoURL }}
+                    style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
+                      />
+                    )}
+                  <Text style={styles.name}>{post.displayName}</Text>
+                </View>
+                <Text>{post.timestamp?.seconds && post.timestamp.toDate().toLocaleString()}</Text>
+                <Text style={constStyles.postText}>{post.content}</Text>
+                <View style={styles.labels}>
+                    <LikeAPost post={post}/>
+                    <CommentPost onPress={()=>setOpenCommentModal(true)}  />
+                </View>
+              </View>
 
 
-  return (
-    <ScrollView>
-      {posts?.sort((a,b) => b.timestamp?.seconds - a.timestamp?.seconds).map((post) => (
-        <View key={post.post_id} style={styles.postsContainer}>
-          <Text>{post.displayName}</Text>
-          <Text style={constStyles.postText}>{post.content}</Text>
-          <View style={{ flexDirection:'row', gap: 15, alignItems: 'center', }}>
-            <LikeAPost  post={post}/>
-            <CommentPost/>
-            {openModal &&
-              <Pressable style={{alignItems: 'center'}} onPress={() => openModal(post)}>
-                <Text style={{color: 'red', borderColor: 'red', fontSize: 18, textAlignVertical: 'center', textAlign:'center', borderRadius: 20, borderWidth: 2, paddingHorizontal: 15, paddingVertical: 0.3}}>
-                  Delete
-                </Text>
-              </Pressable>
-            }
-          </View>
-        </View>
+              <View style={{position: 'absolute', top: 0, right: 15}}>
+                {openDeleteModal && (
+                  <Pressable style={{paddingHorizontal: 18, paddingVertical:15,}} onPress={() => openDeleteModal(post)}>
+                    <EllipsisMenu scale={0.90} height={30} width={20}/>
+                  </Pressable>
+                )}
+              </View>
+              
+              <BlurView intensity={90} tint="dark" style={{height: '100%', width: '100%'}}>
+                <Text> Hello </Text>
+              </BlurView>
 
-      ))}
-    </ScrollView>
-  )
-}
+              <Modal
+                  animationType='slide'
+                  transparent={true}
+                  visible={openCommentModal}
+              >
+                <BlurView intensity={90} tint="dark" style={{height: '100%', width: '100%'}}>
+                  <View style={{flex:1, backgroundColor:'white'}}>                      
+                    <Text>Comments</Text>
+                    <Pressable onPress={()=>setOpenCommentModal(false)}>                        
+                      <Text>Close</Text>
+                    </Pressable>
+                    <TextInput
+                      placeholder='Write a Comment...'
+                      style={{borderColor: 'black', borderWidth: 1, height: '20%'}}
+                    />
+                    <Pressable onPress={()=> console.log('hi')}><Text>Publish</Text></Pressable>
+                  </View>
+                </BlurView>
+              </Modal>
+            </View>
+          ))}
+        </ScrollView>
+      </>
+    )
+  }
 
   export default Posts
 
 const styles = StyleSheet.create({
   safeView: {
     flex: 1,
-    alignItems: "center",
+    alignposts: "center",
   },
   container: {
     width: "100%",
@@ -77,16 +129,28 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   postsContainer: {
-    marginTop: 10,
-    borderColor: 'black',
-    width: "90%",
-    marginLeft: 10,
-    marginBottom: 10
+    marginTop: 5,
+    width: "100%",
+    paddingLeft: 10,
+    paddingTop: 8,
+    paddingBottom: 8,
+    marginBottom: 3,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    gap: 15,
   },
   filterButton: {
     borderColor: 'black',
     borderWidth: 1,
     width: "40%",
-    alignItems: 'center',
+    alignposts: 'center',
+  },
+  labels: {
+    flexDirection:'row', 
+    gap: 15,
+    alignposts: 'center'
+  }, 
+  name: {
+    fontSize: 19
   }
 })

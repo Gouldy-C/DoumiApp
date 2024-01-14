@@ -3,34 +3,30 @@ import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth'
 import Posts from '@components/Posts';
+import { LinearGradient } from 'expo-linear-gradient';
 
-
-
-
-const UserFeed = () => {
+const FavoritePosts = () => {
   // Use custom stores to retrieve user information and user feed state
   const userId = auth().currentUser?.uid
   const favPostsRef = firestore().collection('Posts').where("likedPost", "array-contains", userId)
 
   
   return (
-    <View style={{flex: 1}}>
-      <View style={{marginVertical: 10, alignItems:'center'}}>
-        <TextInput
-          placeholder='Search tags'
-          style={{ height: 50, width: '80%', borderRadius: 8, fontSize: 18, borderColor: 'grey', borderWidth:1, paddingHorizontal:10}}>
-        </TextInput>
+    <LinearGradient
+        start={{ x: 0, y: 0.0 }}
+        end={{ x: 1, y: 0.0 }}
+        colors={['rgba(115, 69, 149, 0.2)', 'rgba(72, 104, 167, 0.2)']}
+        style={{ flex: 1 }}
+    >
+
+      <View style={styles.container}>
+        <Posts  postsRef={favPostsRef}/>
       </View>
-      <SafeAreaView style={styles.safeView}>
-        <View style={styles.container}>
-          <Posts  postsRef={favPostsRef}/>
-        </View>
-      </SafeAreaView>
-    </View>
+    </LinearGradient>
   )
 }
 
-export default UserFeed
+export default FavoritePosts
 
 const styles = StyleSheet.create({
   postsContainer: {

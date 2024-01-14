@@ -1,27 +1,28 @@
-import {View, StyleSheet, TextInput, SafeAreaView} from 'react-native';
+import {View, 
+  StyleSheet,
+} from 'react-native';
 import React from 'react';
 import Posts from '@components/Posts';
 import firestore from '@react-native-firebase/firestore';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const UserFeed = () => {
-
   const postsRef = firestore().collection('Posts')
 
-
   return (
-    <View style={{flex: 1}}>
-      <View style={{marginVertical: 10, alignItems:'center'}}>
-        <TextInput
-          placeholder='Search tags'
-          style={{borderColor: 'grey', borderWidth:1, height: 50, width: '80%', borderRadius: 8, fontSize: 18, paddingHorizontal:10}}>
-        </TextInput>
+
+    <LinearGradient
+      start={{ x: 0, y: 0.0 }}
+      end={{ x: 1, y: 0.0 }}
+      colors={['rgba(80, 73, 164, 0.2)', 'rgba(56, 85, 146, 0.2)']}
+      style={{ flex: 1 }}
+    >
+
+      <View style={styles.container}>
+        <Posts postsRef={postsRef} />
       </View>
-      <SafeAreaView style={styles.safeView}>
-        <View style={styles.container}>
-          <Posts  postsRef={postsRef}/>
-        </View>
-      </SafeAreaView>
-    </View>
+    </LinearGradient>
+
   )
 }
 
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: "100%",
-    alignSelf: "center",
+    alignSelf: "center"
   },
   filterButton: {
     borderColor: 'black',

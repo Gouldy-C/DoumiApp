@@ -7,6 +7,7 @@ const CommentPostSvg = (props: SvgProps) => (
     width={props.height}
     height={props.height}
     fill="none"
+    stroke={props.stroke}
     scale={props.scale}
   >
     <Path

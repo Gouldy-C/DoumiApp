@@ -9,32 +9,29 @@ const UserProfile = () => {
   const {user} = userStore((state) => state)
 
   return (
-      <View style={styles.safeView}>
-        <View style={{ flexDirection: 'row', alignItems: 'center',}}>
-          {user?.photoURL && 
+    <View style={{flex: 1}}>
+      <View style={{ flexDirection: 'row', alignItems:'center'}}>
+        {user?.photoURL && 
           <Image 
             source={{uri: user.photoURL}}
             style={{height: 90, aspectRatio: 1, borderRadius: 50, margin: 10,}}
-            />}
-          <View style={{marginHorizontal: 10}}>
-            <Text>{user?.displayName}</Text>
-            <Text>{user?.email}</Text>
-            <View style={{marginVertical: 10}}>
-              <Button
-                onPress={logout}
-                title='Logout'/>
-            </View>
+          />
+        }
+        <View style={{marginHorizontal: 10}}>
+          <Text>{user?.displayName}</Text>
+          <Text>{user?.email}</Text>
+          <View style={{marginVertical: 10}}>
+            <Button
+              onPress={logout}
+              title='Logout'/>
           </View>
         </View>
-        <UserPosts/>
       </View>
+
+      <UserPosts/>
+
+    </View>
   )
 }
 
 export default UserProfile
-
-const styles = StyleSheet.create({
-  safeView: {
-    flex: 1,
-  }
-})

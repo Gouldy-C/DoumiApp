@@ -1,5 +1,5 @@
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+
 
 export interface GoogleUser {
   idToken: string,
