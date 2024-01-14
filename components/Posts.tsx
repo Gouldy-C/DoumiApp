@@ -79,9 +79,6 @@ const Posts = ({postsRef, openDeleteModal}:{
                 )}
               </View>
               
-              <BlurView intensity={90} tint="dark" style={{height: '100%', width: '100%'}}>
-                <Text> Hello </Text>
-              </BlurView>
 
               <Modal
                   animationType='slide'

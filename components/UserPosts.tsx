@@ -3,8 +3,7 @@ import {Text,
   StyleSheet, 
   Pressable, 
   Modal, 
-  SafeAreaView,
-  ScrollView} from 'react-native';
+} from 'react-native';
 import React, { useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { deletePost} from '@utils/posting/functions';
@@ -12,6 +11,7 @@ import auth from '@react-native-firebase/auth'
 import Posts from '@components/Posts';
 import { FirestorePost } from '@utils/types/types';
 import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 
 
 
@@ -54,29 +54,32 @@ const UserPosts = () => {
       </View>
 
       <Modal
-        animationType='slide'
+        animationType='fade'
         transparent={true}
         visible={modalVisible}
         onRequestClose={()=> setModalVisible(false)}
       >
         <Pressable
           style={styles.outsideContainer}
-          onPress={() => setModalVisible(false)} // Close modal when overlay is pressed
-        />
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Are you sure you want to delete this post?</Text>
-            <Text style={{textAlign: 'center'}}>{selectedPost?.content || 'No content available'}</Text>
-            <View style={{flexDirection:'row', justifyContent: 'space-evenly', marginVertical: 20}}>
-              <Pressable onPress={() => confirmDelete()}>
-                <Text style={[styles.button, {borderColor: 'red'}]}>Delete Post</Text>
-              </Pressable>
-              <Pressable onPress={closeModal}>
-                <Text style={[styles.button, {borderColor: 'black'}]}>Close</Text>
-              </Pressable>
+          onPress={() => setModalVisible(false)}>
+          <View style={{height: '100%', width: '100%',backgroundColor: '#00000050', opacity: 10}} >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Are you sure you want to delete this post?</Text>
+                <Text style={{textAlign: 'center'}}>{selectedPost?.content || 'No content available'}</Text>
+                <View style={{flexDirection:'row', justifyContent: 'space-evenly', marginVertical: 20}}>
+                  <Pressable onPress={() => confirmDelete()}>
+                    <Text style={[styles.button, {borderColor: 'red'}]}>Delete Post</Text>
+                  </Pressable>
+                  <Pressable onPress={closeModal}>
+                    <Text style={[styles.button, {borderColor: 'black'}]}>Close</Text>
+                  </Pressable>
+                </View>
+              </View>
             </View>
           </View>
-        </View>
+    
+        </Pressable>
       </Modal>
     </LinearGradient>
   )
