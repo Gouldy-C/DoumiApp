@@ -17,7 +17,7 @@ const StrategiesGroup = () => {
 
 
   return(
-    <ScrollView contentContainerStyle={{minHeight: '100%'}}>
+    <ScrollView contentContainerStyle={{minHeight: '100%', backgroundColor: 'white'}}>
         <StrategiesGroupHeader groupIndex={Number(params.index)} image={AgitatedBehavior} variant="back"/>
         {filteredStrategies.length === 0 ?
           <>

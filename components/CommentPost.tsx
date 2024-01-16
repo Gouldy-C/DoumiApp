@@ -6,9 +6,9 @@ import { constStyles } from '@constants/Styles'
 const CommentPost = ({onPress}:{onPress:()=>void}) => {
   return (
     <Pressable style={constStyles.labels} onPress={onPress}>{
-      <CommentPostSvg stroke="#9747FF" scale={0.73} height={25} width={25}/>
+      <CommentPostSvg stroke="#5049A4" scale={0.73} height={25} width={25}/>
     }
-      <Text style={{fontWeight: 'bold', color: '#9747FF'}}>1</Text>
+      <Text style={{fontWeight: 'bold', color: '#5049A4'}}>1</Text>
     </Pressable>
   )
 }

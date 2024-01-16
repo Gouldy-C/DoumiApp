@@ -30,13 +30,13 @@ const LikeAPost = ({post}: {post: FirestorePost}) => {
     <>
       {liked ?
         <Pressable style={constStyles.labels} onPress={() => onLikeClick(false)}>
-          <LikedHeart fill="#9747FF" stroke="#9747FF" scale={0.75} height={25} width={25}/>
-          <Text>{count}</Text>
+          <LikedHeart fill="#5049A4" stroke="#5049A4" scale={0.75} height={25} width={25}/>
+          <Text style={{fontWeight: 'bold', color: '#5049A4'}}>{count}</Text>
         </Pressable>
         :
         <Pressable style={constStyles.labels} onPress={() => onLikeClick(true)}>
-          <UnlikedHeart stroke="#9747FF" strokeWidth={1} scale={0.75} height={25} width={25}/>
-          <Text style={{fontWeight: 'bold', color: '#9747FF'}}>{count}</Text>
+          <UnlikedHeart stroke="#5049A4" strokeWidth={1} scale={0.75} height={25} width={25}/>
+          <Text style={{fontWeight: 'bold', color: '#5049A4'}}>{count}</Text>
         </Pressable>
       }
     </>

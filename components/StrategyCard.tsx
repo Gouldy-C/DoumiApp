@@ -11,13 +11,9 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
         overflow:"hidden",
         flexDirection: "row",
         alignItems: "center",
-        width: "90%",
-        alignSelf: "center",
+        width: "100%",
         backgroundColor: "white",
-        borderBottomWidth: 1,
-        borderRadius: 20,
-        borderColor: "grey",
-    }}>
+      }}>
       {/* <Image
         style={{}}
         source={strategy.image}
@@ -47,7 +43,3 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
 }
 
 export default StrategyCard
-
-const styles = StyleSheet.create({
-
-})

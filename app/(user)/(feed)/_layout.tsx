@@ -20,7 +20,7 @@ const FeedLayout = () => {
   const TopTab = createMaterialTopTabNavigator();
 
   return (
-    <>
+    <View style={{backgroundColor: 'white', flex: 1}}>
       <View style={{justifyContent: 'center', alignItems:'center', flexDirection: 'row', gap: 10, marginTop: 10}}>
         <DoumiImageLogo color='white' height={50} width={50} />
         <LinearGradient
@@ -53,11 +53,11 @@ const FeedLayout = () => {
           <TopTab.Screen
             name="Favorites"
             component={FavoritePosts}
-            options={{ tabBarLabel: 'Favorites' }}
+            options={{ tabBarLabel: 'Saved' }}
           />
         </TopTab.Navigator>
       </View>
-    </>
+    </View>
   );
 };
 

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
-    <View style={{ flexDirection: 'row', paddingBottom: 1, paddingTop: 2, backgroundColor: 'white'}}>
+    <View style={{ flexDirection: 'row', paddingBottom: 1, paddingTop: 2, backgroundColor: 'white', elevation: 25, borderTopColor: '#9F9CC070', borderTopWidth: 1}}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =

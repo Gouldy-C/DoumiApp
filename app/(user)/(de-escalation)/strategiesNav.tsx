@@ -26,10 +26,17 @@ const DeEscalationPage = () => {
           style={{ fontSize: 19, fontWeight: "400", paddingBottom: 5, paddingVertical: 8, paddingHorizontal: 20, textAlign: 'center', marginBottom: 18  }}>
           Explore ways to support your loved one's dementia experience.
         </Text>
-        <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 20}}>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 20, marginBottom: 16}}>
           {strategyCatagories.map((strategyCat, index) => (
             <Pressable
               key={index}
+              style={{
+                elevation: 8,
+                shadowColor: 'black',
+                shadowOpacity: 1,
+                backgroundColor: getColor(index),
+                borderRadius: 24,
+              }}
               onPress={() =>
                 router.push({
                   pathname: "/(user)/(de-escalation)/strategiesGroup",
@@ -46,6 +53,7 @@ const DeEscalationPage = () => {
                     backgroundColor: getColor(index),
                     borderRadius: 24,
                     justifyContent: 'space-between',
+
                 }}>
                   <Text
                     style={{ fontSize: 20, fontWeight: "700", paddingBottom: 5, textAlign: "center", color: '#ffffff',}}>
@@ -88,5 +96,6 @@ const styles = StyleSheet.create({
   safeView: {
     flex: 1,
     flexBasis: 'auto',
+    backgroundColor: 'white',
   },
 });

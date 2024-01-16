@@ -33,7 +33,7 @@ const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
         <Pressable onPress={onBookmarkClick} style={{ padding:15}}>
           <NotBookmarkedSvg height={28} width={25} color={'black'} scale={0.95}/>
         </Pressable>
-        }
+      }
     </>
   )
 }
