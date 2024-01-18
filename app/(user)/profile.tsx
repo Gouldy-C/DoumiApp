@@ -10,7 +10,7 @@ const UserProfile = () => {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{ flexDirection: 'row', alignItems:'center'}}>
+      <View style={{ flexDirection: 'row', alignItems:'center', backgroundColor: 'white'}}>
         {user?.photoURL && 
           <Image 
             source={{uri: user.photoURL}}

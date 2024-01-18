@@ -26,7 +26,7 @@ function SignInForm() {
 
   
   const schema: ZodType<FormData> = z.object({
-    email: z.string().email(),
+    email: z.string().email("Invalid Email"),
     password: z
       .string()
       .min(8)

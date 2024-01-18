@@ -4,7 +4,7 @@ import { Redirect } from "expo-router";
 import { TopTabBar } from "@components/CustomTopTabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import UserFeed from "./userFeed";
-import FavoritePosts from "./favoritePosts"
+import FavoritePosts from "./savedPosts"
 import { Dimensions, View, TextInput, StyleSheet } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
@@ -51,7 +51,7 @@ const FeedLayout = () => {
             options={{ tabBarLabel: 'Latest' }}
           />
           <TopTab.Screen
-            name="Favorites"
+            name="Saved"
             component={FavoritePosts}
             options={{ tabBarLabel: 'Saved' }}
           />

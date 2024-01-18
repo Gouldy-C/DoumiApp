@@ -35,16 +35,9 @@ function TopTabBar({ state, descriptors, navigation, position }: MaterialTopTabB
           });
         };
 
-        const inputRange = state.routes.map((_, i) => i);
-        const opacity = position.interpolate({
-          inputRange,
-          outputRange: inputRange.map(i => (i === index ? 1 : 0)),
-        });
-
         return (
-          <View style={{flex: 1, paddingHorizontal: 15, paddingVertical: 8}}>
+          <View style={{flex: 1, paddingHorizontal: 15, paddingVertical: 8}} key={index}>
             <TouchableOpacity
-              key={index}
               accessibilityRole="button"
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}

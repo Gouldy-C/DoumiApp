@@ -1,9 +1,10 @@
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Modal, Pressable, StyleSheet, Text, View, Image } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Strategy } from '@utils/types/types';
 import BackArrowSvg from './svg-components/backArrowSvg';
 import BookmarkStrategy from './BookmarkStrategy';
+import CloseXSvg from './svg-components/closeXSvg';
 
 
 
@@ -48,32 +49,26 @@ const StrategyModal = ({
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <View style={{flexDirection:'row', justifyContent: 'space-between', alignItems: 'center'}}>
-              <Pressable onPress={closeModal} style={{padding:15}}>
-                  <BackArrowSvg height={26} width={20} color={'black'} scale={1.2}/>
+            <View style={{flexDirection:'row', justifyContent: 'space-between', marginBottom: 20}}>
+              <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 10}}>
+                  <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
               </Pressable>
-              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center'}}>{strategy.title}</Text>
-              <BookmarkStrategy strategy_id={strategy.uuid}/>
+              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, flex: 1, textAlignVertical: 'center'}}>{strategy.title}</Text>
+              <BookmarkStrategy strategy_id={strategy.strategyId}/>
             </View>
-            {/* <Image
-                style={{}}
-                source={strategy.image}
-                placeholder={'placeholder'}
-                contentFit="cover"
-                transition={1000}
-              /> */}
-              <Text
-                style={{
-                  padding: 20,
-                  marginStart: 15,
-                  fontSize: 20,
-                  height: 100,
-                  textAlign: "center",
-                  textAlignVertical: "center",
-              }}>
-                Image
-              </Text>
-            <Text style={{fontSize: 18, paddingHorizontal: '5%'}}>{strategy.description}</Text>
+            <View style={{alignSelf: 'center'}}>
+              <Image
+                  style={{
+                    height: 200,
+                    width: 180,
+                    borderRadius: 25,
+                    
+                  }}
+                  source={strategy.image}
+                  alt={strategy.title}
+                />
+            </View>
+            <Text style={{fontSize: 18, paddingHorizontal: 20, textAlign: 'center', marginVertical: 30}}>{strategy.description}</Text>
             { filteredStrategies.length > 1 &&
               <Pressable  onPress={nextStrategy}>
                 <LinearGradient

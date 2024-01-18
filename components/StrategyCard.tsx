@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View, Image } from 'react-native'
 import React from 'react'
 import { Strategy } from '@utils/types/types'
+import BookmarkStrategy from './BookmarkStrategy'
 
 
 
@@ -8,36 +9,27 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
   return (
     <View
       style={{
-        overflow:"hidden",
         flexDirection: "row",
         alignItems: "center",
-        width: "100%",
         backgroundColor: "white",
       }}>
-      {/* <Image
-        style={{}}
-        source={strategy.image}
-        placeholder={'placeholder'}
-        contentFit="cover"
-        transition={1000}
-      /> */}
-      <Text
+      <Image
         style={{
-          padding: 20,
-          marginStart: 10,
-          fontSize: 20,
-          height: 100,
-          textAlign: "center",
-          textAlignVertical: "center",
-        }}>
-        Image
+          height: 70,
+          width: 70,
+          margin: 10,
+          borderRadius: 25,
+        }}
+        source={strategy.image}
+        alt={strategy.title}
+      />
+
+      <Text
+        style={{ fontSize: 22, fontWeight: "500", marginHorizontal: 4, flex: 1}}>
+        {strategy.title}
       </Text>
-      <View style={{}} >
-        <Text
-          style={{ fontSize: 22, fontWeight: "500", marginLeft: 10}}>
-          {strategy.title}
-        </Text>
-      </View>
+      
+      <BookmarkStrategy strategy_id={strategy.strategyId}/>
     </View>
   )
 }

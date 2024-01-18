@@ -1,4 +1,5 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import { ImageSourcePropType } from "react-native";
 
 
 export interface GoogleUser {
@@ -29,7 +30,8 @@ export interface Strategy {
   title: string;
   description: string;
   categories: string[];
-  uuid: string;
+  strategyId: string;
+  image: ImageSourcePropType
 }
 
 

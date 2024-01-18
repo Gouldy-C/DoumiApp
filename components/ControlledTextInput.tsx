@@ -1,25 +1,29 @@
 import { StyleSheet, Text, TextInput } from 'react-native'
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
+import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 
 type ControlledInputProps = {
   control: Control<any>,
   name: string,
   placeholder: string,
-  label: string,
-  secureTextEntry?: boolean
+  label?: string,
+  secureTextEntry?: boolean,
+  styles?: TextStyle
+  multiline?: boolean
 }
 
-const ControlledTextInput = ({ control, placeholder, name, label, secureTextEntry = false}: ControlledInputProps ) => {
+const ControlledTextInput = ({multiline = false, styles, control, placeholder, name, label, secureTextEntry = false}: ControlledInputProps ) => {
   return (
     <Controller
       control={control}        
       name={name}        
       render={({field: {value, onChange,  onBlur}, fieldState: {error, invalid}}) => (
         <>
-          <Text style={style.inputLabel}>{label}</Text>
+          {label && <Text style={style.inputLabel}>{label}</Text>}
           <TextInput
-            style={style.input}
+            multiline={multiline}
+            style={[style.input, styles]}
             onChangeText={onChange}
             value={value}
             onBlur={onBlur}
@@ -41,10 +45,10 @@ const style = StyleSheet.create({
     borderWidth: 1,
     height: 50,
     marginVertical: 10,
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
     fontSize: 18,
-    elevation: 15,
+    elevation: 6,
   },
   inputError: {
     color: 'red',

@@ -1,40 +1,31 @@
-import { strategies } from "@constants/strategiesData"
-import { Strategy } from "./types/types"
-import { strategyCatagories } from "@constants/strategiesData";
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import { userStore } from "./stores/userStore";
-
-
+import { strategies } from "@constants/strategiesData/strategiesData";
+import { Strategy } from "./types/types";
+import { strategyCatagories } from "@constants/strategiesData/strategyCatagories";
+import firestore from "@react-native-firebase/firestore";
+import auth from "@react-native-firebase/auth";
 
 // const currentUser = auth().currentUser
 // const usersRef = firestore().collection('Users');
 
-
-
-export const filterStrategies = (catIndex: number, usersBookmarkedStrategies: string[]): Strategy[] => {
-  const cat = strategyCatagories[catIndex].title
-  if (cat === 'All Strategies'){
-    return strategies
+export const filterStrategies = (
+  catIndex: number | 'Bookmarked',
+  usersBookmarkedStrategies: string[]
+): Strategy[] => {
+  const cat = catIndex !== 'Bookmarked' ? strategyCatagories[catIndex].title : catIndex
+  if (cat === "All Strategies") {
+    return strategies;
+  } else if (cat === "Bookmarked") {
+    return strategies.filter((strategy) =>
+      usersBookmarkedStrategies.includes(strategy.strategyId)
+    );
+  } else {
+    return strategies.filter((strategy) => strategy.categories.includes(cat));
   }
-  else if (cat === 'Bookmarked'){
-    return(
-      strategies
-        .filter((strategy) => usersBookmarkedStrategies.includes(strategy.uuid))
-    )
-  }
-  else {
-    return (
-      strategies
-        .filter((strategy) => strategy.categories.includes(cat))
-    )
-  }
-}
-
+};
 
 export const bookmarkStrategy = async (strategy_id: string) => {
-  const userId = auth().currentUser?.uid
-  const usersRef = firestore().collection('Users')
+  const userId = auth().currentUser?.uid;
+  const usersRef = firestore().collection("Users");
 
   try {
     const userDocRef = usersRef.doc(userId);
@@ -42,22 +33,20 @@ export const bookmarkStrategy = async (strategy_id: string) => {
     const data = userDocSnapshot.data();
 
     if (userDocSnapshot && data) {
-      if (data.bookmarkedStrategies.includes(strategy_id)){
+      if (data.bookmarkedStrategies.includes(strategy_id)) {
         await userDocRef.update({
           bookmarkedStrategies: firestore.FieldValue.arrayRemove(strategy_id),
-        })
-        
-      } 
-      else {
+        });
+      } else {
         await userDocRef.update({
           bookmarkedStrategies: firestore.FieldValue.arrayUnion(strategy_id),
-        })
-        return
+        });
+        return;
       }
     } else {
-      console.log(`Document with userId ${userId} does not exist`)
+      console.log(`Document with userId ${userId} does not exist`);
     }
   } catch (error) {
-    console.error('Error adding like:', error);
+    console.error("Error adding like:", error);
   }
 };

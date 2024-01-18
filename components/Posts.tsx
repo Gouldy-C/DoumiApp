@@ -85,7 +85,6 @@ const Posts = ({postsRef, openDeleteModal}:{
                   transparent={true}
                   visible={openCommentModal}
               >
-                <BlurView intensity={90} tint="dark" style={{height: '100%', width: '100%'}}>
                   <View style={{flex:1, backgroundColor:'white'}}>                      
                     <Text>Comments</Text>
                     <Pressable onPress={()=>setOpenCommentModal(false)}>                        
@@ -97,7 +96,6 @@ const Posts = ({postsRef, openDeleteModal}:{
                     />
                     <Pressable onPress={()=> console.log('hi')}><Text>Publish</Text></Pressable>
                   </View>
-                </BlurView>
               </Modal>
             </View>
           ))}

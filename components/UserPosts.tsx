@@ -1,26 +1,24 @@
-import {Text, 
+import {
   View, 
-  StyleSheet, 
-  Pressable, 
-  Modal, 
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { deletePost} from '@utils/posting/functions';
 import auth from '@react-native-firebase/auth'
 import Posts from '@components/Posts';
 import { FirestorePost } from '@utils/types/types';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
+import AreYouSureModal from './AreYouSureModal';
 
 
 
 const UserPosts = () => {
-  // Use custom stores to retrieve user information and user feed state
   const userId = auth().currentUser?.uid
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalReturn, setModalReturn] = useState(false)
   const [selectedPost, setSelectedPost] = useState<FirestorePost | null>(null);
   const usersPostsRef = firestore().collection('Posts').where("uid", "==", userId)
+  const question = "Are you sure you want to delete this post?"
 
   
   const openModal = (post : FirestorePost) => {
@@ -28,19 +26,15 @@ const UserPosts = () => {
     setSelectedPost(post);
   };
 
-  const closeModal = () => {
-    setSelectedPost(null);
-    setModalVisible(false);
-  }
-
-
-  const confirmDelete = async () => {
-    if (selectedPost ){
-      deletePost(selectedPost);
-      closeModal();
+  useEffect(() => {
+    if (modalReturn && selectedPost) {
+      deletePost(selectedPost)
+      setModalReturn(false)
     }
-  };
+  }, [modalVisible])
 
+
+  
 
   return (
     <LinearGradient
@@ -49,93 +43,19 @@ const UserPosts = () => {
         colors={['rgba(115, 69, 149, 0.2)', 'rgba(72, 104, 167, 0.2)']}
         style={{ flex: 1 }}
     >
-      <View style={styles.container}>
+      <View style={{
+        width: "100%",
+        height: "100%",
+        alignSelf: "center",
+        }}>
         <Posts postsRef={usersPostsRef} openDeleteModal={openModal}/>
       </View>
 
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={()=> setModalVisible(false)}
-      >
-        <Pressable
-          style={styles.outsideContainer}
-          onPress={() => setModalVisible(false)}>
-          <View style={{height: '100%', width: '100%',backgroundColor: '#00000050', opacity: 10}} >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Text style={{textAlign: 'center', fontWeight: 'bold'}}>Are you sure you want to delete this post?</Text>
-                <Text style={{textAlign: 'center'}}>{selectedPost?.content || 'No content available'}</Text>
-                <View style={{flexDirection:'row', justifyContent: 'space-evenly', marginVertical: 20}}>
-                  <Pressable onPress={() => confirmDelete()}>
-                    <Text style={[styles.button, {borderColor: 'red'}]}>Delete Post</Text>
-                  </Pressable>
-                  <Pressable onPress={closeModal}>
-                    <Text style={[styles.button, {borderColor: 'black'}]}>Close</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </View>
-    
-        </Pressable>
-      </Modal>
+
+      <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} setModalReturn={setModalReturn}/>
+
     </LinearGradient>
   )
 }
 
 export default UserPosts
-
-const styles = StyleSheet.create({
-  button: {
-    textAlign: 'center',
-    padding: 10,
-    borderRadius: 15,
-    borderWidth: 3,
-  },
-  postsContainer: {
-    marginTop: 30,
-    width: "90%",
-    alignSelf: "center",
-  },
-  posts: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 10,
-    width: '80%',
-    elevation: 10,
-  },
-  outsideContainer: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-  },
-  safeView: {
-    flex: 1,
-  },
-  container: {
-    width: "100%",
-    height: "100%",
-    alignSelf: "center",
-  },
-  filterButton: {
-    borderColor: 'black',
-    borderWidth: 1,
-    width: "40%",
-    alignItems: 'center',
-  }
-})

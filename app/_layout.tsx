@@ -6,7 +6,7 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen} from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { checkAndCreateFirestoreUser } from '@utils/firestore/firestoreFunctions';
@@ -68,7 +68,7 @@ export default function RootLayout() {
           })
         }
       }, err => {console.log(err)});
-    return () => subscriber();
+    return subscriber;
   }, [userId]);
 
 
@@ -97,9 +97,9 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}>
-    <StatusBar style='dark' translucent={false} backgroundColor='transparent'/>
+    <StatusBar style='dark' translucent={true} backgroundColor='transparent'/>
       <SafeAreaProvider>
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
           <Slot/>
         </SafeAreaView>
       </SafeAreaProvider>

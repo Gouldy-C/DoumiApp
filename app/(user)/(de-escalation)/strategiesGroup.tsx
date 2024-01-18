@@ -1,25 +1,48 @@
-import { ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import React, { useState } from "react";
 import StrategyModal from "@components/StrategyModal";
 import StrategiesGroupScroll from "@components/strategiesGroupScroll";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import StrategiesGroupHeader from "@components/StrategiesGroupHeader";
-import AgitatedBehavior from '@assets/images/Agitated-Behavior.png'
 import { filterStrategies } from "@utils/strategiesFunctions";
 import { userStore } from "@utils/stores/userStore";
+import CloseXSvg from "@components/svg-components/closeXSvg";
+import { LinearGradient } from "expo-linear-gradient";
 
 
 const StrategiesGroup = () => {
   const params = useLocalSearchParams()
+  const catIndex = params.catIndex === "Bookmarked" ? params.catIndex as "Bookmarked" : Number(params.catIndex)
+  const bookmarkFlag = catIndex === "Bookmarked"
   const {userDoc} = userStore((state) => state)
   const [selectedStrategyIndex, setSelectedStrategyIndex] = useState<number | null>(null);
-  const filteredStrategies = filterStrategies(Number(params.index), userDoc?.bookmarkedStrategies!)
+  const filteredStrategies = filterStrategies(catIndex, userDoc?.bookmarkedStrategies!)
+
+
+  const backToStrategiesNav = () => {
+    router.push('/(user)/(de-escalation)/strategiesNav')
+  }
 
 
   return(
     <ScrollView contentContainerStyle={{minHeight: '100%', backgroundColor: 'white'}}>
-        <StrategiesGroupHeader groupIndex={Number(params.index)} image={AgitatedBehavior} variant="back"/>
-        {filteredStrategies.length === 0 ?
+        {!bookmarkFlag ? 
+          <StrategiesGroupHeader groupIndex={catIndex} variant="back"/>
+          :
+          <LinearGradient
+          start={{x: 0, y: 0.0}}
+          end={{x: 1, y: 0.0}}
+          colors={['#F6E9FF', '#FFEAFA']}
+          style={{alignItems: 'center', flexDirection: 'row', paddingHorizontal:16, paddingVertical: 12}}>
+            <Pressable onPress={backToStrategiesNav} style={{paddingHorizontal:16, paddingVertical: 12}}>
+              <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
+            </Pressable>
+            <Text style={{textAlign: 'center', fontSize: 32, flex: 1}}>
+              Saved Strategies
+            </Text>
+          </LinearGradient>
+        }
+        {filteredStrategies.length === 0 && bookmarkFlag ?
           <>
             <Text style={{textAlign: 'center', fontSize: 28, marginVertical: 20, paddingHorizontal: 15}}>
               No Strategies Bookmarked!
@@ -30,14 +53,15 @@ const StrategiesGroup = () => {
           </>
           :
           <>
+
             <StrategiesGroupScroll 
-              groupIndex={Number(params.index)} 
+              groupIndex={catIndex} 
               setSelectedStrategyIndex={setSelectedStrategyIndex}
               />
             <StrategyModal selectedStrategyIndex={selectedStrategyIndex} setSelectedStrategyIndex={setSelectedStrategyIndex} filteredStrategies={filteredStrategies}/>
           </>
         }
-        <StrategiesGroupHeader groupIndex={Number(params.index)} image={AgitatedBehavior} variant="next"/>
+        {!bookmarkFlag && <StrategiesGroupHeader groupIndex={catIndex} variant="next"/>}
     </ScrollView>
   )
 }

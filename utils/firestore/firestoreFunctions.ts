@@ -4,9 +4,9 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
 export const checkAndCreateFirestoreUser = async (user : FirebaseAuthTypes.User ) => {
   try {
-    if (!user.emailVerified) {
-      auth().currentUser?.sendEmailVerification();
-    }
+    // if (!user.emailVerified) {
+    //   auth().currentUser?.sendEmailVerification();
+    // }
     if (!(await checkFirestoreForUser(user))){
       await createNewUserFirestore(user)
     }
