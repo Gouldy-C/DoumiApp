@@ -24,6 +24,14 @@ export interface FirestorePost {
   likedPost: string[];
 }
 
+export interface FirestoreComment {
+  comment: string;
+  uid: string;
+  timestamp: any;
+  post_id: string;
+  displayName: string;
+}
+
 
 export interface Strategy {
   title: string;

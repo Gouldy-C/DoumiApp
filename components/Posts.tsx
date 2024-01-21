@@ -1,4 +1,4 @@
-import { FirestorePost } from '@utils/types/types'
+import { FirestorePost, FirestoreComment } from '@utils/types/types'
 import {Text, 
   View, 
   StyleSheet,
@@ -6,7 +6,8 @@ import {Text,
   Pressable,
   Modal,
   TextInput,
-  ScrollView} from 'react-native';
+  ScrollView,
+  FlatList} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import LikeAPost from '@components/LikeAPost';
@@ -15,15 +16,19 @@ import CommentPost from './CommentPost';
 import { userStore } from '@utils/stores/userStore';
 import EllipsisMenu from './svg-components/ellipsisMenu';
 import { BlurView } from 'expo-blur';
+import { handleComment } from '@utils/posting/functions'
+import NewComment from './NewComment';
 
 
 const Posts = ({postsRef, openDeleteModal}:{
   postsRef : FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>,
   openDeleteModal?: (post: FirestorePost) => void
 }) => {
-    const [ posts, setPosts ]= useState<FirestorePost[] | null>(null)
-    const [ openCommentModal, setOpenCommentModal ] = useState(false)
-    const {user} = userStore((state) => state)
+    const [ posts, setPosts ]= useState<FirestorePost[] | null>(null);
+    const [comments, setComments] = useState<FirestoreComment[] | null>(null);
+    const [ openCommentModal, setOpenCommentModal ] = useState(false);
+    const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+    const {user} = userStore((state) => state);
 
     useEffect(() => {
       const subscriber = postsRef.onSnapshot((querySnapshot) => {
@@ -43,8 +48,38 @@ const Posts = ({postsRef, openDeleteModal}:{
       }
       });
       return subscriber // On unmount end listener
-    }, [])
+    }, []);
 
+    const fetchComments = async (post_id: string) => {
+      const commentsSnapshot = await postsRef
+        .doc(post_id) 
+        .collection('comments')
+        .get();
+
+        const updatedComments: FirestoreComment[]=[];
+        commentsSnapshot.forEach((commentDoc:any)=> {
+          updatedComments.push({
+            comment: commentDoc.get('comment'),
+          } as FirestoreComment);
+        });
+        setComments(updatedComments);
+    };
+
+    const Comments = ({ post_id }: { post_id: string | null }) => {
+      const filteredComments = comments?.filter(comment => comment.post_id === post_id) || [];
+
+      return (
+        <FlatList
+        data={filteredComments}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <View key={index} style={styles.commentContainer}>
+            <Text style={{backgroundColor: 'blue'}}>{item.comment}</Text>
+          </View>
+        )}
+      />
+    );
+  };
   
     // FORM ***************************************************************
     return (
@@ -66,7 +101,15 @@ const Posts = ({postsRef, openDeleteModal}:{
                 <Text style={constStyles.postText}>{post.content}</Text>
                 <View style={styles.labels}>
                     <LikeAPost post={post}/>
-                    <CommentPost onPress={()=>setOpenCommentModal(true)}  />
+                    <CommentPost 
+                      post={post}
+                      comments={comments ?? []}
+                      onPress={(post_id)=>{
+                      setSelectedPostId(post_id);
+                      setOpenCommentModal(true);
+                      fetchComments(post_id);
+                      console.log('Clicked post_id', post_id)
+                      }}/>
                 </View>
               </View>
 
@@ -80,25 +123,27 @@ const Posts = ({postsRef, openDeleteModal}:{
               </View>
               
 
+{/* COMMENTS MODAL START */}
               <Modal
                   animationType='slide'
                   transparent={true}
                   visible={openCommentModal}
               >
-                <BlurView intensity={90} tint="dark" style={{height: '100%', width: '100%'}}>
-                  <View style={{flex:1, backgroundColor:'white'}}>                      
-                    <Text>Comments</Text>
-                    <Pressable onPress={()=>setOpenCommentModal(false)}>                        
+                <BlurView intensity={90} tint="dark" style={{ height: '100%', width: '100%' }}>
+                  <View style={{ flex: 1, backgroundColor: 'white' }}>
+                    <Pressable onPress={() => setOpenCommentModal(false)}>
                       <Text>Close</Text>
                     </Pressable>
-                    <TextInput
-                      placeholder='Write a Comment...'
-                      style={{borderColor: 'black', borderWidth: 1, height: '20%'}}
-                    />
-                    <Pressable onPress={()=> console.log('hi')}><Text>Publish</Text></Pressable>
+                    <View>
+                      <Comments post_id={selectedPostId}/>
+                    </View>
+                    <NewComment post={post}/>
                   </View>
                 </BlurView>
               </Modal>
+{/* COMMENTS MODAL END */}
+
+
             </View>
           ))}
         </ScrollView>
@@ -149,5 +194,10 @@ const styles = StyleSheet.create({
   }, 
   name: {
     fontSize: 19
+  },
+  commentContainer: {
+    width: '50%',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 })

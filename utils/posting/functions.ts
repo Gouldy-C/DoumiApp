@@ -80,6 +80,7 @@ export const handlePost = async (input: string) => {
           post_id: postId,
           likedPost: []
         });
+
         // Clear the input after posting
       } else {
         console.error('User document is undefined in the Users collection');
@@ -94,22 +95,17 @@ export const handlePost = async (input: string) => {
 };
 
 // POST A COMMENT *****************************************************
-export const handleComment = async (input:string, post_id: string) => {
+export const handleComment = async ({post_id, input}:{post_id:string; input:string}) => {
+  const userId= auth().currentUser?.uid;
   const usersRef = firestore().collection('Users')
   const postsRef = firestore().collection('Posts')
 
   try {
+
     if (!auth().currentUser || input.trim() === '') {
       // Don't post empty messages and if the user is not logged in
-      return;
+      return
     }
-    // Get a reference to the document with the specified post_id
-    const postDocRef = postsRef.doc(post_id);
-
-    // Check if the document exists
-    const postDocSnapshot = await postDocRef.get();
-    const data = postDocSnapshot.data();
-
     // Fetch the username based on the current user's UID
     const userSnapshot = await usersRef.doc(auth().currentUser?.uid).get();
 
@@ -118,21 +114,17 @@ export const handleComment = async (input:string, post_id: string) => {
 
       if (userDoc) {
         const displayName = userDoc.displayName;
-        const postId = firestore().collection('Posts').doc()
-        const commentPostRef = firestore().collection('Posts').doc(post_id);
-        const commentsRef = commentPostRef.collection('Comments')
+        const commentId = Crypto.randomUUID()
 
         // Add a new post document
-        await commentsRef.doc()
-        .set({
-          uid: auth().currentUser?.uid,
-          content: input,
-          timestamp: firestore.FieldValue.serverTimestamp(),
+        await postsRef.doc(post_id).collection('comments').doc(commentId).set({
+          comment: input,
           displayName: displayName,
-          post_id: postId,
+          timestamp: firestore.FieldValue.serverTimestamp(),
+          uid: userId,
+          post_id: post_id
         });
         // Clear the input after posting
-        console.log(userDoc)
       } else {
         console.error('User document is undefined in the Users collection');
       }

@@ -1,52 +1,55 @@
 import {Text, View, StyleSheet, Pressable} from 'react-native'
 import React, { useEffect } from 'react'
-import { handlePost } from '@utils/posting/functions';
-import { router } from 'expo-router';
+import { handleComment } from '@utils/posting/functions';
 import { ZodType, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ControlledTextInput from '@components/ControlledTextInput';
 import { LinearGradient } from 'expo-linear-gradient';
 import PublishArrowSvg from '@components/svg-components/publishArrowSvg';
+import { FirestorePost } from '@utils/types/types'
 
 
 type FormData = {
-  post: string;
+  commentInput: string;
 };
 
-const NewPost = () => {
+const NewComment = ({post}: {post: FirestorePost}) => {
   const schema: ZodType<FormData> = z.object({
-    post: z
+    commentInput: z
       .string()
-      .min(2, "Post must be longer then 2 characters")
-      .max(1000,"Post must be less then 1000 characters")
+      .min(2, "Comment must be longer then 2 characters")
+      .max(1000,"Comment must be less then 1000 characters")
   });
 
   const {
     control,
     handleSubmit,
     reset,
-    formState,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
+
   const submitData = async (data: FormData) => {
-    handlePost(data.post)
-    router.push('/(user)/(feed)/userFeed')
-    reset({ post: "" })
+    const submittedPostId = post.post_id
+    console.log('received post_id', submittedPostId); 
+    await handleComment({ post_id: submittedPostId, input: data.commentInput })
+    console.log('posted post_id', submittedPostId)
+    reset({ commentInput: "" })
   };
+
 
   return (
     <View style={styles.container}>
       <ControlledTextInput
         control={control}
-        placeholder={"Your Post"}
-        name={"post"}
-        label={"New Post"}
+        placeholder={"Write a comment"}
+        name={"commentInput"} 
+        label={"New Comment"}
       />
-      <Pressable  onPress={handleSubmit(submitData)}>
+      <Pressable onPress={handleSubmit(submitData)}> 
         <LinearGradient
           start={{x: 0, y: 0.0}}
           end={{x: 1, y: 0.0}}
@@ -59,10 +62,10 @@ const NewPost = () => {
         </LinearGradient>
       </Pressable>
     </View>
-  )
-}
+  );
+};
 
-export default NewPost
+export default NewComment
 
 const styles = StyleSheet.create({
   safeView: {
