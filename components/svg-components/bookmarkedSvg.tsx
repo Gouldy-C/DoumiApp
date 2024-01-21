@@ -7,6 +7,7 @@ const BookmarkedSvg = (props : SvgProps) => (
   width={props.width}
   height={props.height}
   fill="none"
+  scale={props.scale}
   >
     <Path
       scale={props.scale}

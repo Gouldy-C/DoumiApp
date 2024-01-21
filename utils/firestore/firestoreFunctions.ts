@@ -7,7 +7,7 @@ export const checkAndCreateFirestoreUser = async (user : FirebaseAuthTypes.User 
     // if (!user.emailVerified) {
     //   auth().currentUser?.sendEmailVerification();
     // }
-    if (!(await checkFirestoreForUser(user))){
+    if ((await checkForNewUser(user))){
       await createNewUserFirestore(user)
     }
   } catch (error) {
@@ -16,13 +16,13 @@ export const checkAndCreateFirestoreUser = async (user : FirebaseAuthTypes.User 
 }
 
 
-export const checkFirestoreForUser =async (user : FirebaseAuthTypes.User) => {
+export const checkForNewUser =async (user : FirebaseAuthTypes.User) => {
   const document = await firestore()
   .collection('Users')
   .doc(user.uid)
   .get()
 
-  return document.exists
+  return !document.exists
 }
 
 

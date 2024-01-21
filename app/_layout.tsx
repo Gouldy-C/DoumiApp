@@ -9,7 +9,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { checkAndCreateFirestoreUser } from '@utils/firestore/firestoreFunctions';
+import { checkForNewUser } from '@utils/firestore/firestoreFunctions';
 import firestore from '@react-native-firebase/firestore';
 
 
@@ -24,21 +24,23 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const {loading, setLoading} = useLoading((state) => state);
-  const { setUser, setUserDoc} = userStore((state) => state);
+  const { user, setUser, setUserDoc} = userStore((state) => state);
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   })
   const userId = auth().currentUser?.uid;
-
   
   async function userChange(user: FirebaseAuthTypes.User | null) {
-    setUser(user);
+    setLoading(true)
+    setUser(user)
     if (user) {
-      await checkAndCreateFirestoreUser(user)
+      
     }
     if (loading) setLoading(false);
   }
+
+
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(userChange);
@@ -76,6 +78,11 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
+
+
+  useEffect(() => {
+    
+  }, [user]);
 
   useEffect(() => {
     if (loaded && !loading) {

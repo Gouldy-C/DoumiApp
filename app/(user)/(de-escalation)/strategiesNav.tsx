@@ -25,7 +25,10 @@ const DeEscalationPage = () => {
 
 
   return (
-    <View style={styles.safeView}>
+    <View style={{
+        flex: 1,
+        backgroundColor: "white",
+      }}>
       <Text
         style={{
           fontSize: 32,
@@ -87,7 +90,7 @@ const DeEscalationPage = () => {
             flexWrap: "wrap",
             justifyContent: "center",
             gap: 20,
-            marginBottom: 16,
+            marginVertical: 20,
           }}
         >
 

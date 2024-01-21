@@ -36,7 +36,7 @@ export const bookmarkStrategy = async (strategy_id: string) => {
       if (data.bookmarkedStrategies.includes(strategy_id)) {
         await userDocRef.update({
           bookmarkedStrategies: firestore.FieldValue.arrayRemove(strategy_id),
-        });
+        })
       } else {
         await userDocRef.update({
           bookmarkedStrategies: firestore.FieldValue.arrayUnion(strategy_id),

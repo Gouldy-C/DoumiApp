@@ -25,6 +25,8 @@
     "@react-navigation/material-top-tabs": "^6.6.5",
     "@react-navigation/native": "^6.1.9",
     "expo": "~49.0.15",
+    "expo-blur": "~12.4.1",
+    "expo-checkbox": "~2.4.0",
     "expo-crypto": "~12.4.1",
     "expo-dev-client": "~2.4.12",
     "expo-font": "~11.4.0",
@@ -52,8 +54,7 @@
     "react-native-viewpager": "^0.2.13",
     "react-native-web": "~0.19.6",
     "zod": "^3.22.4",
-    "zustand": "^4.4.7",
-    "expo-blur": "~12.4.1"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -50,7 +50,7 @@ export const handleLike = async (post_id: string) => {
 
 
 // POST A POST ******************************************************
-export const handlePost = async (input: string) => {
+export const handlePost = async (input: string, hashTags?: string[]) => {
   const usersRef = firestore().collection('Users')
   const postsRef = firestore().collection('Posts')
 
@@ -78,7 +78,8 @@ export const handlePost = async (input: string) => {
           timestamp: firestore.FieldValue.serverTimestamp(),
           displayName: displayName,
           post_id: postId,
-          likedPost: []
+          likedPost: [],
+          hashTags: hashTags ? hashTags : [],
         });
         // Clear the input after posting
       } else {

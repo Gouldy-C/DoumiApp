@@ -5,20 +5,12 @@ import GoogleButton from "@components/GoogleButton";
 
 const SignIn = () => {
   return (
-    <ScrollView style={styles.safeView}>
+    <ScrollView style={{flex: 1,}}>
       <SignInForm />
 
         <GoogleButton buttonType="in" />
-
-
     </ScrollView>
   );
 };
 
 export default SignIn;
-
-const styles = StyleSheet.create({
-  safeView: {
-    flex: 1,
-  },
-});

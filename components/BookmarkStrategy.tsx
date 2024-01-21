@@ -18,16 +18,20 @@ const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
 
   useEffect(() => {
     setBookmarked(userDoc?.bookmarkedStrategies.includes(strategy_id))
-  }, [strategy_id, userDoc?.bookmarkedStrategies])
+  }, [userDoc?.bookmarkedStrategies])
 
+
+  const flipBookmark = async () => {
+    setBookmarked((prev) => !prev)
+    await bookmarkStrategy(strategy_id)
+  }
 
   useEffect(() => {
     if (modalReturn) {
-      setBookmarked((prev) => !prev)
-      bookmarkStrategy(strategy_id)
+      flipBookmark()
       setModalReturn(false)
     }
-  }, [modalVisible])
+  }, [modalReturn])
 
 
   const onBookmarkClick = () => {
@@ -35,8 +39,7 @@ const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
       setModalVisible(true)
     }
     else {
-      setBookmarked((prev) => !prev)
-      bookmarkStrategy(strategy_id)
+      flipBookmark()
     }
   }
 
@@ -44,12 +47,12 @@ const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
   return (
     <>
       {bookmarked ?
-        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:15, paddingVertical: 10}}>
-          <BookmarkedSvg height={28} width={25} color={'#5049A4'} scale={0.95}/>
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
+          <BookmarkedSvg height={28} width={25} color={'#5049A4'} scale={1}/>
         </Pressable>
           :
-        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:15, paddingVertical: 10}}>
-          <NotBookmarkedSvg height={28} width={25} color={'#424052'} scale={0.95}/>
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
+          <NotBookmarkedSvg height={28} width={25} color={'#424052'} scale={1}/>
         </Pressable>
       }
       <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} setModalReturn={setModalReturn}/>

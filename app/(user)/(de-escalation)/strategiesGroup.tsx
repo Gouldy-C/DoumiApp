@@ -44,16 +44,15 @@ const StrategiesGroup = () => {
         }
         {filteredStrategies.length === 0 && bookmarkFlag ?
           <>
-            <Text style={{textAlign: 'center', fontSize: 28, marginVertical: 20, paddingHorizontal: 15}}>
-              No Strategies Bookmarked!
+            <Text style={{textAlign: 'center', fontSize: 28, marginVertical: 20, paddingHorizontal: 18}}>
+              No Strategies Saved!
             </Text>
-            <Text style={{textAlign: 'center', fontSize: 18, marginVertical: 20, paddingHorizontal: 15}}>
-              Bookmark some strategies and you will be able to see all of those here.
+            <Text style={{textAlign: 'center', fontSize: 18, marginVertical: 20, paddingHorizontal: 18}}>
+              Bookmark some strategies and you will be able to see those here.
             </Text>
           </>
           :
           <>
-
             <StrategiesGroupScroll 
               groupIndex={catIndex} 
               setSelectedStrategyIndex={setSelectedStrategyIndex}
