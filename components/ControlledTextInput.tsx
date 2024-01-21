@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
@@ -41,9 +41,7 @@ export default ControlledTextInput
 const style = StyleSheet.create({
   input: {
     backgroundColor: 'white',
-    borderColor: 'gray',
-    borderWidth: 1,
-    height: 50,
+    height: "75%",
     marginVertical: 10,
     padding: 5,
     borderRadius: 5,
@@ -55,7 +53,6 @@ const style = StyleSheet.create({
     marginBottom: 10,
   },
   inputLabel: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
+    fontSize: 33,
+  }
 })

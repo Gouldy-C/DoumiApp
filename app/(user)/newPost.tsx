@@ -78,13 +78,13 @@ const NewPost = () => {
             control={control}
             placeholder={"Write something..."}
             name={"post"}
-            styles={{textAlignVertical: 'top', flex: 1, borderWidth: 0, elevation:0, minHeight: 150}}
+            styles={{textAlignVertical: 'top', flex: 1,  borderWidth: 0, elevation:0, minHeight: 180}}
             multiline />
 
           <ScrollView style={{maxHeight: 135}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', columnGap: 16}}>
             {selectedTags.length !== 0 &&
               selectedTags.map((tag) => (
-                <Text key={tag} style={{color: '#2B789D', fontWeight: '700', fontSize: 16, paddingVertical: 4}}>{tag}</Text>
+                  <Text key={tag} style={{color: '#2B789D', fontWeight: '700', fontSize: 16, paddingVertical: 4}}>{tag}</Text>
                 ))
             }
           </ScrollView>
@@ -121,8 +121,8 @@ const NewPost = () => {
             marginHorizontal: 20,
           }}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginRight: 15}}>Publish</Text>
               <PublishArrowSvg color='white' height={14} width={16}/>
-              <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 15}}>Publish</Text>
             </View>
         </LinearGradient>
       </Pressable>
