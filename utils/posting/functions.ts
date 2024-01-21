@@ -103,10 +103,9 @@ export const handleComment = async ({post_id, input}:{post_id:string; input:stri
   try {
 
     if (!auth().currentUser || input.trim() === '') {
-      // Don't post empty messages and if the user is not logged in
       return
     }
-    // Fetch the username based on the current user's UID
+
     const userSnapshot = await usersRef.doc(auth().currentUser?.uid).get();
 
     if (userSnapshot.exists) {
@@ -116,7 +115,6 @@ export const handleComment = async ({post_id, input}:{post_id:string; input:stri
         const displayName = userDoc.displayName;
         const commentId = Crypto.randomUUID()
 
-        // Add a new post document
         await postsRef.doc(post_id).collection('comments').doc(commentId).set({
           comment: input,
           displayName: displayName,
@@ -124,7 +122,7 @@ export const handleComment = async ({post_id, input}:{post_id:string; input:stri
           uid: userId,
           post_id: post_id
         });
-        // Clear the input after posting
+
       } else {
         console.error('User document is undefined in the Users collection');
       }

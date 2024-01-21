@@ -26,7 +26,7 @@ const ControlledTextInput = ({ control, placeholder, name, label, secureTextEntr
           <Text style={style.inputLabel}>{label}</Text>
         </View>
           <TextInput
-            style={style.input}
+            style={[style.input]}
             onChangeText={onChange}
             value={value}
             onBlur={onBlur}

@@ -16,7 +16,6 @@ import CommentPost from './CommentPost';
 import { userStore } from '@utils/stores/userStore';
 import EllipsisMenu from './svg-components/ellipsisMenu';
 import { BlurView } from 'expo-blur';
-import { handleComment } from '@utils/posting/functions'
 import NewComment from './NewComment';
 
 
@@ -50,20 +49,28 @@ const Posts = ({postsRef, openDeleteModal}:{
       return subscriber // On unmount end listener
     }, []);
 
-    const fetchComments = async (post_id: string) => {
-      const commentsSnapshot = await postsRef
-        .doc(post_id) 
-        .collection('comments')
-        .get();
 
-        const updatedComments: FirestoreComment[]=[];
-        commentsSnapshot.forEach((commentDoc:any)=> {
+    const fetchComments = async (post_id: string) => {
+      try {
+        const commentsSnapshot = await postsRef
+          .doc(post_id)
+          .collection('comments')
+          .get();
+    
+        const updatedComments: FirestoreComment[] = [];
+        commentsSnapshot.forEach((commentDoc: any) => {
           updatedComments.push({
             comment: commentDoc.get('comment'),
+            post_id: post_id,
           } as FirestoreComment);
         });
         setComments(updatedComments);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
     };
+    
+
 
     const Comments = ({ post_id }: { post_id: string | null }) => {
       const filteredComments = comments?.filter(comment => comment.post_id === post_id) || [];
@@ -74,7 +81,8 @@ const Posts = ({postsRef, openDeleteModal}:{
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <View key={index} style={styles.commentContainer}>
-            <Text style={{backgroundColor: 'blue'}}>{item.comment}</Text>
+            <Text style={{fontSize: 20}}>{item.comment}</Text>
+            <Text style={{fontSize: 20}}>{item.displayName}</Text>
           </View>
         )}
       />
@@ -134,10 +142,12 @@ const Posts = ({postsRef, openDeleteModal}:{
                     <Pressable onPress={() => setOpenCommentModal(false)}>
                       <Text>Close</Text>
                     </Pressable>
-                    <View>
+                    <View style={{flex: 1}}>
                       <Comments post_id={selectedPostId}/>
                     </View>
-                    <NewComment post={post}/>
+                    <View style={{flex:1}}>
+                      <NewComment post_id={selectedPostId}/>
+                    </View>
                   </View>
                 </BlurView>
               </Modal>
@@ -196,8 +206,11 @@ const styles = StyleSheet.create({
     fontSize: 19
   },
   commentContainer: {
-    width: '50%',
+    width: '100%',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 2,
+    marginVertical: 8
   }
 })

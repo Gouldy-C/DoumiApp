@@ -71,15 +71,18 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginVertical: 20,
+    paddingVertical: 30,
     width: "100%",
     alignSelf: "center",
     paddingLeft: 1,
+    backgroundColor: 'white'
   },
   button: {
     marginVertical: 30,
     borderRadius: 60,
     elevation: 8,
     paddingVertical: 10,
-  },
+    width: '90%', 
+    alignSelf: 'center'
+  }
 })

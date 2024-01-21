@@ -4,6 +4,7 @@ import CommentPostSvg from './svg-components/commentPostSvg'
 import { constStyles } from '@constants/Styles'
 import { FirestoreComment, FirestorePost } from '@utils/types/types'
 import { useFocusEffect } from 'expo-router'
+import firestore from '@react-native-firebase/firestore';
 
 
 const CommentPost = ({
@@ -15,17 +16,29 @@ const CommentPost = ({
   comments: FirestoreComment[],
   post: FirestorePost
 }) => {
+  const commentsRef = firestore().collection('Posts').doc(post.post_id).collection('comments')
   const [count, setCount] = useState(0)
 
-  useEffect(()=> {
-    setCount(comments.length)
-  }, [comments, post.post_id]);
+  const fetchCommentsCount = async () => {
+    try {
+      const querySnapshot = await commentsRef.get();
+      const numberOfComments = querySnapshot.size;
+      setCount(numberOfComments);
+    } catch (error) {
+      console.error('Error fetching comment count:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCommentsCount();
+  }, [comments]);
 
   useFocusEffect(
     React.useCallback(() => {
-      setCount(comments.length);
-    }, [comments])
+      fetchCommentsCount();
+    }, [])
   );
+
 
   const handlePress = () => {
     onPress(post.post_id);
