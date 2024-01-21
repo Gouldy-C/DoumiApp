@@ -40,6 +40,11 @@ export default function RootLayout() {
     if (loading) setLoading(false);
   }
 
+  const test = () => {
+    auth().fetchSignInMethodsForEmail('mail4clg@gmail.com')
+    .then((methods) => methods.forEach((method) => console.log(method)))
+    .catch((error) => console.error(error))
+  }
 
 
   useEffect(() => {
@@ -81,7 +86,7 @@ export default function RootLayout() {
 
 
   useEffect(() => {
-    
+    test()
   }, [user]);
 
   useEffect(() => {
