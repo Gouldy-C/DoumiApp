@@ -15,6 +15,7 @@ const AreYouSureModal = ({header, body, state, setModalVisible, setModalReturn}:
   setModalReturn: React.Dispatch<React.SetStateAction<boolean>>,
 }) => {
   const closeModal = () => {
+    setModalReturn(false)
     setModalVisible(false);
   }
 

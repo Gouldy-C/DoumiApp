@@ -20,6 +20,7 @@ const StrategyModal = ({
   const [modalVisible, setModalVisible] = useState(false);
   const strategy = filteredStrategies[selectedStrategyIndex ? selectedStrategyIndex : 0];
   
+
   const closeModal = () => {
     setModalVisible(false);
     setSelectedStrategyIndex(null);
@@ -50,11 +51,11 @@ const StrategyModal = ({
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <View style={{flexDirection:'row', justifyContent: 'space-between', marginBottom: 20}}>
-              <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 10}}>
+              <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 15}}>
                   <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
               </Pressable>
-              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, flex: 1, textAlignVertical: 'center'}}>{strategy.title}</Text>
-              <BookmarkStrategy strategy_id={strategy.strategyId}/>
+              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center'}}>{strategy.title}</Text>
+              <BookmarkStrategy strategy_id={strategy.strategyId} />
             </View>
             <View style={{alignSelf: 'center'}}>
               <Image

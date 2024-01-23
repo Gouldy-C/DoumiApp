@@ -1,4 +1,4 @@
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { router } from 'expo-router';
 
 export const signUpEmailPassword = async (email : string, password : string) => { 
@@ -21,24 +21,20 @@ export const signUpEmailPassword = async (email : string, password : string) => 
     })
   }
 
-export const signInEmailPassword = async (email : string, password : string) => { 
+export const signInEmailPassword = async (email : string, password : string): Promise<string|FirebaseAuthTypes.UserCredential> => { 
   await auth()
     .signInWithEmailAndPassword(email, password)
     .then((result) => {
       console.log(result);
-      console.log('User account created & signed in!');
+      return result
     })
     .catch(error => {
-      if (error.code === 'auth/email-already-in-use') {
-        console.log('That email address is already in use!');
+      if (error.code === 'auth/email-already-in-use' || error.code === 'auth/invalid-email' || error.code === 'auth/invalid-password') {
+        return('That invalid Email or Password!');
       }
-
-      if (error.code === 'auth/invalid-email') {
-        console.log('That email address is invalid!');
-      }
-
       console.error(error);
     })
+    return 'Login Error'
   }
 
   export const signOutUser = () => { 

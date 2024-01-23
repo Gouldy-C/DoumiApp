@@ -8,7 +8,7 @@ const SignUp = () => {
     <ScrollView style={{flex: 1,}}>
       <SignUpForm />
 
-      <GoogleButton buttonType="up" />
+      <GoogleButton />
     </ScrollView>
   );
 };

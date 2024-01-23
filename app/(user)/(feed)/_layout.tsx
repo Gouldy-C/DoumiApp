@@ -11,9 +11,9 @@ import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
 
 
 const FeedLayout = () => {
-  const { user } = userStore((state) => state);
+  const { authUser } = userStore((state) => state);
 
-  if (!user) {
+  if (!authUser) {
     return <Redirect href={"/(auth)/sign-in"} />;
   }
 

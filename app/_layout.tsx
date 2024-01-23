@@ -24,34 +24,26 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const {loading, setLoading} = useLoading((state) => state);
-  const { user, setUser, setUserDoc} = userStore((state) => state);
+  const { authUser, setAuthUser, setUserDoc} = userStore((state) => state);
+  const colorScheme = useColorScheme()
+  const userId = auth().currentUser?.uid;
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   })
-  const userId = auth().currentUser?.uid;
   
   async function userChange(user: FirebaseAuthTypes.User | null) {
-    setLoading(true)
-    setUser(user)
+    setAuthUser(user)
     if (user) {
       
     }
     if (loading) setLoading(false);
   }
 
-  const test = () => {
-    auth().fetchSignInMethodsForEmail('mail4clg@gmail.com')
-    .then((methods) => methods.forEach((method) => console.log(method)))
-    .catch((error) => console.error(error))
-  }
-
-
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(userChange);
     return subscriber; // unsubscribe on unmount
   }, []);
-
 
   useEffect(() => {
     const subscriber = firestore()
@@ -78,16 +70,10 @@ export default function RootLayout() {
     return subscriber;
   }, [userId]);
 
-
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-
-
-  useEffect(() => {
-    test()
-  }, [user]);
 
   useEffect(() => {
     if (loaded && !loading) {
@@ -95,17 +81,9 @@ export default function RootLayout() {
     }
   }, [loaded, loading]);
 
-
   if (!loaded || loading) {
     return null;
   }
-
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-  const colorScheme = useColorScheme()
-
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DefaultTheme : DefaultTheme}>

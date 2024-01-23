@@ -20,7 +20,7 @@ import NewComment from './NewComment';
 
 
 const Posts = ({postsRef, openDeleteModal}:{
-  postsRef : FirebaseFirestoreTypes.CollectionReference<FirebaseFirestoreTypes.DocumentData>,
+  postsRef : FirebaseFirestoreTypes.CollectionReference<FirebaseFirestoreTypes.DocumentData> | FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>,
   openDeleteModal?: (post: FirestorePost) => void
 }) => {
     const [ posts, setPosts ]= useState<FirestorePost[] | null>(null);

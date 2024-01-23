@@ -17,8 +17,7 @@ const StrategiesGroup = () => {
   const {userDoc} = userStore((state) => state)
   const [selectedStrategyIndex, setSelectedStrategyIndex] = useState<number | null>(null);
   const filteredStrategies = filterStrategies(catIndex, userDoc?.bookmarkedStrategies!)
-
-
+  
   const backToStrategiesNav = () => {
     router.push('/(user)/(de-escalation)/strategiesNav')
   }
@@ -53,9 +52,9 @@ const StrategiesGroup = () => {
           </>
           :
           <>
-            <StrategiesGroupScroll 
-              groupIndex={catIndex} 
+            <StrategiesGroupScroll
               setSelectedStrategyIndex={setSelectedStrategyIndex}
+              filteredStrategies={filteredStrategies}
               />
             <StrategyModal selectedStrategyIndex={selectedStrategyIndex} setSelectedStrategyIndex={setSelectedStrategyIndex} filteredStrategies={filteredStrategies}/>
           </>

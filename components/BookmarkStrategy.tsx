@@ -1,5 +1,5 @@
-import { Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { Pressable, View } from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import NotBookmarkedSvg from './svg-components/notBookmarkedSvg'
 import { bookmarkStrategy } from '@utils/strategiesFunctions'
 import { userStore } from '@utils/stores/userStore'
@@ -8,30 +8,29 @@ import AreYouSureModal from './AreYouSureModal'
 
 
 
-const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
+const BookmarkStrategy = ({ strategy_id }: { strategy_id: string }) => {
   const {userDoc} = userStore((state) => state)
-  const [bookmarked, setBookmarked] = useState(userDoc?.bookmarkedStrategies.includes(strategy_id))
+  const [bookmarked, setBookmarked] = useState(false)
   const [modalReturn, setModalReturn] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
   const question = "Are you sure you want to remove this strategy from your saved list?"
-  
-
-  useEffect(() => {
-    setBookmarked(userDoc?.bookmarkedStrategies.includes(strategy_id))
-  }, [userDoc?.bookmarkedStrategies])
+  const equals = userDoc?.bookmarkedStrategies.includes(strategy_id)
 
 
-  const flipBookmark = async () => {
-    setBookmarked((prev) => !prev)
-    await bookmarkStrategy(strategy_id)
-  }
+  useLayoutEffect(() => {
+    if (bookmarked !== equals){
+      setBookmarked(equals!)
+    }
+  }, [equals])
 
-  useEffect(() => {
+
+  useLayoutEffect(() => {
     if (modalReturn) {
-      flipBookmark()
+      setBookmarked((prev) => !prev)
+      bookmarkStrategy(strategy_id)
       setModalReturn(false)
     }
-  }, [modalReturn])
+  }, [modalVisible])
 
 
   const onBookmarkClick = () => {
@@ -39,24 +38,25 @@ const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
       setModalVisible(true)
     }
     else {
-      flipBookmark()
+      setBookmarked((prev) => !prev)
+      bookmarkStrategy(strategy_id)
     }
   }
 
 
   return (
-    <>
+    <View key={strategy_id}>
       {bookmarked ?
-        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 15}}>
           <BookmarkedSvg height={28} width={25} color={'#5049A4'} scale={1}/>
         </Pressable>
           :
-        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 15}}>
           <NotBookmarkedSvg height={28} width={25} color={'#424052'} scale={1}/>
         </Pressable>
       }
       <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} setModalReturn={setModalReturn}/>
-    </>
+    </View>
   )
 }
 

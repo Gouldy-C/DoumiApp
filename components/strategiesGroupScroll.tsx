@@ -1,21 +1,18 @@
 import { Pressable } from 'react-native'
 import React from 'react'
 import StrategyCard from './StrategyCard';
-import { filterStrategies } from '@utils/strategiesFunctions';
-import { userStore } from '@utils/stores/userStore';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Strategy } from '@utils/types/types';
 
 
 
 const StrategiesGroupScroll = ({
-  groupIndex,
-  setSelectedStrategyIndex
+  setSelectedStrategyIndex,
+  filteredStrategies,
 }:{
-  groupIndex: number | "Bookmarked",
   setSelectedStrategyIndex: React.Dispatch<React.SetStateAction<number | null>>,
+  filteredStrategies : Strategy[],
 }) => {
-  const {userDoc} = userStore((state) => state)
-  const filteredStrategies = filterStrategies(groupIndex, userDoc?.bookmarkedStrategies!)
   
   return(
     <LinearGradient
@@ -28,7 +25,7 @@ const StrategiesGroupScroll = ({
       .map((strategy, index) => (
         <Pressable
           style={{marginBottom: 1}}
-          key={index}
+          key={strategy.strategyId}
           onPress={() => setSelectedStrategyIndex(index)}
           >
           <StrategyCard strategy={strategy}/>

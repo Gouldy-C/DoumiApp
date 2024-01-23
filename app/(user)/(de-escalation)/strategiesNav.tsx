@@ -22,8 +22,6 @@ const DeEscalationPage = () => {
   }
 
 
-
-
   return (
     <View style={{
         flex: 1,

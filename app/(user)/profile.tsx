@@ -6,20 +6,20 @@ import UserPosts from '@components/UserPosts'
 
 const UserProfile = () => {
 
-  const {user} = userStore((state) => state)
+  const {authUser} = userStore((state) => state)
 
   return (
     <View style={{flex: 1}}>
       <View style={{ flexDirection: 'row', alignItems:'center', backgroundColor: 'white'}}>
-        {user?.photoURL && 
+        {authUser?.photoURL && 
           <Image 
-            source={{uri: user.photoURL}}
+            source={{uri: authUser.photoURL}}
             style={{height: 90, aspectRatio: 1, borderRadius: 50, margin: 10,}}
           />
         }
         <View style={{marginHorizontal: 10}}>
-          <Text>{user?.displayName}</Text>
-          <Text>{user?.email}</Text>
+          <Text>{authUser?.displayName}</Text>
+          <Text>{authUser?.email}</Text>
           <View style={{marginVertical: 10}}>
             <Button
               onPress={logout}

@@ -12,10 +12,10 @@ import ForumFilledSvg from "@components/svg-components/forumFilledSvg";
 import ProfileFilledSvg from "@components/svg-components/profileFilledSvg";
 
 const UserLayout = () => {
-  const { user } = userStore((state) => state);
+  const { authUser } = userStore((state) => state);
 
-  if (!user) {
-    return <Redirect href={"/(auth)/sign-in"} />;
+  if (!authUser) {
+    return <Redirect href={"/(auth)/mainLogin"} />;
   }
 
   return (

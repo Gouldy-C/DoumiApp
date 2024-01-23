@@ -7,14 +7,14 @@ import { useLoading } from '../utils/stores/loadingStore'
 
 const AppEntry = () => {
   const {loading} = useLoading((state) => state);
-  const {user} = userStore((state) => state);
+  const {authUser} = userStore((state) => state);
 
   
   if (loading) return null;
 
-  if (!user) {
+  if (!authUser) {
     return (
-      <Redirect  href={'/(auth)/sign-in'}/>
+      <Redirect  href={'/(auth)/mainLogin'} />
     );
   }
 

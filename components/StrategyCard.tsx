@@ -6,8 +6,11 @@ import BookmarkStrategy from './BookmarkStrategy'
 
 
 const StrategyCard = ({strategy} : {strategy : Strategy}) => {
+
+
   return (
     <View
+      key={strategy.strategyId}
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -29,7 +32,7 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
         {strategy.title}
       </Text>
       
-      <BookmarkStrategy strategy_id={strategy.strategyId}/>
+      <BookmarkStrategy key={strategy.strategyId} strategy_id={strategy.strategyId}/>
     </View>
   )
 }

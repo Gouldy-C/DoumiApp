@@ -8,7 +8,7 @@ const SignIn = () => {
     <ScrollView style={{flex: 1,}}>
       <SignInForm />
 
-        <GoogleButton buttonType="in" />
+        <GoogleButton/>
     </ScrollView>
   );
 };
