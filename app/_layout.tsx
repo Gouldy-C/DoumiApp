@@ -43,6 +43,7 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
+    setUserDoc(null)
     const subscriber = firestore()
       .collection('Users')
       .doc(auth().currentUser?.uid)
@@ -65,7 +66,7 @@ export default function RootLayout() {
         }
       }, err => {console.log(err)});
     return subscriber;
-  }, [auth().currentUser?.uid]);
+  }, [auth().currentUser])
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {

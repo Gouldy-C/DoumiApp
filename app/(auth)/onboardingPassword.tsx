@@ -48,7 +48,7 @@ const OnboardingPassword = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
@@ -70,7 +70,7 @@ const OnboardingPassword = () => {
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={{flex: 1, paddingVertical: 76, width: '100%', alignItems: 'center'}}>
+          <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
             <DoumiOnboardingHeader textValue="Select Account Password" textSize='large' />
             <Text style={{color: '#424052', fontSize:20, textAlign: 'center', paddingVertical: 20, paddingHorizontal: 20}}>{email}</Text>
               <View style={{alignItems: 'center', width: '100%'}}>

@@ -56,7 +56,7 @@ const NewPost = () => {
   return (
     <View style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
       <View style={{flexDirection: 'row', marginVertical: 5, alignItems: 'center'}}>
-        <Pressable onPress={() => {router.back()}} style={{paddingRight: 20, paddingLeft: 15}}>
+        <Pressable onPress={() => {router.back()}} style={{paddingRight: 25,}}>
           <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2}/>
         </Pressable>
         <Text style={{fontSize: 32, fontWeight: '500'}}>New Post</Text>
@@ -71,7 +71,7 @@ const NewPost = () => {
             paddingVertical: 8,
             paddingHorizontal: 20,
             }}>
-              <Text style={{fontSize: 18}}>Clear Post</Text>
+              <Text style={{fontSize: 18}}>Clear</Text>
           </LinearGradient>
         </Pressable>
       </View>
@@ -85,7 +85,7 @@ const NewPost = () => {
             styles={{elevation: 0, borderWidth: 0, textAlignVertical: 'top', paddingVertical: 0, paddingHorizontal: 0, marginVertical: 0}}
             multiline />
         </View>
-        <ScrollView style={{maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 10}}>
+        <ScrollView style={{flexGrow: 0, maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
           {selectedTags.length !== 0 &&
             selectedTags.map((tag) => (
                 <Text key={tag} style={{color: '#2B789D', fontWeight: '700', fontSize: 16}}>{tag}</Text>

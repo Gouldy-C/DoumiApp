@@ -1,15 +1,12 @@
-import { Keyboard, KeyboardAvoidingView, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import GoogleButton from '@components/GoogleButton'
 import DoumiOnboardingHeader from '@components/DoumiOnboardingHeader'
 import ControlledTextInput from '@components/ControlledTextInput'
 import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DefaultPurpleButton from '@components/DefaultPurpleButton'
-import { LinearGradient } from 'expo-linear-gradient'
 import { userStore } from '@utils/stores/userStore'
-import auth from '@react-native-firebase/auth'
 import { router } from 'expo-router'
 
 
