@@ -23,7 +23,7 @@ const GoogleButton = () => {
         borderRadius: 500,
         shadowColor: '#424052',
         elevation: 4,
-        marginVertical: 10,
+        marginVertical: 20,
         borderColor: '#42405220',
         borderWidth: 1,
         gap: 16

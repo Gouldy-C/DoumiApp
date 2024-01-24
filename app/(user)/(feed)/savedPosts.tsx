@@ -6,10 +6,8 @@ import Posts from '@components/Posts';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const SavedPosts = () => {
-  // Use custom stores to retrieve user information and user feed state
   const userId = auth().currentUser?.uid
   const favPostsRef = firestore().collection('Posts').where("likedPost", "array-contains", userId)
-
   
   return (
     <LinearGradient

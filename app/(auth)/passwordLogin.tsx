@@ -1,4 +1,4 @@
-import { View, Text, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native'
+import { View, Text, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { ZodType, z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -32,45 +32,40 @@ const schema: ZodType<FormData> = z.object({
       .regex(specialRe, "Must contain a special character."),
 })
 
-const passwordLogin = () => {
-  const {loginInfo, setAuthUser} = userStore((state) => state)
+const PasswordLogin = () => {
+  const email = userStore((state) => state.loginInfo.email)
   const [secureText, setSecureText] = useState(true)
   const [submitError, setSubmitError] = useState('')
 
   
   const {
     control,
+    formState: { isValid },
     handleSubmit,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
   
   const submitData = async (data: FormData ) => {
-    console.log(loginInfo.email)
     Keyboard.dismiss()
-    if(data.password && loginInfo.email){
-      console.log('first')
-      const res = await signInEmailPassword(loginInfo.email, data.password)
+    if(data.password && email){
+      const res = await signInEmailPassword(email, data.password)
       if (typeof(res) === "string"){
-        console.log('second')
         setSubmitError(res)
-        return
       }
-      console.log('third')
-      setAuthUser(res.user)
-      router.replace('/(user)/(feed)/userFeed')
     }
   }
   
-  if(loginInfo.email === null) {
+  if(email === null) {
     router.replace('/(auth)/mainLogin')
   }
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{paddingVertical: 76, flex: 1, width: '100%', alignItems: 'center'}}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
             <DoumiOnboardingHeader textValue="You're not alone in your dementia care journey." textSize='small' />
+            <Text style={{color: '#424052', fontSize:20, textAlign: 'center', paddingVertical: 20, paddingHorizontal: 20}}>{email}</Text>
               <View style={{alignItems: 'center', width: '100%'}}>
                 <ControlledTextInput
                   keyboardType={'default'}
@@ -81,15 +76,15 @@ const passwordLogin = () => {
                   styles={{width: '100%'}}
                   secureTextEntry={secureText}
                 />
-                <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)}>
+                <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)} disabled={!isValid}>
                   <Text style={{color: '#ffffff', fontSize: 18, fontWeight: '700'}}>Log in</Text>
                 </DefaultPurpleButton>
                 <Text style={{color: 'red', fontSize:18, textAlign: 'center', paddingVertical: 10, paddingHorizontal: 20}}>{submitError}</Text>
               </View>
-          </View>
+          </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
   )
 }
 
-export default passwordLogin
+export default PasswordLogin

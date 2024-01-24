@@ -14,9 +14,9 @@ const StrategiesGroup = () => {
   const params = useLocalSearchParams()
   const catIndex = params.catIndex === "Bookmarked" ? params.catIndex as "Bookmarked" : Number(params.catIndex)
   const bookmarkFlag = catIndex === "Bookmarked"
-  const {userDoc} = userStore((state) => state)
+  const bookmarkedStrategies = userStore((state) => state.userDoc?.bookmarkedStrategies)
   const [selectedStrategyIndex, setSelectedStrategyIndex] = useState<number | null>(null);
-  const filteredStrategies = filterStrategies(catIndex, userDoc?.bookmarkedStrategies!)
+  const filteredStrategies = filterStrategies(catIndex, bookmarkedStrategies!)
   
   const backToStrategiesNav = () => {
     router.push('/(user)/(de-escalation)/strategiesNav')

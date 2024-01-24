@@ -4,13 +4,12 @@ import { useLoading } from '@utils/stores/loadingStore';
 import { userStore } from '@utils/stores/userStore';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { useFonts } from 'expo-font';
-import { Slot, SplashScreen} from 'expo-router';
+import { Slot, SplashScreen, router} from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { checkForNewUser } from '@utils/firestore/firestoreFunctions';
-import firestore from '@react-native-firebase/firestore';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import firestore from '@react-native-firebase/firestore'
 
 
 export {
@@ -23,32 +22,30 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const {loading, setLoading} = useLoading((state) => state);
-  const { authUser, setAuthUser, setUserDoc} = userStore((state) => state);
+  const loading = useLoading((state) => state.loading);
+  const setLoading = useLoading((state) => state.setLoading);
+  const setAuthUser = userStore((state) => state.setAuthUser);
+  const setUserDoc = userStore((state) => state.setUserDoc);
   const colorScheme = useColorScheme()
-  const userId = auth().currentUser?.uid;
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   })
-  
+
   async function userChange(user: FirebaseAuthTypes.User | null) {
     setAuthUser(user)
-    if (user) {
-      
-    }
-    if (loading) setLoading(false);
+    setLoading(false)
   }
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(userChange);
-    return subscriber; // unsubscribe on unmount
+    return subscriber
   }, []);
 
   useEffect(() => {
     const subscriber = firestore()
       .collection('Users')
-      .doc(userId)
+      .doc(auth().currentUser?.uid)
       .onSnapshot(documentSnapshot => {
         if (documentSnapshot.exists) {
           setUserDoc({
@@ -68,7 +65,7 @@ export default function RootLayout() {
         }
       }, err => {console.log(err)});
     return subscriber;
-  }, [userId]);
+  }, [auth().currentUser?.uid]);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -78,6 +75,9 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded && !loading) {
       SplashScreen.hideAsync();
+    }
+    else {
+      SplashScreen.preventAutoHideAsync();
     }
   }, [loaded, loading]);
 

@@ -54,7 +54,7 @@ const StrategyModal = ({
               <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 15}}>
                   <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
               </Pressable>
-              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center'}}>{strategy.title}</Text>
+              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center', maxWidth: '60%'}}>{strategy.title}</Text>
               <BookmarkStrategy strategy_id={strategy.strategyId} />
             </View>
             <View style={{alignSelf: 'center'}}>

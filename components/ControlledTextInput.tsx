@@ -1,4 +1,4 @@
-import { KeyboardType, KeyboardTypeIOS, StyleSheet, Text, TextInput} from 'react-native'
+import { KeyboardType, KeyboardTypeIOS, StyleSheet, Text, TextInput, View} from 'react-native'
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
@@ -16,25 +16,27 @@ interface Props {
 
 const ControlledTextInput = ({multiline = false, styles, control, placeholder, name, label, secureTextEntry = false, keyboardType}: Props ) => {
   return (
-    <Controller
-      name={name}        
-      control={control}        
-      render={({field: {value, onChange,  onBlur}, fieldState: {error}}) => (
-          <>
-            <TextInput
-              keyboardType={keyboardType}
-              multiline={multiline}
-              style={[style.input, styles, error?.message ? {borderColor: '#ff0000', backgroundColor: '#ff00000D'} : {}]}
-              onChangeText={onChange}
-              value={value}
-              onBlur={onBlur}
-              placeholder={placeholder}
-              secureTextEntry={secureTextEntry}/>
-            {label && <Text style={style.inputLabel}>{label}</Text>}
-            <Text style={[style.inputError]}>{error?.message}</Text>
-          </>
-        )}
-      />
+    <View style={{width: '100%'}}>
+      <Controller
+        name={name}        
+        control={control}        
+        render={({field: {value, onChange,  onBlur}, fieldState: {error}}) => (
+            <>
+              <TextInput
+                keyboardType={keyboardType}
+                multiline={multiline}
+                style={[style.input, styles, error?.message ? {borderColor: '#ff0000', backgroundColor: '#ff00000D'} : {}]}
+                onChangeText={onChange}
+                value={value}
+                onBlur={onBlur}
+                placeholder={placeholder}
+                secureTextEntry={secureTextEntry}/>
+              {label && <Text style={style.inputLabel}>{label}</Text>}
+              <Text style={[style.inputError]}>{error?.message}</Text>
+            </>
+          )}
+        />
+    </View>
   )
 }
 
@@ -55,7 +57,7 @@ const style = StyleSheet.create({
   },
   inputError: {
     color: 'red',
-    marginBottom: 10,
+    marginBottom: 5,
     paddingHorizontal: 5,
     fontSize: 16,
     fontWeight: '400'

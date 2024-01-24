@@ -1,10 +1,25 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Keyboard } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { LinearGradient } from 'expo-linear-gradient';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
 export function CustomTabs({ state, descriptors, navigation }: BottomTabBarProps) {
+  const [keyboardStatus, setKeyboardStatus] = useState<boolean>()
+  
+  useLayoutEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardStatus(true);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardStatus(false);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
   return (
-    <View style={{ flexDirection: 'row', paddingBottom: 1, paddingTop: 2, backgroundColor: 'white', elevation: 25, borderTopColor: '#9F9CC070', borderTopWidth: 1}}>
+    <View style={{ flexDirection: 'row', paddingBottom: 1, paddingTop: 2, backgroundColor: 'white', elevation: 25, borderTopColor: '#9F9CC070', borderTopWidth: 1, display: keyboardStatus ? 'none' : 'flex'}}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =

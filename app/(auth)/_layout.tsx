@@ -4,9 +4,10 @@ import { Redirect, Stack } from "expo-router";
 import { View } from "react-native";
 
 const AuthLayout = () => {
-  const { authUser } = userStore((state) => state);
+  const authUser = userStore((state) => state.authUser);
+  const userDoc = userStore((state) => state.userDoc);
 
-  if (authUser) {
+  if (authUser && userDoc) {
     return <Redirect href={"/(user)/(feed)/userFeed"} />;
   }
 

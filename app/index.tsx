@@ -2,19 +2,21 @@
 import { Redirect } from 'expo-router'
 import React from 'react'
 import { userStore } from '../utils/stores/userStore'
-import { useLoading } from '../utils/stores/loadingStore'
 
 
 const AppEntry = () => {
-  const {loading} = useLoading((state) => state);
-  const {authUser} = userStore((state) => state);
-
-  
-  if (loading) return null;
+  const authUser = userStore((state) => state.authUser);
+  const userDoc = userStore((state) => state.userDoc);
 
   if (!authUser) {
     return (
       <Redirect  href={'/(auth)/mainLogin'} />
+    );
+  }
+
+  if (!userDoc) {
+    return (
+      <Redirect  href={'/(auth)/onboardingUsername'} />
     );
   }
 

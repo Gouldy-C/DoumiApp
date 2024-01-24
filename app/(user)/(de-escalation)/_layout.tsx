@@ -7,7 +7,7 @@ import { View } from "react-native";
 
 
 const StrategiesNav = () => {
-  const { authUser } = userStore((state) => state);
+  const authUser = userStore((state) => state.authUser);
 
 
   if (!authUser) {

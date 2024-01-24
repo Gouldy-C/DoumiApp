@@ -27,7 +27,7 @@ const Posts = ({postsRef, openDeleteModal}:{
     const [comments, setComments] = useState<FirestoreComment[] | null>(null);
     const [ openCommentModal, setOpenCommentModal ] = useState(false);
     const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
-    const {user} = userStore((state) => state);
+    const authUser = userStore((state) => state.authUser);
 
     useEffect(() => {
       const subscriber = postsRef.onSnapshot((querySnapshot) => {
@@ -97,9 +97,9 @@ const Posts = ({postsRef, openDeleteModal}:{
             <View key={post.post_id} style={{flexDirection: 'row', justifyContent:'space-around', position: 'relative'}}>
               <View key={post.post_id} style={styles.postsContainer}>
                 <View style={styles.labels}>
-                {user?.photoURL && post.uid === user.uid && (
+                {authUser?.photoURL && post.uid === authUser.uid && (
                   <Image
-                    source={{ uri: user.photoURL }}
+                    source={{ uri: authUser.photoURL }}
                     style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
                       />
                     )}
@@ -165,7 +165,7 @@ const Posts = ({postsRef, openDeleteModal}:{
 const styles = StyleSheet.create({
   safeView: {
     flex: 1,
-    alignposts: "center",
+    alignContent: "center",
   },
   container: {
     width: "100%",
@@ -194,12 +194,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     width: "40%",
-    alignposts: 'center',
+    alignContent: 'center',
   },
   labels: {
     flexDirection:'row', 
     gap: 15,
-    alignposts: 'center'
+    alignContent: 'center'
   }, 
   name: {
     fontSize: 19

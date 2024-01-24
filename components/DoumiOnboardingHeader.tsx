@@ -4,9 +4,9 @@ import DoumiTextLogo from './svg-components/doumiTextLogo'
 
 const DoumiOnboardingHeader = ({textValue, textSize}: {textValue: string, textSize: 'small' | 'large'}) => {
   return (
-    <View style={{justifyContent: 'center', alignItems: 'center', gap: 16, marginBottom: 30}}>
+    <View style={{justifyContent: 'center', alignItems: 'center', gap: 16, marginBottom: 15}}>
       <DoumiTextLogo scale={2} height={49} width={150}/>
-      <Text style={{fontSize: textSize === 'small' ? 20 : 28, textAlign: 'center', textAlignVertical: 'center', color: '#5049A4', lineHeight: 24.2, paddingHorizontal:textSize === 'small' ? 35 : 10}}>{textValue}</Text>
+      <Text style={{fontSize: textSize === 'small' ? 20 : 32, textAlign: 'center', textAlignVertical: 'center', color: '#5049A4', paddingHorizontal:textSize === 'small' ? 35 : 10, fontWeight: textSize === 'small' ? '400' : '600' }}>{textValue}</Text>
     </View>
   )
 }

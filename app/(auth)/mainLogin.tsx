@@ -1,4 +1,4 @@
-import { Keyboard, KeyboardAvoidingView, Pressable, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, Pressable, ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import GoogleButton from '@components/GoogleButton'
 import DoumiOnboardingHeader from '@components/DoumiOnboardingHeader'
@@ -24,10 +24,15 @@ const schema: ZodType<FormData> = z.object({
 const mainLogin = () => {
   const [emailLogin, setEmailLogin] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const {setLoginEmail, resetLoginInfo} = userStore((state) => state)
+  const resetLoginInfo = userStore((state) => state.resetLoginInfo)
+  const setLoginEmail = userStore((state) => state.setLoginEmail)
+
+
   
+
   const {
     control,
+    formState: { isValid },
     handleSubmit,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -40,7 +45,6 @@ const mainLogin = () => {
   const submitData = async (data: FormData ) => {
     Keyboard.dismiss()
     setSubmitError('')
-    resetLoginInfo()
 
     if (data.email){
       await auth().fetchSignInMethodsForEmail(data.email)
@@ -62,13 +66,13 @@ const mainLogin = () => {
   };
 
   return (
-    <>
-      <KeyboardAvoidingView behavior="padding" style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16, paddingVertical: 16}}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{paddingVertical: 60, flex: 1, width: '100%', alignItems: 'center'}}>
-            <DoumiOnboardingHeader textValue="You're not alone in your dementia care journey." textSize='small' />
-            <GoogleButton/>
-            <View style={{backgroundColor: '#CFCFD3', width: '100%', height: 2, marginVertical: 25 }}/>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
+          <DoumiOnboardingHeader textValue="You're not alone in your dementia care journey." textSize='small' />
+          <GoogleButton/>
+          <View style={{backgroundColor: '#CFCFD3', width: '100%', height: 2, marginVertical: 25 }}/>
+          <View style={{alignItems: 'center', width: '100%'}}>
             {!emailLogin ?
               <Pressable 
                 style={{
@@ -84,7 +88,7 @@ const mainLogin = () => {
                 <Text style={{fontSize: 19, fontWeight: '600', color: '#5049A4', marginVertical: 30}}>Continue with email</Text>
               </Pressable>
               :
-              <View style={{alignItems: 'center', width: '100%'}}>
+              <>
                 <ControlledTextInput
                   keyboardType={'email-address'}
                   control={control}
@@ -93,25 +97,18 @@ const mainLogin = () => {
                   label={"Email Address"}
                   styles={{width: '100%'}}
                 />
-                <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)}>
+                <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)} disabled={!isValid}>
                   <Text style={{color: '#ffffff', fontSize: 18, fontWeight: '700'}}>Continue</Text>
                 </DefaultPurpleButton>
-                <Text style={{color: 'red', fontSize:18, textAlign: 'center', paddingVertical: 10, paddingHorizontal: 20}}>{submitError}</Text>
-              </View>
-            }
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-      {!emailLogin &&
-        <LinearGradient
-        start={{x: 0, y: 0.0}}
-        end={{x: 1, y: 0.0}}
-        colors={['#514AA4', '#744696']}
-        style={{
-          height: '25%',
-          width: '100%',
-        }}/>}
-    </>
+                <Text style={{color: 'red', fontSize:18, textAlign: 'center', paddingTop: 10, paddingHorizontal: 20}}>
+                  {submitError}
+                </Text>
+              </>
+              }
+            </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 

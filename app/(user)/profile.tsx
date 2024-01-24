@@ -6,7 +6,7 @@ import UserPosts from '@components/UserPosts'
 
 const UserProfile = () => {
 
-  const {authUser} = userStore((state) => state)
+  const authUser = userStore((state) => state.authUser)
 
   return (
     <View style={{flex: 1}}>

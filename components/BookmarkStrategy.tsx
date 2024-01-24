@@ -9,12 +9,12 @@ import AreYouSureModal from './AreYouSureModal'
 
 
 const BookmarkStrategy = ({ strategy_id }: { strategy_id: string }) => {
-  const {userDoc} = userStore((state) => state)
+  const bookmarkedStrategies = userStore((state) => state.userDoc?.bookmarkedStrategies)
   const [bookmarked, setBookmarked] = useState(false)
   const [modalReturn, setModalReturn] = useState(false)
   const [modalVisible, setModalVisible] = useState(false);
   const question = "Are you sure you want to remove this strategy from your saved list?"
-  const equals = userDoc?.bookmarkedStrategies.includes(strategy_id)
+  const equals = bookmarkedStrategies!.includes(strategy_id)
 
 
   useLayoutEffect(() => {
