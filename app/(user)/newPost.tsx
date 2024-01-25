@@ -73,7 +73,7 @@ const NewPost = () => {
       </View>
       <View style={{flex: 1, backgroundColor: 'white',
           alignSelf: "center",width: '100%'}}>
-        <View style={{elevation: 5, backgroundColor: 'white', borderRadius: 8, justifyContent: 'space-between', alignSelf: "center", width: '90%', paddingVertical: 5, paddingHorizontal: 16, marginVertical: 5, flex: 1, overflow: 'hidden'}}>
+        <View style={{backgroundColor: 'white', borderRadius: 8, justifyContent: 'space-between', alignSelf: "center", width: '90%', paddingVertical: 5, paddingHorizontal: 16, marginVertical: 5, flex: 1, overflow: 'hidden'}}>
           <ControlledTextInput
             control={control}
             placeholder={"Write something..."}

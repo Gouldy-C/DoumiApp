@@ -30,8 +30,12 @@ const CommentPost = ({
   };
 
   useEffect(() => {
-    fetchCommentsCount();
-  }, [comments]);
+    const unsubscribe = commentsRef.onSnapshot(() => {
+      fetchCommentsCount();
+  });
+
+  return() => unsubscribe();
+}, [comments]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -42,7 +46,6 @@ const CommentPost = ({
 
   const handlePress = () => {
     onPress(post.post_id);
-    console.log('Clicked post_id', post.post_id);
   };
   
   return (

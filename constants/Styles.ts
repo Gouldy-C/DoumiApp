@@ -18,6 +18,8 @@ export const constStyles = StyleSheet.create({
     backgroundColor: 'white'
   },
   postText: {
-    fontSize: 18
+    fontSize: 18,
+    paddingBottom: 15,
+    paddingHorizontal: 8
   }
 })

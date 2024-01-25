@@ -5,28 +5,31 @@ import {Text,
   Image, 
   Pressable,
   Modal,
-  TextInput,
   ScrollView,
-  FlatList} from 'react-native';
+  FlatList,
+  KeyboardAvoidingView, Platform} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import LikeAPost from '@components/LikeAPost';
 import { constStyles } from '@constants/Styles';
-import CommentPost from './CommentPost';
+import CommentPost from './CommentButton';
 import { userStore } from '@utils/stores/userStore';
 import EllipsisMenu from './svg-components/ellipsisMenu';
-import { BlurView } from 'expo-blur';
 import NewComment from './NewComment';
+import { LinearGradient } from 'expo-linear-gradient';
+import BookmarkPost from './BookmarkedPosts';
+import CommentBox from './CommentBox';
 
-
-const Posts = ({postsRef, openDeleteModal}:{
+const Posts = ({postsRef, commentsRef, openDeleteModal, showBookmarkPost = true}:{
   postsRef : FirebaseFirestoreTypes.CollectionReference<FirebaseFirestoreTypes.DocumentData>,
-  openDeleteModal?: (post: FirestorePost) => void
+  commentsRef: FirestoreComment,
+  openDeleteModal?: (post: FirestorePost) => void,
+  showBookmarkPost: boolean
 }) => {
     const [ posts, setPosts ]= useState<FirestorePost[] | null>(null);
-    const [comments, setComments] = useState<FirestoreComment[] | null>(null);
+    const [ comments, setComments ] = useState<FirestoreComment[] | null>(null);
     const [ openCommentModal, setOpenCommentModal ] = useState(false);
-    const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+    const [ selectedPostId, setSelectedPostId ] = useState<string | null>(null);
     const {user} = userStore((state) => state);
 
     useEffect(() => {
@@ -40,7 +43,8 @@ const Posts = ({postsRef, openDeleteModal}:{
               timestamp: doc.get('timestamp'),
               displayName:doc.get('displayName'),
               post_id: doc.get('post_id'),
-              likedPost: doc.get('likedPost')
+              likedPost: doc.get('likedPost'),
+              photoURL: doc.get('photoURL')
             } as FirestorePost);
           });
         setPosts(updatedPosts);
@@ -61,7 +65,10 @@ const Posts = ({postsRef, openDeleteModal}:{
         commentsSnapshot.forEach((commentDoc: any) => {
           updatedComments.push({
             comment: commentDoc.get('comment'),
+            displayName: commentDoc.get('displayName'),
+            timestamp: commentDoc.get('timestamp'),
             post_id: post_id,
+
           } as FirestoreComment);
         });
         setComments(updatedComments);
@@ -70,42 +77,47 @@ const Posts = ({postsRef, openDeleteModal}:{
       }
     };
     
-
-
-    const Comments = ({ post_id }: { post_id: string | null }) => {
-      const filteredComments = comments?.filter(comment => comment.post_id === post_id) || [];
-
+    const CommentBoxWrapper: React.FC<{ post_id: string | null }> = ({ post_id }) => {
       return (
-        <FlatList
-        data={filteredComments}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <View key={index} style={styles.commentContainer}>
-            <Text style={{fontSize: 20}}>{item.comment}</Text>
-            <Text style={{fontSize: 20}}>{item.displayName}</Text>
-          </View>
-        )}
-      />
-    );
-  };
-  
+        <CommentBox
+          post_id={post_id}
+          user={user}
+          posts={posts}
+          comments={comments}
+          setOpenCommentModal={setOpenCommentModal}
+          fetchComments={fetchComments}
+          setSelectedPostId={setSelectedPostId}
+        />
+      );
+    };
+    
     // FORM ***************************************************************
     return (
       <>
         <ScrollView>
           {posts?.sort((a,b) => b.timestamp?.seconds - a.timestamp?.seconds).map((post) => (
-            <View key={post.post_id} style={{flexDirection: 'row', justifyContent:'space-around', position: 'relative'}}>
-              <View key={post.post_id} style={styles.postsContainer}>
-                <View style={styles.labels}>
-                {user?.photoURL && post.uid === user.uid && (
-                  <Image
-                    source={{ uri: user.photoURL }}
-                    style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
-                      />
-                    )}
-                  <Text style={styles.name}>{post.displayName}</Text>
+            <View key={post.post_id} style={styles.postsContainer}>
+
+              <View style={{flex:1, flexDirection: 'row', alignItems: 'center'}}>
+                <View key={post.post_id} style={{flex: 1, flexDirection: "row", alignItems: 'center', gap: 10}}>
+
+                    <Image
+                      source={{ uri: post.photoURL }}
+                      style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
+                    />
+
+                  <View> 
+                      <Text style={styles.name}>{post.displayName}</Text>
+                      <Text>{post.timestamp?.seconds && post.timestamp.toDate().toLocaleString()}</Text>
+                  </View>
                 </View>
-                <Text>{post.timestamp?.seconds && post.timestamp.toDate().toLocaleString()}</Text>
+
+                {showBookmarkPost && <BookmarkPost post_id={post.post_id}/>}
+              </View>
+
+
+
+              <View>
                 <Text style={constStyles.postText}>{post.content}</Text>
                 <View style={styles.labels}>
                     <LikeAPost post={post}/>
@@ -116,7 +128,6 @@ const Posts = ({postsRef, openDeleteModal}:{
                       setSelectedPostId(post_id);
                       setOpenCommentModal(true);
                       fetchComments(post_id);
-                      console.log('Clicked post_id', post_id)
                       }}/>
                 </View>
               </View>
@@ -132,26 +143,30 @@ const Posts = ({postsRef, openDeleteModal}:{
               
 
 {/* COMMENTS MODAL START */}
-              <Modal
-                  animationType='slide'
-                  transparent={true}
-                  visible={openCommentModal}
-              >
-                  <View style={{flex:1, backgroundColor:'white'}}>                      
-                    <Text>Comments</Text>
-                    <Pressable onPress={()=>setOpenCommentModal(false)}>                        
-                      <Text>Close</Text>
-                    </Pressable>
-                    <View style={{flex: 1}}>
-                      <Comments post_id={selectedPostId}/>
-                    </View>
-                    <View style={{flex:1}}>
-                      <NewComment post_id={selectedPostId!}/>
-                    </View>
-                  </View>
-              </Modal>
-{/* COMMENTS MODAL END */}
 
+<Modal
+  animationType='slide'
+  visible={openCommentModal}
+>
+    <LinearGradient
+      start={{ x: 0, y: 0.0 }}
+      end={{ x: 1, y: 0.0 }}
+      colors={['rgba(115, 69, 149, 0.2)', 'rgba(72, 104, 167, 0.2)']}
+      style={{ flex: 1 }}
+    >
+      <View  style={{
+flex: 1, justifyContent: 'flex-end'
+          }}>
+          
+          <CommentBoxWrapper post_id={selectedPostId} />
+          <NewComment post_id={selectedPostId!} />
+      {/* </View> */}
+
+    </View>
+    </LinearGradient>
+</Modal>
+
+{/* COMMENTS MODAL END */}
 
             </View>
           ))}
@@ -180,15 +195,13 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   postsContainer: {
-    marginTop: 5,
+    marginVertical: 3,
     width: "100%",
     paddingLeft: 10,
-    paddingTop: 8,
     paddingBottom: 8,
-    marginBottom: 3,
     backgroundColor: 'white',
     borderRadius: 10,
-    gap: 15,
+    gap: 12,
   },
   filterButton: {
     borderColor: 'black',
@@ -205,11 +218,11 @@ const styles = StyleSheet.create({
     fontSize: 19
   },
   commentContainer: {
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 2,
-    marginVertical: 8
+    width: "100%",
+    paddingLeft: 10,
+    paddingTop: 8,
+    paddingBottom: 10,
+    backgroundColor: 'white',
+    gap: 8,
   }
 })

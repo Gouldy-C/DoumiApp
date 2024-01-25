@@ -2,6 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import * as Crypto from 'expo-crypto';
 import { FirestorePost } from '@utils/types/types';
+import { FirestoreComment } from '@utils/types/types';
 
 
 // DELETE A POST ****************************************************
@@ -69,6 +70,7 @@ export const handlePost = async (input: string, hashTags?: string[]) => {
       if (userDoc) {
         const displayName = userDoc.displayName;
         const postId = Crypto.randomUUID()
+        const photoURL = userDoc.photoURL
 
         // Add a new post document
         await postsRef.doc(postId)
@@ -80,50 +82,10 @@ export const handlePost = async (input: string, hashTags?: string[]) => {
           post_id: postId,
           likedPost: [],
           hashTags: hashTags ? hashTags : [],
+          photoURL: photoURL
         });
 
         // Clear the input after posting
-      } else {
-        console.error('User document is undefined in the Users collection');
-      }
-    } else {
-      console.error('User not found in the Users collection');
-    }
-  } catch (error) {
-    console.error('Error posting message:', error);
-  }
-
-};
-
-// POST A COMMENT *****************************************************
-export const handleComment = async ({post_id, input}:{post_id:string; input:string}) => {
-  const userId= auth().currentUser?.uid;
-  const usersRef = firestore().collection('Users')
-  const postsRef = firestore().collection('Posts')
-
-  try {
-
-    if (!auth().currentUser || input.trim() === '') {
-      return
-    }
-
-    const userSnapshot = await usersRef.doc(auth().currentUser?.uid).get();
-
-    if (userSnapshot.exists) {
-      const userDoc = userSnapshot.data();
-
-      if (userDoc) {
-        const displayName = userDoc.displayName;
-        const commentId = Crypto.randomUUID()
-
-        await postsRef.doc(post_id).collection('comments').doc(commentId).set({
-          comment: input,
-          displayName: displayName,
-          timestamp: firestore.FieldValue.serverTimestamp(),
-          uid: userId,
-          post_id: post_id
-        });
-
       } else {
         console.error('User document is undefined in the Users collection');
       }

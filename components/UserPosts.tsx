@@ -48,7 +48,7 @@ const UserPosts = () => {
         height: "100%",
         alignSelf: "center",
         }}>
-        <Posts postsRef={usersPostsRef} openDeleteModal={openModal}/>
+        <Posts postsRef={usersPostsRef} openDeleteModal={openModal} showBookmarkPost={false}/>
       </View>
 
 
