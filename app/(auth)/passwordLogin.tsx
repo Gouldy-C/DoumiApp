@@ -36,6 +36,7 @@ const PasswordLogin = () => {
   const email = userStore((state) => state.loginInfo.email)
   const [secureText, setSecureText] = useState(true)
   const [submitError, setSubmitError] = useState('')
+  const setUserDoc = userStore((state) => state.setUserDoc)
 
   
   const {
@@ -48,6 +49,7 @@ const PasswordLogin = () => {
   
   const submitData = async (data: FormData ) => {
     Keyboard.dismiss()
+    setUserDoc(null)
     if(data.password && email){
       const res = await signInEmailPassword(email, data.password)
       if (typeof(res) === "string"){

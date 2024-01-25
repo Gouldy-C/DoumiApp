@@ -7,16 +7,15 @@ import {Text,
   Modal,
   TextInput,
   ScrollView,
-  FlatList} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
-import LikeAPost from '@components/LikeAPost';
-import { constStyles } from '@constants/Styles';
-import CommentPost from './CommentPost';
-import { userStore } from '@utils/stores/userStore';
-import EllipsisMenu from './svg-components/ellipsisMenu';
-import { BlurView } from 'expo-blur';
-import NewComment from './NewComment';
+  FlatList} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+import LikeAPost from '@components/LikeAPost'
+import { constStyles } from '@constants/Styles'
+import CommentPost from './CommentPost'
+import { userStore } from '@utils/stores/userStore'
+import EllipsisMenu from './svg-components/ellipsisMenu'
+import NewComment from './NewComment'
 
 
 const Posts = ({postsRef, openDeleteModal}:{

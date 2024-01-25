@@ -20,9 +20,9 @@ const AppEntry = () => {
     );
   }
 
-  return (
-    <Redirect  href={'/(user)/(feed)/userFeed'}/>
-  );
+    return (
+      <Redirect  href={'/(user)/(feed)/userFeed'}/>
+    );
 }
 
 export default AppEntry

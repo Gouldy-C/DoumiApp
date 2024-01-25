@@ -46,6 +46,7 @@ const OnboardingUsername = () => {
     }
   };
 
+
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

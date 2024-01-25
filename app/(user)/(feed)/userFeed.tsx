@@ -10,7 +10,6 @@ const UserFeed = () => {
   const postsRef = firestore().collection('Posts')
 
   return (
-
     <LinearGradient
       start={{ x: 0, y: 0.0 }}
       end={{ x: 1, y: 0.0 }}

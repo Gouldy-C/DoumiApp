@@ -43,6 +43,7 @@ const OnboardingPassword = () => {
   const email = userStore((state) => state.loginInfo.email)
   const [secureText, setSecureText] = useState(true)
   const [submitError, setSubmitError] = useState('')
+  const setUserDoc = userStore((state) => state.setUserDoc)
 
   
   const {
@@ -55,6 +56,7 @@ const OnboardingPassword = () => {
   
   const submitData = async (data: FormData ) => {
     Keyboard.dismiss()
+    setUserDoc(null)
     if(data.password && email){
       const res = await signUpEmailPassword(email, data.password)
       if (typeof(res) === "string"){

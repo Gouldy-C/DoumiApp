@@ -10,12 +10,12 @@ import StrategiesFilledSvg from "@components/svg-components/strategiesFilledSvg"
 import NewPostsFilledSvg from "@components/svg-components/newPostsFilledSvg";
 import ForumFilledSvg from "@components/svg-components/forumFilledSvg";
 import ProfileFilledSvg from "@components/svg-components/profileFilledSvg";
-import { Keyboard, View } from "react-native";
 
 const UserLayout = () => {
   const authUser = userStore((state) => state.authUser);
+  const userDoc = userStore((state) => state.userDoc);
   
-  if (!authUser) {
+  if (!authUser || !userDoc) {
     return <Redirect href={"/(auth)/mainLogin"} />;
   }
   

@@ -8,9 +8,9 @@ import { View } from "react-native";
 
 const StrategiesNav = () => {
   const authUser = userStore((state) => state.authUser);
-
-
-  if (!authUser) {
+  const userDoc = userStore((state) => state.userDoc);
+  
+  if (!authUser || !userDoc) {
     return <Redirect href={"/(auth)/mainLogin"} />;
   }
 

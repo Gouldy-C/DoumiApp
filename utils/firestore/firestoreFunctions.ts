@@ -1,19 +1,5 @@
 import firestore from '@react-native-firebase/firestore'
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-
-
-export const checkAndCreateFirestoreUser = async (user : FirebaseAuthTypes.User ) => {
-  try {
-    // if (!user.emailVerified) {
-    //   auth().currentUser?.sendEmailVerification();
-    // }
-    if ((await checkForNewUser(user))){
-      await createNewUserFirestore(user)
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
 
 export const checkForNewUser =async (user : FirebaseAuthTypes.User) => {
@@ -26,18 +12,18 @@ export const checkForNewUser =async (user : FirebaseAuthTypes.User) => {
 }
 
 
-export const createNewUserFirestore = async (user : FirebaseAuthTypes.User) => {
+export const createNewUserFirestore = async (user : FirebaseAuthTypes.User, displayName: string, profileUrl: string) => {
   await firestore()
     .collection('Users')
     .doc(user.uid)
     .set({
-      displayName: user.displayName,
+      displayName: displayName,
       email: user.email,
       emailVerified: user.emailVerified,
       isAnonymous: user.isAnonymous,
       multiFactor: user.multiFactor?.enrolledFactors,
       phoneNumber: user.phoneNumber,
-      photoURL: user.photoURL,
+      photoURL: profileUrl,
       providerId: user.providerId,
       authProvider: user.providerData[0].providerId,
       providerData: user.providerData[0],

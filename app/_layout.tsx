@@ -6,7 +6,7 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen, router} from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import firestore from '@react-native-firebase/firestore'
@@ -22,28 +22,28 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const loading = useLoading((state) => state.loading);
-  const setLoading = useLoading((state) => state.setLoading);
-  const setAuthUser = userStore((state) => state.setAuthUser);
-  const setUserDoc = userStore((state) => state.setUserDoc);
+  const loading = useLoading((state) => state.loading)
+  const setLoading = useLoading((state) => state.setLoading)
+  const setAuthUser = userStore((state) => state.setAuthUser)
+  const setUserDoc = userStore((state) => state.setUserDoc)
   const colorScheme = useColorScheme()
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   })
 
-  async function userChange(user: FirebaseAuthTypes.User | null) {
+
+  function userChange(user: FirebaseAuthTypes.User | null) {
     setAuthUser(user)
     setLoading(false)
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const subscriber = auth().onAuthStateChanged(userChange);
     return subscriber
   }, []);
 
-  useEffect(() => {
-    setUserDoc(null)
+  useLayoutEffect(() => {
     const subscriber = firestore()
       .collection('Users')
       .doc(auth().currentUser?.uid)
@@ -63,6 +63,9 @@ export default function RootLayout() {
             uid: documentSnapshot.get('uid'),
             bookmarkedStrategies: documentSnapshot.get('bookmarkedStrategies'),
           })
+        }
+        else {
+          setUserDoc(null)
         }
       }, err => {console.log(err)});
     return subscriber;
