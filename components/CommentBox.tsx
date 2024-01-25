@@ -73,7 +73,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ post_id, posts, comments, setOp
             <>
               <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
                   <Image
-                    source={item && item.photoURL ? { uri: item.photoURL } : require('../assets/images/favicon.png')}
+                    source={{uri: item.photoURL}}
                     style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
                   />
                 <View>

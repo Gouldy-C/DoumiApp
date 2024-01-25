@@ -62,13 +62,15 @@ const Posts = ({postsRef, commentsRef, openDeleteModal, showBookmarkPost = true}
           .get();
     
         const updatedComments: FirestoreComment[] = [];
+        
+
         commentsSnapshot.forEach((commentDoc: any) => {
           updatedComments.push({
             comment: commentDoc.get('comment'),
             displayName: commentDoc.get('displayName'),
             timestamp: commentDoc.get('timestamp'),
             post_id: post_id,
-
+            photoURL: commentDoc.get('photoURL')
           } as FirestoreComment);
         });
         setComments(updatedComments);
