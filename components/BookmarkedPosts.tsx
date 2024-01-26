@@ -5,11 +5,14 @@ import { handleBookMark } from '@utils/posting/functions'
 import BookmarkedSvg from './svg-components/bookmarkedSvg'
 import auth from '@react-native-firebase/auth'
 import { FirestorePost } from '@utils/types/types'
+import AreYouSureModal from './AreYouSureModal'
 
 
 const BookmarkPost = ({post}: {post: FirestorePost}) => {
-  const userId = auth().currentUser?.uid || ''
+  const userId = auth().currentUser!.uid
   const [bookmarked, setBookmarked] = useState(post.bookmarkedPosts.includes(userId))
+  const [modalVisible, setModalVisible] = useState(false);
+  const question = "Are you sure you want to remove this post from your saved post  list?"
   
 
   useEffect(() => {
@@ -22,18 +25,28 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
     await handleBookMark(post.post_id)
   }
 
+  const onBookmarkClick = () => {
+    if (bookmarked) {
+      setModalVisible(true)
+    }
+    else {
+      flipBookmark()
+    }
+  }
+
   return (
     <>
     { bookmarked ? (
-        <Pressable onPress={flipBookmark} style={{ paddingHorizontal:20, paddingVertical: 25}}>
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
           <BookmarkedSvg height={28} width={25} color={'#5049A4'} stroke={'#5049A4'} scale={0.8}/>
         </Pressable>
       ) : (
-        <Pressable onPress={flipBookmark} style={{ paddingHorizontal:20, paddingVertical: 25}}>
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
           <NotBookmarkedSvg height={28} width={25} color={'#424052'} stroke={'#5049A4'} scale={1}/>
         </Pressable>
       )
     }
+    <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} onConfirmFunction={flipBookmark}/>
   </>
   )
 }

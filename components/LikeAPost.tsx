@@ -6,23 +6,25 @@ import LikedHeart from './svg-components/likedHeart'
 import UnlikedHeart from './svg-components/unlikedHeart'
 import { constStyles } from '@constants/Styles';
 import { FirestorePost } from '@utils/types/types'
+import firestore from '@react-native-firebase/firestore'
 
 const LikeAPost = ({post}: {post: FirestorePost}) => {
-  const userId = auth().currentUser?.uid || ''
-  const [liked, setLiked] = useState(post.likedPost.includes(userId as string))
-  const [count, setCount] = useState(post.likedPost.length)
+  const userId = auth().currentUser?.uid
+  const [liked, setLiked] = useState(post.likedArray.includes(userId as string))
+  const [count, setCount] = useState(post.likedArray.length)
+  const postRef = firestore().collection('Posts').doc(post.post_id)
   
   useEffect(() => {
-    setLiked(post.likedPost.includes(userId as string))
-    setCount(post.likedPost.length)
-  }, [post.likedPost])
+    setLiked(post.likedArray.includes(userId as string))
+    setCount(post.likedArray.length)
+  }, [post.likedArray])
   
   
   
   const onLikeClick = (toggle: boolean) => {
     setCount((prev) => toggle ? prev + 1 : prev - 1)
     setLiked((prev) => !prev)
-    handleLike(post.post_id)
+    handleLike(postRef)
   }
 
 

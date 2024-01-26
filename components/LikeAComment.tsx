@@ -1,26 +1,27 @@
 import { Pressable, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { handleLikeComment } from '@utils/commenting/functions'
 import auth from '@react-native-firebase/auth'
 import LikedHeart from './svg-components/likedHeart'
 import UnlikedHeart from './svg-components/unlikedHeart'
 import { FirestoreComment} from '@utils/types/types'
-import { FirestorePost } from '@utils/types/types'
+import firestore from '@react-native-firebase/firestore'
+import { handleLike } from '@utils/posting/functions'
 
-const LikeAComment = ({ commentStore, postStore }: { commentStore: FirestoreComment, postStore: FirestorePost }) => {
-  const userId = auth().currentUser?.uid || ''
-  const [liked, setLiked] = useState(commentStore?.likedComment.includes(userId));
-  const [count, setCount] = useState(commentStore?.likedComment.length||0);
+const LikeAComment = ({ comment }: {comment: FirestoreComment}) => {
+  const userId = auth().currentUser!.uid
+  const [liked, setLiked] = useState(comment?.likedArray.includes(userId));
+  const [count, setCount] = useState(comment?.likedArray.length);
+  const commentRef = firestore().collection('Posts').doc(comment.post_id).collection('Comments').doc(comment.comment_id)
   
   useEffect(() => {
-    setLiked(commentStore?.likedComment?.includes(userId as string));
-    setCount(commentStore?.likedComment?.length || 0);
-  }, [commentStore?.likedComment]);
+    setLiked(comment.likedArray.includes(userId as string));
+    setCount(comment.likedArray.length);
+  }, [comment.likedArray]);
 
   const onCommentLikeClick = (toggle: boolean) => {
     setCount((prev) => (toggle ? prev + 1 : prev - 1));
     setLiked((prev) => !prev);
-    handleLikeComment(commentStore.post_id, commentStore.comment_id)
+    handleLike(commentRef)
   };
 
   return (

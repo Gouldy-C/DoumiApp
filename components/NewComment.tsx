@@ -1,5 +1,5 @@
-import {Text, View, StyleSheet, Pressable, Keyboard, KeyboardAvoidingView, Platform } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import {Text, View, StyleSheet, Pressable } from 'react-native'
+import React, { useState} from 'react'
 import { handleComment } from '@utils/commenting/functions';
 import { ZodType, z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -8,8 +8,8 @@ import ControlledTextInput from '@components/ControlledTextInput';
 import { LinearGradient } from 'expo-linear-gradient';
 import PublishArrowSvg from '@components/svg-components/publishArrowSvg';
 import { FirestorePost } from '@utils/types/types'
-import { Control, Controller } from 'react-hook-form'
-import { router } from 'expo-router';
+import { Control } from 'react-hook-form'
+import { userStore } from '@utils/stores/userStore';
 
 type ControlledInputProps = {
   control: Control<any>,
@@ -24,18 +24,20 @@ type FormData = {
   commentInput: string;
 };
 
-const NewComment = (
-  {post_id, onSubmit}: 
-  {post_id: string, onSubmit?:()=>void}) => {
+const NewComment = ({post}: {post: FirestorePost}) => {
+  const userDoc = userStore((state) => state.userDoc);
+  const [ isKeyboardVisible, setKeyboardVisible ] = useState(false);
+  const submittedPostId = post.post_id
+  
+  
+  
   const schema: ZodType<FormData> = z.object({
     commentInput: z
       .string()
-      .min(2, "Comment must be longer then 2 characters")
+      .min(5, "Comment must be longer then 2 characters")
       .max(1000,"Comment must be less then 1000 characters")
   });
 
-  const [commentInput, setCommentInput] = useState('');
-  const [ isKeyboardVisible, setKeyboardVisible ] = useState(false);
 
   const {
     control,
@@ -45,16 +47,13 @@ const NewComment = (
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      commentInput: commentInput
+      commentInput: ''
     }
   });
-  const submittedPostId = post_id
 
   const submitData = async (data: FormData) => {
-    await handleComment({ post_id: submittedPostId, input: data.commentInput })
-    onSubmit && onSubmit()
-    router.push('/(user)/(feed)/userFeed')
     reset({ commentInput: "" })
+    await handleComment({ post_id: submittedPostId, input: data.commentInput, userDoc: userDoc!})
   };
 
 
@@ -73,7 +72,7 @@ const NewComment = (
   // },[])
 
   return (
-<View style={{height: '10%'}}>
+    <View style={{height: '10%'}}>
       <View style={styles.container}>
         <ControlledTextInput
           control={control}
@@ -101,7 +100,7 @@ const NewComment = (
                 </View>
             </LinearGradient>
           </Pressable>
-</View>
+      </View>
     </View>
   );
 };

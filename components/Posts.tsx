@@ -20,10 +20,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import BookmarkPost from './BookmarkedPosts';
 import CommentBox from './CommentBox';
 import auth from '@react-native-firebase/auth';
+import { fetchComments } from '@utils/commenting/functions';
 
 
 const Posts = ({postsRef, commentsRef, openDeleteModal, showBookmarkPost = true}:{
-  postsRef: FirebaseFirestoreTypes.CollectionReference<FirebaseFirestoreTypes.DocumentData>,
+  postsRef: FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>,
   commentsRef?: FirestoreComment,
   openDeleteModal?: (post: FirestorePost) => void,
   showBookmarkPost?: boolean
@@ -188,7 +189,7 @@ flex: 1, justifyContent: 'flex-end'
 const styles = StyleSheet.create({
   safeView: {
     flex: 1,
-    alignposts: "center",
+    alignItems: "center",
   },
   container: {
     width: "100%",
@@ -215,12 +216,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     width: "40%",
-    alignposts: 'center',
+    alignItems: 'center',
   },
   labels: {
     flexDirection:'row', 
     gap: 15,
-    alignposts: 'center'
+    alignItems: 'center'
   }, 
   name: {
     fontSize: 19

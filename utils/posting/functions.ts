@@ -1,47 +1,47 @@
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import * as Crypto from 'expo-crypto';
-import { FirestorePost } from '@utils/types/types';
-import { FirestoreComment } from '@utils/types/types';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
+import * as Crypto from 'expo-crypto'
+import { FirestoreComment, FirestorePost } from '@utils/types/types'
 
 
 // DELETE A POST ****************************************************
 export const deletePost = async (post:FirestorePost) => {
-  try {
-    await firestore()
-    .collection('Posts')
-    .doc(post.post_id)
-    .delete()
-    console.log('Document successfully deleted!');
-  } catch (error) {
-    console.error('Error deleting document:', error);
+  if (auth().currentUser?.uid === post.uid) {
+    try {
+      await firestore()
+      .collection('Posts')
+      .doc(post.post_id)
+      .delete()
+      console.log('Document successfully deleted!');
+    } catch (error) {
+      console.error('Error deleting document:', error);
+    }
+  }
 }
-};
 
 //  LIKE A POST *****************************************************
-export const handleLike = async (post_id: string) => {
+export const handleLike = async (docRef:FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>) => {
   const userId = auth().currentUser?.uid;
-  const postRef = firestore().collection('Posts').doc(post_id)
 
   try {
-    const postDocSnapshot = await postRef.get();
+    const postDocSnapshot = await docRef.get();
     const data = postDocSnapshot.data();
 
     if (postDocSnapshot && data) {
       if (data.likedPost.includes(userId)){
-        await postRef.update({
-          likedPost: firestore.FieldValue.arrayRemove(userId),
+        await docRef.update({
+          likedArray: firestore.FieldValue.arrayRemove(userId),
         })
         return
       } 
       else {
         // Document with post_id exists, update likedPosts array
-        await postRef.update({
-          likedPost: firestore.FieldValue.arrayUnion(userId),
+        await docRef.update({
+          likedArray: firestore.FieldValue.arrayUnion(userId),
         });
       }
     } else {
-      console.log(`Document with post_id ${post_id} does not exist`);
+      console.log(`Document does not exist` , docRef.path);
       // Handle the case where the document doesn't exist (if needed)
     }
   } catch (error) {
@@ -80,11 +80,11 @@ export const handlePost = async (input: string, hashTags?: string[]) => {
           timestamp: firestore.FieldValue.serverTimestamp(),
           displayName: displayName,
           post_id: postId,
-          likedPost: [],
+          likedArray: [],
           hashTags: hashTags ? hashTags : [],
           photoURL: photoURL,
           bookmarkedPosts: []
-        });
+        } as FirestorePost);
 
         // Clear the input after posting
       } else {

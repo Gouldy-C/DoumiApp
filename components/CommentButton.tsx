@@ -1,59 +1,48 @@
 import { Pressable, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import CommentPostSvg from './svg-components/commentPostSvg'
 import { constStyles } from '@constants/Styles'
-import { FirestoreComment, FirestorePost } from '@utils/types/types'
-import { useFocusEffect } from 'expo-router'
+import { FirestorePost } from '@utils/types/types'
 import firestore from '@react-native-firebase/firestore';
+import CommentsModal from './CommentsModal'
 
 
-const CommentPost = ({
-  onPress, 
-  comments, 
-  post
-}:{
-  onPress:(post_id:string)=>void,
-  comments: FirestoreComment[],
+const CommentButton = ({post} : {
   post: FirestorePost
 }) => {
   const commentsRef = firestore().collection('Posts').doc(post.post_id).collection('comments')
+  const [commentModalVisible, setCommentModalVisible] = useState(false)
   const [count, setCount] = useState(0)
 
-  const fetchCommentsCount = async () => {
-    try {
-      const querySnapshot = await commentsRef.get();
-      const numberOfComments = querySnapshot.size;
-      setCount(numberOfComments);
-    } catch (error) {
-      console.error('Error fetching comment count:', error);
-    }
-  };
+  // const fetchCommentsCount = async () => {
+  //   try {
+  //     const count = await commentsRef.get();
+  //     const numberOfComments = querySnapshot.size;
+  //     setCount(numberOfComments);
+  //   } catch (error) {
+  //     console.error('Error fetching comment count:', error);
+  //   }
+  // };
 
-  useEffect(() => {
-    const unsubscribe = commentsRef.onSnapshot(() => {
-      fetchCommentsCount();
-  });
-
-  return() => unsubscribe();
-}, [comments]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchCommentsCount();
-    }, [])
-  );
-
-
-  const handlePress = () => {
-    onPress(post.post_id);
-  };
+  useLayoutEffect(() => {
+    const subscriber = commentsRef.countFromServer().query.onSnapshot(
+      async (countSnapshot) => await countSnapshot.query.countFromServer().get().then(
+        async (data) => setCount(data.data().count)
+      ),
+      (error) => console.error(error)
+    )
+    return subscriber;
+  }, []);
   
   return (
-    <Pressable style={constStyles.labels} onPress={handlePress}>
-      <CommentPostSvg stroke='#5049A4' scale={0.73} height={25} width={25}/>
-      <Text style={{fontWeight: 'bold', color: '#5049A4'}}>{count}</Text>
-    </Pressable>
+    <>
+      <Pressable style={constStyles.labels} onPress={() => setCommentModalVisible(true)}>
+        <CommentPostSvg stroke='#5049A4' scale={0.73} height={25} width={25}/>
+        <Text style={{fontWeight: 'bold', color: '#5049A4'}}>{count}</Text>
+      </Pressable>
+      <CommentsModal post={post} state={commentModalVisible} setModalVisible={setCommentModalVisible}/>
+    </>
   )
 }
 
-export default CommentPost
+export default CommentButton

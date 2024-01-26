@@ -14,7 +14,7 @@ const AppEntry = () => {
 
   if (!user) {
     return (
-      <Redirect  href={'/(auth)/sign-in'}/>
+      <Redirect  href={'/'}/>
     );
   }
 
