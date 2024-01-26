@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import * as Crypto from 'expo-crypto';
+import { FirestoreComment } from '@utils/types/types';
 
 
 // POST A COMMENT *****************************************************
@@ -84,5 +85,32 @@ export const handleComment = async ({post_id, input}:{post_id:string; input:stri
   
 
   // FETCH A COMMENT ******************************************
+ export const fetchComments = async (post_id: string, onFetch:(comments:FirestoreComment[])=>void) => {
+    const postsRef = firestore().collection('Posts')
 
+    try {
+      const commentsSnapshot = await postsRef
+        .doc(post_id)
+        .collection('comments')
+        .get();
+  
+      const updatedComments: FirestoreComment[] = [];
+      
+
+      commentsSnapshot.forEach((commentDoc: any) => {
+        updatedComments.push({
+          comment: commentDoc.get('comment'),
+          comment_id: commentDoc.get('comment_id'),
+          displayName: commentDoc.get('displayName'),
+          timestamp: commentDoc.get('timestamp'),
+          post_id: post_id,
+          photoURL: commentDoc.get('photoURL'),
+          likedComment: commentDoc.get('likedComment')
+        } as FirestoreComment);
+      });
+      onFetch(updatedComments);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
   

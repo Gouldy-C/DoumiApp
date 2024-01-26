@@ -1,6 +1,6 @@
 import { Pressable, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { handleLikeComment } from '@utils/posting/functions'
+import { handleLikeComment } from '@utils/commenting/functions'
 import auth from '@react-native-firebase/auth'
 import LikedHeart from './svg-components/likedHeart'
 import UnlikedHeart from './svg-components/unlikedHeart'
@@ -20,6 +20,7 @@ const LikeAComment = ({ commentStore, postStore }: { commentStore: FirestoreComm
   const onCommentLikeClick = (toggle: boolean) => {
     setCount((prev) => (toggle ? prev + 1 : prev - 1));
     setLiked((prev) => !prev);
+    handleLikeComment(commentStore.post_id, commentStore.comment_id)
   };
 
   return (

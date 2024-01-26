@@ -13,18 +13,16 @@ import { FirestoreComment } from '@utils/types/types';
 interface CommentBoxProps {
   post_id: string | null;
   posts: FirestorePost[] | null;
-  postsRef: FirestorePost
-  commentsRef: FirestoreComment;
   comments: FirestoreComment[] | null;
   setOpenCommentModal: (open: boolean) => void;
   fetchComments: (post_id: string) => void;
-  setSelectedPostId: (post_id: string | null) => void;
+  setSelectedPostId: (post_id: string ) => void;
+  user: {} | null,
 }
 
-const CommentBox: React.FC<CommentBoxProps> = ({ post_id, posts, comments, setOpenCommentModal, fetchComments, setSelectedPostId, commentsRef }) => {
+const CommentBox: React.FC<CommentBoxProps> = ({ post_id, posts, user, comments, setOpenCommentModal, fetchComments, setSelectedPostId }) => {
   const filteredComments = comments?.filter(comment => comment.post_id === post_id) || [];
   const commentedPost = posts?.find(p => p.post_id === post_id);
-  const {user} = userStore((state) => state);
 
   if (!commentedPost) {
     return null;
@@ -33,7 +31,13 @@ const CommentBox: React.FC<CommentBoxProps> = ({ post_id, posts, comments, setOp
   return (
     <FlatList
       data={[commentedPost, ...filteredComments]}
-      keyExtractor={(item, index) => index.toString()}
+      keyExtractor={(item) => {
+        if ('comment_id' in item) {
+          return item.comment_id?.toString();
+        } else {
+          return item.post_id?.toString();
+        }
+      }}
       renderItem={({ item, index }) => (
         <View key={index} style={index === 0 ? styles.postsContainer : styles.commentContainer}>
           {index === 0 ? (
@@ -52,7 +56,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({ post_id, posts, comments, setOp
                     <Text>{commentedPost.timestamp?.seconds && commentedPost.timestamp.toDate().toLocaleString()}</Text>
                   </View>
                 </View>
-                <BookmarkPost post_id={commentedPost.post_id} />
+                <BookmarkPost post={commentedPost} />
               </View>
               <Text style={{ fontSize: constStyles.postText.fontSize, marginBottom: 8, paddingHorizontal: 10 }}>
                 {commentedPost.content}
@@ -80,12 +84,12 @@ const CommentBox: React.FC<CommentBoxProps> = ({ post_id, posts, comments, setOp
                   <Text style={{ fontSize: 17, fontWeight: '500' }}>{item.displayName}</Text>
                   <Text>{item.timestamp.seconds && item.timestamp.toDate().toLocaleString()}</Text>
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'top', paddingRight: 20 }}>
-                  <LikeAComment commentStore={commentsRef} postStore={commentedPost} />
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 20 }}>
+                  <LikeAComment commentStore={item as FirestoreComment} postStore={commentedPost} />
                 </View>
               </View>
               <View>
-                <Text style={{ fontSize: 17, width: "70%", marginLeft: 61 }}>{item.comment}</Text>
+                <Text style={{ fontSize: 17, width: "70%", marginLeft: 61 }}>{(item as FirestoreComment).comment}</Text>
               </View>
             </>
           )}

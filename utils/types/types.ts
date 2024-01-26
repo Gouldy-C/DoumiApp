@@ -23,7 +23,8 @@ export interface FirestorePost {
   post_id: string;
   displayName: string;
   likedPost: string[];
-  photoURL: string 
+  photoURL: string;
+  bookmarkedPosts: string[] 
 }
 
 export interface FirestoreComment {
@@ -60,5 +61,4 @@ export interface UserDoc {
   lastSignInTime: any,
   lastUpdatedTime: FirebaseFirestoreTypes.FieldValue,
   bookmarkedStrategies: string[],
-  bookmarkedPosts: string[]
 }

@@ -1,27 +1,26 @@
 import { Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import NotBookmarkedSvg from './svg-components/notBookmarkedSvg'
-import { bookmarkPost } from '@utils/bookmarkPostFunction'
-import { userStore } from '@utils/stores/userStore'
+import { handleBookMark } from '@utils/posting/functions'
 import BookmarkedSvg from './svg-components/bookmarkedSvg'
+import auth from '@react-native-firebase/auth'
+import { FirestorePost } from '@utils/types/types'
 
 
-const BookmarkPost = ({post_id}:{post_id: string}) => {
-  const {userDoc} = userStore((state) => state)
-  const [bookmarked, setBookmarked] = useState(userDoc?.bookmarkedPosts?.includes(post_id))
+const BookmarkPost = ({post}: {post: FirestorePost}) => {
+  const userId = auth().currentUser?.uid || ''
+  const [bookmarked, setBookmarked] = useState(post.bookmarkedPosts.includes(userId))
   
 
   useEffect(() => {
-    setBookmarked(userDoc?.bookmarkedPosts.includes(post_id))
-  }, [userDoc?.bookmarkedPosts])
+    setBookmarked(post.bookmarkedPosts.includes(userId))
+  }, [post.bookmarkedPosts])
 
 
   const flipBookmark = async () => {
     setBookmarked((prev) => !prev)
-    await bookmarkPost(post_id)
-    console.log(post_id)
+    await handleBookMark(post.post_id)
   }
-
 
   return (
     <>

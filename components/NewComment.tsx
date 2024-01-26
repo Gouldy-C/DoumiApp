@@ -24,7 +24,9 @@ type FormData = {
   commentInput: string;
 };
 
-const NewComment = ({post_id}: {post_id: string}) => {
+const NewComment = (
+  {post_id, onSubmit}: 
+  {post_id: string, onSubmit?:()=>void}) => {
   const schema: ZodType<FormData> = z.object({
     commentInput: z
       .string()
@@ -49,25 +51,26 @@ const NewComment = ({post_id}: {post_id: string}) => {
   const submittedPostId = post_id
 
   const submitData = async (data: FormData) => {
-    handleComment({ post_id: submittedPostId, input: data.commentInput })
+    await handleComment({ post_id: submittedPostId, input: data.commentInput })
+    onSubmit && onSubmit()
     router.push('/(user)/(feed)/userFeed')
     reset({ commentInput: "" })
   };
 
 
-  useEffect(()=> {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', ()=> {
-      setKeyboardVisible(true);
-    });
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', ()=> {
-      setKeyboardVisible(false);
-    });
+  // useEffect(()=> {
+  //   const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', ()=> {
+  //     setKeyboardVisible(true);
+  //   });
+  //   const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', ()=> {
+  //     setKeyboardVisible(false);
+  //   });
 
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    }
-  },[])
+  //   return () => {
+  //     keyboardDidHideListener.remove();
+  //     keyboardDidShowListener.remove();
+  //   }
+  // },[])
 
   return (
 <View style={{height: '10%'}}>
@@ -76,7 +79,7 @@ const NewComment = ({post_id}: {post_id: string}) => {
           control={control}
           placeholder={"Write a comment"}
           name={"commentInput"} 
-          styles={{textAlignVertical: 'top', flex: 1, elevation:0, minHeight: '50%', paddingLeft: 16}}
+          styles={{textAlignVertical: 'top', flex: 1, elevation:0, minHeight: '100%', paddingLeft: 16}}
           multiline
         />
         </View>

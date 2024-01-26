@@ -82,7 +82,8 @@ export const handlePost = async (input: string, hashTags?: string[]) => {
           post_id: postId,
           likedPost: [],
           hashTags: hashTags ? hashTags : [],
-          photoURL: photoURL
+          photoURL: photoURL,
+          bookmarkedPosts: []
         });
 
         // Clear the input after posting
@@ -96,4 +97,35 @@ export const handlePost = async (input: string, hashTags?: string[]) => {
     console.error('Error posting message:', error);
   }
 
+};
+
+// Bookmark a Post****************************************
+export const handleBookMark = async (post_id: string) => {
+  const userId = auth().currentUser?.uid;
+  const postRef = firestore().collection('Posts').doc(post_id)
+
+  try {
+    const postDocSnapshot = await postRef.get();
+    const data = postDocSnapshot.data();
+
+    if (postDocSnapshot && data) {
+      if (data.bookmarkedPosts.includes(userId)){
+        await postRef.update({
+          bookmarkedPosts: firestore.FieldValue.arrayRemove(userId),
+        })
+        return
+      } 
+      else {
+        // Document with post_id exists, update likedPosts array
+        await postRef.update({
+          bookmarkedPosts: firestore.FieldValue.arrayUnion(userId),
+        });
+      }
+    } else {
+      console.log(`Document with post_id ${post_id} does not exist`);
+      // Handle the case where the document doesn't exist (if needed)
+    }
+  } catch (error) {
+    console.error('Error adding like:', error);
+  }
 };

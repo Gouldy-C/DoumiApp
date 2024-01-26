@@ -11,7 +11,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import AreYouSureModal from './AreYouSureModal';
 
 
-
 const UserPosts = () => {
   const userId = auth().currentUser?.uid
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,8 +32,6 @@ const UserPosts = () => {
     }
   }, [modalVisible])
 
-
-  
 
   return (
     <LinearGradient

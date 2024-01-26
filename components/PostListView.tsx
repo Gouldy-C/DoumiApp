@@ -6,10 +6,8 @@ import {Text,
   Pressable,
   Modal,
   ScrollView,
-  FlatList,
-  KeyboardAvoidingView, Platform} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+} from 'react-native';
+import React, { useState } from 'react';
 import LikeAPost from '@components/LikeAPost';
 import { constStyles } from '@constants/Styles';
 import CommentPost from './CommentButton';
@@ -22,83 +20,20 @@ import CommentBox from './CommentBox';
 import auth from '@react-native-firebase/auth';
 
 
-const Posts = ({postsRef, commentsRef, openDeleteModal, showBookmarkPost = true}:{
-  postsRef: FirebaseFirestoreTypes.CollectionReference<FirebaseFirestoreTypes.DocumentData>,
-  commentsRef?: FirestoreComment,
-  openDeleteModal?: (post: FirestorePost) => void,
+const PostListView = ({posts, comments=[], onOptionsPress, showBookmarkPost = true, fetchComments, onCommentPress}:{
+  posts: FirestorePost[]
+  comments?: FirestoreComment []
+  onOptionsPress?: (post: FirestorePost) => void
   showBookmarkPost?: boolean
+  fetchComments: (post_id: string) => void
+  onCommentPress?: (post: FirestorePost) => void
 }) => {
-    const [ posts, setPosts ]= useState<FirestorePost[] | null>(null);
-    const [ comments, setComments ] = useState<FirestoreComment[] | null>(null);
     const [ openCommentModal, setOpenCommentModal ] = useState(false);
     const [ selectedPostId, setSelectedPostId ] = useState<string>("");
     const {user} = userStore((state) => state);
     const userId= auth().currentUser?.uid;
-
-    useEffect(() => {
-      const subscriber = postsRef.onSnapshot((querySnapshot) => {
-        if (querySnapshot){ 
-          const updatedPosts: FirestorePost[] = []   
-          querySnapshot.forEach((doc) => {
-            updatedPosts.push({ 
-              content: doc.get('content'),
-              uid: doc.get('uid'),
-              timestamp: doc.get('timestamp'),
-              displayName:doc.get('displayName'),
-              post_id: doc.get('post_id'),
-              likedPost: doc.get('likedPost'),
-              photoURL: doc.get('photoURL'),
-              bookmarkedPosts: doc.get('bookmarkedPosts')
-            } as FirestorePost);
-          });
-        setPosts(updatedPosts);
-      }
-      });
-      return subscriber // On unmount end listener
-    }, []);
-
-
-    // const fetchComments = async (post_id: string) => {
-    //   try {
-    //     const commentsSnapshot = await postsRef
-    //       .doc(post_id)
-    //       .collection('comments')
-    //       .get();
     
-    //     const updatedComments: FirestoreComment[] = [];
-        
 
-    //     commentsSnapshot.forEach((commentDoc: any) => {
-    //       updatedComments.push({
-    //         comment: commentDoc.get('comment'),
-    //         comment_id: commentDoc.get('comment_id'),
-    //         displayName: commentDoc.get('displayName'),
-    //         timestamp: commentDoc.get('timestamp'),
-    //         post_id: post_id,
-    //         photoURL: commentDoc.get('photoURL'),
-    //         likedComment: commentDoc.get('likedComment')
-    //       } as FirestoreComment);
-    //     });
-    //     setComments(updatedComments);
-    //   } catch (error) {
-    //     console.error('Error fetching comments:', error);
-    //   }
-    // };
-    
-    const CommentBoxWrapper: React.FC<{ post_id: string | null }> = ({ post_id }) => {
-      return (
-        <CommentBox
-          post_id={post_id}
-          user={user}
-          posts={posts}
-          comments={comments}
-          setOpenCommentModal={setOpenCommentModal}
-          fetchComments={fetchComments}
-          setSelectedPostId={setSelectedPostId}
-        />
-      );
-    };
-    
     // FORM ***************************************************************
     return (
       <>
@@ -136,14 +71,15 @@ const Posts = ({postsRef, commentsRef, openDeleteModal, showBookmarkPost = true}
                       setSelectedPostId(post_id);
                       setOpenCommentModal(true);
                       fetchComments(post_id);
+                      onCommentPress && onCommentPress(post)
                       }}/>
                 </View>
               </View>
 
-            {openDeleteModal && (
+            {onOptionsPress && (
               <View style={{position: 'absolute', top: 0, right: 15}}>
                 {userId == post.uid && (
-                  <Pressable style={{paddingHorizontal: 18, paddingVertical:15,}} onPress={() => openDeleteModal(post)}>
+                  <Pressable style={{paddingHorizontal: 18, paddingVertical:15,}} onPress={() => onOptionsPress(post)}>
                     <EllipsisMenu scale={0.90} height={30} width={20}/>
                   </Pressable>
                 )}
@@ -167,7 +103,15 @@ const Posts = ({postsRef, commentsRef, openDeleteModal, showBookmarkPost = true}
 flex: 1, justifyContent: 'flex-end'
           }}>
           
-          <CommentBoxWrapper post_id={selectedPostId} />
+        <CommentBox
+          post_id={selectedPostId}
+          user={user}
+          posts={posts}
+          comments={comments}
+          setOpenCommentModal={setOpenCommentModal}
+          fetchComments={fetchComments}
+          setSelectedPostId={setSelectedPostId}
+        />
           <NewComment post_id={selectedPostId!} onSubmit={()=>fetchComments(selectedPostId)} />
 
     </View>
@@ -183,7 +127,7 @@ flex: 1, justifyContent: 'flex-end'
     )
   }
 
-  export default Posts
+  export default PostListView
 
 const styles = StyleSheet.create({
   safeView: {
