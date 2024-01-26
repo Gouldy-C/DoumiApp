@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DefaultPurpleButton from '@components/DefaultPurpleButton'
 import { userStore } from '@utils/stores/userStore'
-import { router } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 
 
 interface FormData {
@@ -24,6 +24,7 @@ const OnboardingUsername = () => {
   const [submitError, setSubmitError] = useState('')
   const resetLoginInfo = userStore((state) => state.resetLoginInfo)
   const setUsername = userStore((state) => state.setUsername)
+  const userDoc = userStore((state) => state.userDoc)
 
   const {
     control,
@@ -45,6 +46,12 @@ const OnboardingUsername = () => {
       router.push('/(auth)/onboardingProfilePic')
     }
   };
+  
+  if (userDoc) {
+    return (
+      <Redirect  href={'/'} />
+    );
+  }
 
 
   return (

@@ -10,7 +10,7 @@ import DefaultPurpleButton from '@components/DefaultPurpleButton'
 import { LinearGradient } from 'expo-linear-gradient'
 import { userStore } from '@utils/stores/userStore'
 import auth from '@react-native-firebase/auth'
-import { router } from 'expo-router'
+import { Redirect, router } from 'expo-router'
 
 
 interface FormData {
@@ -26,10 +26,9 @@ const mainLogin = () => {
   const [submitError, setSubmitError] = useState('')
   const resetLoginInfo = userStore((state) => state.resetLoginInfo)
   const setLoginEmail = userStore((state) => state.setLoginEmail)
-
+  const authUser = userStore((state) => state.authUser)
 
   
-
   const {
     control,
     formState: { isValid },
@@ -64,6 +63,12 @@ const mainLogin = () => {
         .catch((error) => console.error(error))
     }
   };
+
+  if (authUser) {
+    return (
+      <Redirect  href={'/'} />
+    );
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>

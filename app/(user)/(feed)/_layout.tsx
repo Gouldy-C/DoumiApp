@@ -11,12 +11,6 @@ import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
 
 
 const FeedLayout = () => {
-  const authUser = userStore((state) => state.authUser);
-  const userDoc = userStore((state) => state.userDoc);
-  
-  if (!authUser || !userDoc) {
-    return <Redirect href={"/(auth)/mainLogin"} />;
-  }
 
   const TopTab = createMaterialTopTabNavigator();
 

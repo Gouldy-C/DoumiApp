@@ -7,7 +7,7 @@ import DoumiOnboardingHeader from '@components/DoumiOnboardingHeader'
 import DefaultPurpleButton from '@components/DefaultPurpleButton'
 import ControlledTextInput from '@components/ControlledTextInput'
 import { userStore } from '@utils/stores/userStore'
-import { signInEmailPassword, signUpEmailPassword } from '@utils/auth/emailPasswordAuth'
+import { signUpEmailPassword } from '@utils/auth/emailPasswordAuth'
 import { router } from 'expo-router'
 
 

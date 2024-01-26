@@ -32,44 +32,44 @@ export default function RootLayout() {
     ...FontAwesome.font,
   })
 
+  // setUserDoc(null)
+  // setAuthUser(null)
 
   function userChange(user: FirebaseAuthTypes.User | null) {
     setAuthUser(user)
+    if (user) {
+      firestore()
+        .collection('Users')
+        .doc(user.uid)
+        .onSnapshot(documentSnapshot => {
+          if (documentSnapshot.exists) {
+            setUserDoc({
+              authProvider: documentSnapshot.get('authProvider'),
+              createdTime: documentSnapshot.get('createdTime'),
+              displayName: documentSnapshot.get('displayName'),
+              email: documentSnapshot.get('email'),
+              emailVerified: documentSnapshot.get('emailVerified'),
+              lastSignInTime: documentSnapshot.get('lastSignInTime'),
+              lastUpdatedTime: documentSnapshot.get('lastUpdatedTime'),
+              phoneNumber: documentSnapshot.get('phoneNumber'),
+              photoURL: documentSnapshot.get('photoURL'),
+              providerId: documentSnapshot.get('providerId'),
+              uid: documentSnapshot.get('uid'),
+              bookmarkedStrategies: documentSnapshot.get('bookmarkedStrategies'),
+            })
+          }
+          else {
+            setUserDoc(null)
+          }
+        }, err => {console.log(err)})
+    }
     setLoading(false)
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const subscriber = auth().onAuthStateChanged(userChange);
     return subscriber
   }, []);
-
-  useLayoutEffect(() => {
-    const subscriber = firestore()
-      .collection('Users')
-      .doc(auth().currentUser?.uid)
-      .onSnapshot(documentSnapshot => {
-        if (documentSnapshot.exists) {
-          setUserDoc({
-            authProvider: documentSnapshot.get('authProvider'),
-            createdTime: documentSnapshot.get('createdTime'),
-            displayName: documentSnapshot.get('displayName'),
-            email: documentSnapshot.get('email'),
-            emailVerified: documentSnapshot.get('emailVerified'),
-            lastSignInTime: documentSnapshot.get('lastSignInTime'),
-            lastUpdatedTime: documentSnapshot.get('lastUpdatedTime'),
-            phoneNumber: documentSnapshot.get('phoneNumber'),
-            photoURL: documentSnapshot.get('photoURL'),
-            providerId: documentSnapshot.get('providerId'),
-            uid: documentSnapshot.get('uid'),
-            bookmarkedStrategies: documentSnapshot.get('bookmarkedStrategies'),
-          })
-        }
-        else {
-          setUserDoc(null)
-        }
-      }, err => {console.log(err)});
-    return subscriber;
-  }, [auth().currentUser])
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
