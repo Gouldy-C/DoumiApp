@@ -76,7 +76,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Hygiene Trouble"],
     strategyId: "d12af427-8b16-4736-acfe-1148b2082b2e",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Give them a choice",
@@ -85,7 +85,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Hygiene Trouble"],
     strategyId: "e2fd7fa7-1ffa-42b7-b13c-3b68fcf3dc3d",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Adapting a routine",
@@ -94,7 +94,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Hygiene Trouble"],
     strategyId: "0cf8f901-356b-4ebf-a1a0-be51fa3db0f7",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Consider alternatives",
@@ -103,7 +103,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Hygiene Trouble"],
     strategyId: "fdbc8069-7fe9-4225-89fa-5dad9e9ca301",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Shampoo separately",
@@ -112,7 +112,7 @@ export const strategies = [
     source: "BetterHealth Victoria",
     categories: ["Hygiene Trouble"],
     strategyId: "cb07a4e7-b79c-47fe-848e-df92c11c13cb",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   {
@@ -122,7 +122,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Depressed Mood"],
     strategyId: "ad3e8262-d9bd-40e9-bd89-85aa8f60b3aa",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Do enjoyable activities together",
@@ -131,7 +131,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Depressed Mood"],
     strategyId: "82f28e88-ab20-4545-a4fd-d89e1be99eba",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Regular Exercise",
@@ -140,7 +140,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Depressed Mood"],
     strategyId: "d75fa3dd-c7bb-4bac-9ded-4c1f668ec386",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Acknowledge frustration",
@@ -149,7 +149,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Depressed Mood"],
     strategyId: "ef0df8ee-c595-4344-bd4b-47379455ee20",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Make them feel loved",
@@ -158,7 +158,7 @@ export const strategies = [
     source: "Alzheimer's Association",
     categories: ["Depressed Mood"],
     strategyId: "642d5cfa-894e-4045-ae98-4adafdffc056",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   //////////////////////////////////////////////////////////////////////////////////////////////////
   {
@@ -168,7 +168,7 @@ export const strategies = [
     source: "A Place for Mom",
     categories: ["Memory Care"],
     strategyId: "84bea475-fb9a-44d1-b0f9-bb6db724596e",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Play well-loved footages",
@@ -177,7 +177,7 @@ export const strategies = [
     source: "A Place for Mom",
     categories: ["Memory Care"],
     strategyId: "b909631f-ea07-4e6f-a083-d9277b5d975b",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Problem solve together",
@@ -186,7 +186,7 @@ export const strategies = [
     source: "A Place for Mom",
     categories: ["Memory Care"],
     strategyId: "825fe935-a8af-4718-8e64-7c7c3241be73",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Go through familiar items",
@@ -195,7 +195,7 @@ export const strategies = [
     source: "A Place for Mom",
     categories: ["Memory Care"],
     strategyId: "7a08cc1e-c0fb-471f-ba3a-514a105de2d7",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Let them touch their favorite things",
@@ -204,7 +204,7 @@ export const strategies = [
     source: "A Place for Mom",
     categories: ["Memory Care"],
     strategyId: "cfa0ad08-3c6e-4e74-89f8-b6e556772f1a",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Smell nice things",
@@ -213,7 +213,7 @@ export const strategies = [
     source: "A Place for Mom",
     categories: ["Memory Care"],
     strategyId: "9fc51ee7-2329-410e-a256-5150bc1093dc",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
   {
     title: "Eat or cook to bring back memories",
@@ -222,6 +222,6 @@ export const strategies = [
     source: "A Place for Mom",
     categories: ["Memory Care"],
     strategyId: "196ce940-ba80-49b4-a954-9fb8be3a239d",
-    image: 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500-300x300.jpg',
+    image: 'https://fakeimg.pl/400x400?font=bebas',
   },
 ];

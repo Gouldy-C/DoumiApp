@@ -17,14 +17,14 @@ const BookmarkStrategy = ({ strategy_id }: { strategy_id: string }) => {
   const equals = bookmarkedStrategies!.includes(strategy_id)
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (bookmarked !== equals){
       setBookmarked(equals!)
     }
   }, [equals])
 
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (modalReturn) {
       setBookmarked((prev) => !prev)
       bookmarkStrategy(strategy_id)

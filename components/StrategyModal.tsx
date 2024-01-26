@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, Text, View, Image } from 'react-native'
+import { Modal, Pressable, StyleSheet, Text, View, ScrollView, Image } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Strategy } from '@utils/types/types';
@@ -41,53 +41,49 @@ const StrategyModal = ({
   }, [selectedStrategyIndex])
 
   return (
-    <View>
-      <Modal
+    <Modal
         animationType='fade'
         transparent={true}
         visible={modalVisible}
         onRequestClose={closeModal}
+        style={{}}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <View style={{flexDirection:'row', justifyContent: 'space-between', marginBottom: 20}}>
-              <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 15}}>
-                  <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
-              </Pressable>
-              <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center', maxWidth: '60%'}}>{strategy.title}</Text>
-              <BookmarkStrategy strategy_id={strategy.strategyId} />
-            </View>
-            <View style={{alignSelf: 'center'}}>
-              <Image
-                  style={{
-                    height: 200,
-                    width: 180,
-                    borderRadius: 25,
-                    
-                  }}
-                  source={strategy.image}
-                  alt={strategy.title}
-                />
-            </View>
-            <Text style={{fontSize: 18, paddingHorizontal: 20, textAlign: 'center', marginVertical: 30}}>{strategy.description}</Text>
-            { filteredStrategies.length > 1 &&
-              <Pressable  onPress={nextStrategy}>
-                <LinearGradient
-                  start={{x: 0, y: 0.0}}
-                  end={{x: 1, y: 0.0}}
-                  colors={['#514AA4', '#744696']}
-                  style={styles.button}>
-                    <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10}}>
-                      <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 15}}>Next Strategy</Text>
-                      <BackArrowSvg height={20} width={10} scale={0.95} color={'white'} rotation={180}/>
-                    </View>
-                </LinearGradient>
-              </Pressable>
-            }
+      <ScrollView bounces={false} alwaysBounceVertical={false} style={{}} contentContainerStyle={{minHeight: '100%', minWidth: '100%', backgroundColor: 'white', paddingVertical:16, paddingHorizontal: 20}}>
+          <View style={{flexDirection:'row', justifyContent: 'space-between', marginBottom: 20}}>
+            <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 15}}>
+                <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
+            </Pressable>
+            <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center', maxWidth: '60%'}}>{strategy.title}</Text>
+            <BookmarkStrategy strategy_id={strategy.strategyId} />
           </View>
-        </View>
-      </Modal>
-    </View>
+          <View style={{alignSelf: 'center'}}>
+            <Image
+                style={{
+                  height: 200,
+                  width: 180,
+                  borderRadius: 25,
+                }}
+                source={typeof(strategy.image) === 'string' ? {uri: strategy.image} : strategy.image}
+                alt={strategy.title}
+              />
+          </View>
+          <Text style={{fontSize: 18, paddingHorizontal: 20, textAlign: 'center', marginVertical: 30}}>{strategy.description}</Text>
+          { filteredStrategies.length > 1 &&
+            <Pressable  onPress={nextStrategy}>
+              <LinearGradient
+                start={{x: 0, y: 0.0}}
+                end={{x: 1, y: 0.0}}
+                colors={['#514AA4', '#744696']}
+                style={styles.button}>
+                  <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10}}>
+                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 15}}>Next Strategy</Text>
+                    <BackArrowSvg height={20} width={10} scale={0.95} color={'white'} rotation={180}/>
+                  </View>
+              </LinearGradient>
+            </Pressable>
+          }
+      </ScrollView>
+    </Modal>
   )
 }
 
@@ -101,7 +97,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   modalContainer: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -109,12 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
-    width: '100%',
-    height: '100%',
     elevation: 10,
   },
   outsideContainer: {
-    position: 'absolute',
     height: '100%',
     width: '100%',
   },

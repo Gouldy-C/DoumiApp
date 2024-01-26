@@ -7,7 +7,6 @@ import BookmarkStrategy from './BookmarkStrategy'
 
 const StrategyCard = ({strategy} : {strategy : Strategy}) => {
 
-
   return (
     <View
       key={strategy.strategyId}
@@ -23,7 +22,7 @@ const StrategyCard = ({strategy} : {strategy : Strategy}) => {
           margin: 10,
           borderRadius: 25,
         }}
-        source={strategy.image}
+        source={typeof(strategy.image) === 'string' ? {uri: strategy.image} : strategy.image}
         alt={strategy.title}
       />
 
