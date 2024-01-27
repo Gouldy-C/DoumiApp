@@ -18,7 +18,7 @@ const CommentsModal = ({state, setModalVisible, post}: {
         animationType='slide'
         visible={state}
         >
-          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{flexDirection: 'row', alignItems: 'center' }}>
             <View style={{ flex: 1, flexDirection: "row", alignItems: 'center', gap: 12, paddingLeft: 16 }}>
               <Pressable onPress={() => setModalVisible(false)} style={{ width: 24, marginRight: 20 }}>
                 <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2} />
@@ -30,6 +30,7 @@ const CommentsModal = ({state, setModalVisible, post}: {
               <View>
                 <Text style={{ fontSize: 19, fontWeight: '500' }}>{post.displayName}</Text>
                 <Text>{post.timestamp?.seconds && post.timestamp.toDate().toLocaleString()}</Text>
+                <Text>{post.content}</Text>
               </View>
             </View>
             <BookmarkPost post={post} />

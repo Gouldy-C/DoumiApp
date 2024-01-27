@@ -72,7 +72,7 @@ const NewComment = ({post}: {post: FirestorePost}) => {
   // },[])
 
   return (
-    <View style={{height: '10%'}}>
+    <View style={{}}>
       <View style={styles.container}>
         <ControlledTextInput
           control={control}

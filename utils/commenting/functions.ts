@@ -27,7 +27,7 @@ export const handleComment = async ({post_id, input, userDoc} :
             timestamp: firestore.FieldValue.serverTimestamp(),
             uid: userId,
             post_id: post_id,
-            likedComment: [],
+            likedArray: [],
             comment_id: comment_id,
             photoURL: photoURL
           });
@@ -61,7 +61,7 @@ export const fetchComments = async (post_id: string, setComments:(comments:Fires
         timestamp: commentDoc.get('timestamp'),
         post_id: post_id,
         photoURL: commentDoc.get('photoURL'),
-        likedArray: commentDoc.get('likedComment')
+        likedArray: commentDoc.get('likedArray')
       } as FirestoreComment);
     });
     setComments(updatedComments);

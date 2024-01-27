@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
-import LikeAComment from './LikeAComment';
+import { View, Text, Image, FlatList, StyleSheet } from 'react-native'
 import { FirestorePost } from '@utils/types/types';
 import { FirestoreComment } from '@utils/types/types';
 import firestore from '@react-native-firebase/firestore';
+import LikeAThing from './LikeAThing';
 
 
 interface CommentBoxProps {
@@ -11,7 +11,7 @@ interface CommentBoxProps {
 }
 
 const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
-  const commentsRef = firestore().collection('Posts').doc(post.post_id).collection('Comments')
+  const commentsRef = firestore().collection('Posts').doc(post.post_id).collection('comments')
   const [comments, setComments] = useState<FirestoreComment[]>([])
 
   useEffect(() => {
@@ -34,13 +34,14 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
     }
     });
     return subscriber // On unmount end listener
-  }, []);
-
+  }, [post]);
+  console.log(comments)
 
   return (
     <FlatList
       data={comments}
       keyExtractor={item => item.comment_id}
+      style={{flex: 1}}
       renderItem={({ item }) => (
         <View key={item.comment_id} style={styles.commentContainer}>
             <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
@@ -51,11 +52,11 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
               <View>
                 <Text style={{ fontSize: 17, fontWeight: '500' }}>{item.displayName}</Text>
                 <Text>
-                  {item.timestamp.seconds && item.timestamp.toDate().toLocaleString()}
+                  {item.timestamp && item.timestamp.toDate().toLocaleString()}
                 </Text>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 20 }}>
-                <LikeAComment comment={item} />
+                <LikeAThing post={item} firestoreRef={commentsRef.doc(item.comment_id)}/>
               </View>
             </View>
             <View>
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     width: "100%",
+    marginVertical: 10,
     paddingLeft: 10,
     paddingTop: 8,
     paddingBottom: 10,

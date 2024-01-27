@@ -28,7 +28,7 @@ export const handleLike = async (docRef:FirebaseFirestoreTypes.DocumentReference
     const data = postDocSnapshot.data();
 
     if (postDocSnapshot && data) {
-      if (data.likedPost.includes(userId)){
+      if (data.likedArray.includes(userId)){
         await docRef.update({
           likedArray: firestore.FieldValue.arrayRemove(userId),
         })

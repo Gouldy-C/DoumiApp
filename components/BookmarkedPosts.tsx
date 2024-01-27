@@ -12,7 +12,7 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
   const userId = auth().currentUser!.uid
   const [bookmarked, setBookmarked] = useState(post.bookmarkedPosts.includes(userId))
   const [modalVisible, setModalVisible] = useState(false);
-  const question = "Are you sure you want to remove this post from your saved post  list?"
+  const question = "Are you sure you want to remove this post from your saved posts list?"
   
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
     <>
     { bookmarked ? (
         <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
-          <BookmarkedSvg height={28} width={25} color={'#5049A4'} stroke={'#5049A4'} scale={0.8}/>
+          <BookmarkedSvg height={28} width={25} color={'#5049A4'} stroke={'#5049A4'} scale={1}/>
         </Pressable>
       ) : (
         <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
