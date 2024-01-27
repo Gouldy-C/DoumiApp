@@ -26,7 +26,7 @@
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/material-top-tabs": "^6.6.5",
     "@react-navigation/native": "^6.1.9",
-    "expo": "~50.0.3",
+    "expo": "^50.0.4",
     "expo-blur": "~12.9.1",
     "expo-checkbox": "~2.7.0",
     "expo-constants": "~15.4.5",
