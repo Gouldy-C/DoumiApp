@@ -9,8 +9,8 @@ import MagnifyingGlassSvg from '@components/svg-components/magnifyingGlassSvg'
 const UserProfile = () => {
   return (
     <>
-      <View style={{backgroundColor: 'white', paddingBottom: 20, }}>
-        <View style={{alignItems:'center', flexDirection: 'row', justifyContent: "space-around", marginVertical: 10}}>
+      <View style={{backgroundColor: 'white', paddingBottom: 20, paddingHorizontal: 16}}>
+        <View style={{alignItems:'center', flexDirection: 'row', justifyContent: "space-between", marginVertical: 10}}>
           <DoumiImageLogo color='white' height={50} width={50} />
           <Text style={{fontSize: 32, fontWeight: '500'}}>Profile</Text>
           <LinearGradient
