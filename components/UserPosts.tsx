@@ -1,14 +1,10 @@
 import {
   View, 
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import firestore from '@react-native-firebase/firestore';
-import { deletePost} from '@utils/posting/functions';
+import React from 'react';
+import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
-import Posts from '@components/Posts';
-import { FirestorePost } from '@utils/types/types';
-import { LinearGradient } from 'expo-linear-gradient';
-import AreYouSureModal from './AreYouSureModal';
+import { LinearGradient } from 'expo-linear-gradient'
 import PostListView from './PostListView';
 
 
