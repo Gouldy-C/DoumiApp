@@ -1,5 +1,5 @@
 export const TimeFunction = () => {
 
-    const minutes = 
+    const minutes = 0
 
 }
