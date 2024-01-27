@@ -50,7 +50,7 @@ function SignInForm() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.passInput}>
       <ControlledTextInput
         control={control}
         placeholder={"Email Address"}
@@ -58,7 +58,7 @@ function SignInForm() {
         label={"Email"}
       />
 
-      <View style={styles.passBox}>
+      <View style={styles.passInput}>
         <ControlledTextInput
           control={control}
           placeholder={"Password"}
@@ -92,6 +92,7 @@ function SignInForm() {
 
 export default SignInForm;
 
+
 const styles = StyleSheet.create({
   button: {
     backgroundColor: 'white',
@@ -110,13 +111,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   passBox: {
-    position: "relative",
-    marginVertical: 10,
+    marginVertical: 5,
+    flexDirection: "row", // Added flexDirection to align items horizontally
+    alignItems: "center", // Align items in the center vertically
+  },
+  passInput: {
+    flex: 1, // Take remaining space
   },
   passVisIcon: {
-    position: "absolute",
-    right: 0,
-    top: -6,
     padding: 10,
   },
 });

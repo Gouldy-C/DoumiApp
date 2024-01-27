@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import { userStore } from "@utils/stores/userStore";
 import { Redirect } from "expo-router";
 import { TopTabBar } from "@components/CustomTopTabs";
@@ -8,6 +8,7 @@ import FavoritePosts from "./savedPosts"
 import { Dimensions, View, TextInput, StyleSheet } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
+import FilterSearch from "@components/svg-components/filterSvg";
 
 
 const FeedLayout = () => {
@@ -16,7 +17,7 @@ const FeedLayout = () => {
 
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
-      <View style={{justifyContent: 'center', alignItems:'center', flexDirection: 'row', gap: 10, marginTop: 10}}>
+      <View style={{justifyContent: 'center', alignItems:'center', flexDirection: 'row', gap: 10, marginTop: 10, paddingBottom: 10}}>
         <DoumiImageLogo color='white' height={50} width={50} />
         <LinearGradient
               start={{x: 0, y: 0.0}}
@@ -24,11 +25,17 @@ const FeedLayout = () => {
               colors={['#5049A4', '#385592']}
               style={styles.button}>
         <TextInput
-          placeholder='Search tags'
+          placeholder='Filter posts'
           placeholderTextColor= 'white'
-          style={{color: 'white', fontSize: 20}}
+          style={{color: 'white', fontSize: 20, paddingLeft: 10}}
+          onChangeText={(text) => setSearchText(text)}
         >
         </TextInput>
+        {!searchText && (
+        <View style={{paddingRight: 10}}>
+          <FilterSearch width={50} height={30} scale={0.5} fill="#FFFFFF"  />
+        </View>
+        )}
         </LinearGradient>
       </View>
 
@@ -71,11 +78,13 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
   },
   button: {
-    borderRadius: 15,
+    borderRadius: 18,
     elevation: 8,
     paddingVertical: 10,
     paddingLeft: 10, 
     width: '80%',
-    flexDirection: 'row'
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
 })

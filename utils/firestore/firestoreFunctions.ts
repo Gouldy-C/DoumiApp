@@ -32,5 +32,6 @@ export const createNewUserFirestore = async (user : FirebaseAuthTypes.User, disp
       lastSignInTime: user.metadata.lastSignInTime,
       lastUpdatedTime: firestore.FieldValue.serverTimestamp(),
       bookmarkedStrategies: [],
+      bookmarkedPosts: []
     })
 }

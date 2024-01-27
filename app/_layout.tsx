@@ -56,6 +56,7 @@ export default function RootLayout() {
               providerId: documentSnapshot.get('providerId'),
               uid: documentSnapshot.get('uid'),
               bookmarkedStrategies: documentSnapshot.get('bookmarkedStrategies'),
+              bookmarkedPosts: documentSnapshot.get('bookmarkedPosts'),
             })
           }
           else {

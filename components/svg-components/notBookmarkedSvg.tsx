@@ -7,6 +7,7 @@ const NotBookmarkedSvg = (props : SvgProps) => (
   width={props.width}
   height={props.height}
   fill="none"
+  stroke={props.stroke}
   >
     <Path
       scale={props.scale}

@@ -1,12 +1,13 @@
 import * as React from "react"
-import Svg, { Circle, Path, G, Defs } from "react-native-svg"
-/* SVGR has dropped some elements not supported by react-native-svg: filter */
-const SvgComponent = (props:any) => (
+import Svg, { Circle, Path, G, Defs, SvgProps } from "react-native-svg"
+
+
+const doumiImageLogo = (props:SvgProps) => (
   <Svg
-    width={52}
-    height={52}
+    width={props.width}
+    height={props.height}
     fill="none"
-    {...props}
+    scale={props.scale}
   >
     <Circle cx={26} cy={26} r={25} fill="#fff" stroke="#fff" strokeWidth={2} />
     <Path
@@ -26,4 +27,6 @@ const SvgComponent = (props:any) => (
     <Defs></Defs>
   </Svg>
 )
-export default SvgComponent
+export default doumiImageLogo
+
+

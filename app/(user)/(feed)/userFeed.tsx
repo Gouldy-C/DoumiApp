@@ -2,9 +2,10 @@ import {View,
   StyleSheet,
 } from 'react-native';
 import React from 'react';
-import Posts from '@components/Posts';
 import firestore from '@react-native-firebase/firestore';
 import { LinearGradient } from 'expo-linear-gradient';
+import PostListView from '@components/PostListView';
+
 
 const UserFeed = () => {
   const postsRef = firestore().collection('Posts')
@@ -16,9 +17,9 @@ const UserFeed = () => {
       colors={['rgba(80, 73, 164, 0.2)', 'rgba(56, 85, 146, 0.2)']}
       style={{ flex: 1 }}
     >
-
       <View style={styles.container}>
-        <Posts postsRef={postsRef} />
+        <PostListView
+          postsRef={postsRef}/>
       </View>
     </LinearGradient>
 

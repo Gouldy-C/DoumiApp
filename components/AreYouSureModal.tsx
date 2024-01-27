@@ -8,11 +8,12 @@ import CloseXSvg from './svg-components/closeXSvg';
 import CheckmarkSvg from './svg-components/checkmark';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const AreYouSureModal = ({header, body, state, setModalVisible, setModalReturn}: {
+const AreYouSureModal = ({header, body, state, setModalVisible, onConfirmFunction}: {
   header: string,
-  body?: string, state:boolean,
+  body?: string, 
+  state:boolean,
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
-  setModalReturn: React.Dispatch<React.SetStateAction<boolean>>,
+  onConfirmFunction: () => void,
 }) => {
   const closeModal = () => {
     setModalReturn(false)
@@ -21,7 +22,7 @@ const AreYouSureModal = ({header, body, state, setModalVisible, setModalReturn}:
 
 
   const confirmModal = () => {
-    setModalReturn(true)
+    onConfirmFunction()
     setModalVisible(false);
   };
 

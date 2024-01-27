@@ -9,32 +9,13 @@ import Posts from '@components/Posts';
 import { FirestorePost } from '@utils/types/types';
 import { LinearGradient } from 'expo-linear-gradient';
 import AreYouSureModal from './AreYouSureModal';
-
+import PostListView from './PostListView';
 
 
 const UserPosts = () => {
   const userId = auth().currentUser?.uid
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalReturn, setModalReturn] = useState(false)
-  const [selectedPost, setSelectedPost] = useState<FirestorePost | null>(null);
   const usersPostsRef = firestore().collection('Posts').where("uid", "==", userId)
-  const question = "Are you sure you want to delete this post?"
 
-  
-  const openModal = (post : FirestorePost) => {
-    setModalVisible(true);
-    setSelectedPost(post);
-  };
-
-  useEffect(() => {
-    if (modalReturn && selectedPost) {
-      deletePost(selectedPost)
-      setModalReturn(false)
-    }
-  }, [modalVisible])
-
-
-  
 
   return (
     <LinearGradient
@@ -48,12 +29,9 @@ const UserPosts = () => {
         height: "100%",
         alignSelf: "center",
         }}>
-        <Posts postsRef={usersPostsRef} openDeleteModal={openModal}/>
+        <PostListView
+          postsRef={usersPostsRef}/>
       </View>
-
-
-      <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} setModalReturn={setModalReturn}/>
-
     </LinearGradient>
   )
 }

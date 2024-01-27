@@ -8,30 +8,22 @@ import AreYouSureModal from './AreYouSureModal'
 
 
 
-const BookmarkStrategy = ({ strategy_id }: { strategy_id: string }) => {
-  const bookmarkedStrategies = userStore((state) => state.userDoc?.bookmarkedStrategies)
-  const [bookmarked, setBookmarked] = useState(false)
-  const [modalReturn, setModalReturn] = useState(false)
+const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
+  const bookmarkedStrategies = userStore((state) => state.userDoc!.bookmarkedStrategies)
+  const [bookmarked, setBookmarked] = useState(bookmarkedStrategies.includes(strategy_id))
   const [modalVisible, setModalVisible] = useState(false);
   const question = "Are you sure you want to remove this strategy from your saved list?"
-  const equals = bookmarkedStrategies!.includes(strategy_id)
 
 
   useEffect(() => {
-    if (bookmarked !== equals){
-      setBookmarked(equals!)
-    }
-  }, [equals])
+    setBookmarked(bookmarkedStrategies.includes(strategy_id))
+  }, [bookmarkedStrategies])
 
 
-  useEffect(() => {
-    if (modalReturn) {
-      setBookmarked((prev) => !prev)
-      bookmarkStrategy(strategy_id)
-      setModalReturn(false)
-    }
-  }, [modalVisible])
-
+  const flipBookmark = async () => {
+    setBookmarked((prev) => !prev)
+    await bookmarkStrategy(strategy_id)
+  }
 
   const onBookmarkClick = () => {
     if (bookmarked) {
@@ -55,7 +47,7 @@ const BookmarkStrategy = ({ strategy_id }: { strategy_id: string }) => {
           <NotBookmarkedSvg height={28} width={25} color={'#424052'} scale={1}/>
         </Pressable>
       }
-      <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} setModalReturn={setModalReturn}/>
+      <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} onConfirmFunction={flipBookmark}/>
     </View>
   )
 }
