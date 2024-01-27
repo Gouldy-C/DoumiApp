@@ -32,8 +32,8 @@ export default function RootLayout() {
     ...FontAwesome.font,
   })
 
-  // setUserDoc(null)
-  // setAuthUser(null)
+  setUserDoc(null)
+  setAuthUser(null)
 
   function userChange(user: FirebaseAuthTypes.User | null) {
     setAuthUser(user)
