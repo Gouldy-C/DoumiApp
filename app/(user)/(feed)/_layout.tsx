@@ -12,7 +12,7 @@ import FilterSearch from "@components/svg-components/filterSvg";
 
 
 const FeedLayout = () => {
-
+  const [searchText, setSearchText] = useState('')
   const TopTab = createMaterialTopTabNavigator();
 
   return (
