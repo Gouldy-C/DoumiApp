@@ -1,6 +1,5 @@
-import React from "react";
-import { userStore } from "@utils/stores/userStore";
-import { Redirect, Stack} from "expo-router";
+import React from "react"
+import {  Stack} from "expo-router";
 import { View } from "react-native";
 
 

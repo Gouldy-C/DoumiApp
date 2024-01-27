@@ -25,9 +25,8 @@ type FormData = {
 };
 
 const NewComment = ({post}: {post: FirestorePost}) => {
-  const userDoc = userStore((state) => state.userDoc);
-  const [ isKeyboardVisible, setKeyboardVisible ] = useState(false);
-  const submittedPostId = post.post_id
+  const userDoc = userStore((state) => state.userDoc)
+  const [ isKeyboardVisible, setKeyboardVisible ] = useState(false)
   
   
   
@@ -53,7 +52,7 @@ const NewComment = ({post}: {post: FirestorePost}) => {
 
   const submitData = async (data: FormData) => {
     reset({ commentInput: "" })
-    await handleComment({ post_id: submittedPostId, input: data.commentInput, userDoc: userDoc!})
+    await handleComment({ post_id: post.post_id, input: data.commentInput, userDoc: userDoc!})
   };
 
 
@@ -75,6 +74,7 @@ const NewComment = ({post}: {post: FirestorePost}) => {
     <View style={{}}>
       <View style={styles.container}>
         <ControlledTextInput
+          keyboardType={'default'}
           control={control}
           placeholder={"Write a comment"}
           name={"commentInput"} 

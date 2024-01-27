@@ -1,6 +1,5 @@
 import React from "react";
-import { userStore } from "@utils/stores/userStore";
-import { Redirect, Stack, router } from "expo-router";
+import { Stack} from "expo-router";
 import { View } from "react-native";
 
 const AuthLayout = () => {

@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text } from "react-native";
 import React, { useState } from "react";
 import StrategyModal from "@components/StrategyModal";
 import StrategiesGroupScroll from "@components/strategiesGroupScroll";

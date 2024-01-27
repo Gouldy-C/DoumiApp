@@ -7,7 +7,6 @@ import { z, ZodType } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DefaultPurpleButton from '@components/DefaultPurpleButton'
-import { LinearGradient } from 'expo-linear-gradient'
 import { userStore } from '@utils/stores/userStore'
 import auth from '@react-native-firebase/auth'
 import { Redirect, router } from 'expo-router'

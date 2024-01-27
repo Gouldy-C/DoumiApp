@@ -1,16 +1,12 @@
 import {Text, View, StyleSheet, Button, Image, TextInput } from 'react-native'
 import React from 'react'
 import { logout } from '@utils/auth/general'
-import { userStore } from '@utils/stores/userStore'
 import UserPosts from '@components/UserPosts'
 import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
 import { LinearGradient } from 'expo-linear-gradient';
 import MagnifyingGlassSvg from '@components/svg-components/magnifyingGlassSvg'
 
 const UserProfile = () => {
-
-  const userDoc = userStore((state) => state.userDoc)
-
   return (
     <>
       <View style={{backgroundColor: 'white', paddingBottom: 20, }}>

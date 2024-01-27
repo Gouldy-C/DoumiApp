@@ -16,7 +16,6 @@ const AreYouSureModal = ({header, body, state, setModalVisible, onConfirmFunctio
   onConfirmFunction: () => void,
 }) => {
   const closeModal = () => {
-    setModalReturn(false)
     setModalVisible(false);
   }
 
