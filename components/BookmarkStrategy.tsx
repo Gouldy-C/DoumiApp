@@ -22,7 +22,7 @@ const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
 
   const flipBookmark = async () => {
     setBookmarked((prev) => !prev)
-    await bookmarkStrategy(strategy_id)
+    bookmarkStrategy(strategy_id)
   }
 
   const onBookmarkClick = () => {

@@ -1,13 +1,15 @@
 import React from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, Text} from 'react-native'
 import { googleSignIn } from '@utils/auth/googleAuth';
 import GoogleLogoSvg from './svg-components/googleLogoSvg';
+import { router } from 'expo-router';
 
 
 const GoogleButton = () => {
   
   const handleGoogleSignIn = async () => {
     await googleSignIn()
+    router.replace('/')
   };
   
   return (
