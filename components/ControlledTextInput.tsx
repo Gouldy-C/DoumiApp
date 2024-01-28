@@ -4,7 +4,7 @@ import { Control, Controller } from 'react-hook-form'
 import { TextStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes'
 
 interface Props {
-  control: Control<FormValues, any>
+  control: Control<any, any>
   name: string
   placeholder: string
   label?: string

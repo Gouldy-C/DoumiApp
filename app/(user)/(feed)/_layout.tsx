@@ -9,6 +9,7 @@ import { Dimensions, View, TextInput, StyleSheet } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
 import FilterSearch from "@components/svg-components/filterSvg";
+import FilterPostsButton from "@components/FilterPostsButton";
 
 
 const FeedLayout = () => {
@@ -19,24 +20,7 @@ const FeedLayout = () => {
     <View style={{backgroundColor: 'white', flex: 1}}>
       <View style={{justifyContent: 'center', alignItems:'center', flexDirection: 'row', gap: 10, marginTop: 10, paddingBottom: 10}}>
         <DoumiImageLogo color='white' height={50} width={50} />
-        <LinearGradient
-              start={{x: 0, y: 0.0}}
-              end={{x: 1, y: 0.0}}
-              colors={['#5049A4', '#385592']}
-              style={styles.button}>
-        <TextInput
-          placeholder='Filter posts'
-          placeholderTextColor= 'white'
-          style={{color: 'white', fontSize: 20, paddingLeft: 10}}
-          onChangeText={(text) => setSearchText(text)}
-        >
-        </TextInput>
-        {!searchText && (
-        <View style={{paddingRight: 10}}>
-          <FilterSearch width={50} height={30} scale={0.5} fill="#FFFFFF"  />
-        </View>
-        )}
-        </LinearGradient>
+        <FilterPostsButton/>
       </View>
 
       <View style={{flex: 1}}>

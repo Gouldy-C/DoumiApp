@@ -44,15 +44,15 @@ const CommentsModal = ({state, setModalVisible, post}: {
       visible={state}
       >
       <ScrollView contentContainerStyle={{ opacity: isKeyboardOpen ? 0.5 : 1  }}>
-        <View style={{ flex: 1, alignItems: 'flex-start',  paddingLeft: 10 }}>
+        <View style={{ flex: 1, alignItems: 'flex-start',  paddingHorizontal: 14 }}>
           <View style={{alignItems: 'center', flexDirection: 'row', marginBottom: 10, paddingTop: 8}}>
 
-            <Pressable onPress={() => setModalVisible(false)} style={{ width: 24, marginRight: 20, marginLeft: 6 }}>
+            <Pressable onPress={() => setModalVisible(false)} style={{ marginLeft: 6, paddingRight:15 }}>
               <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2} />
             </Pressable>
             <Image
               source={{ uri: post.photoURL }}
-              style={{ height: 35, aspectRatio: 1, borderRadius: 50, marginRight: 5 }}
+              style={{ height: 40, aspectRatio: 1, marginRight: 10 }}
             />
 
             <View>
@@ -70,9 +70,13 @@ const CommentsModal = ({state, setModalVisible, post}: {
                 {post.content}
               </Text>
           </View>
-          <Text style={{ color: '#2B789D', fontSize: 16, fontWeight: 'bold', paddingVertical: 16, marginLeft: 6 }}>
-            {post.hashTags.join('     ')}
-          </Text>
+          <ScrollView style={{flexGrow: 0, maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
+            {
+              post.hashTags.map((tag) => (
+                  <Text key={tag} style={{color: '#2B789D', fontWeight: '700', fontSize: 16}}>{tag}</Text>
+                ))
+            }
+          </ScrollView>
         </View>
         <View  style={{flex: 1, justifyContent: 'flex-end'}}>
           <CommentBox

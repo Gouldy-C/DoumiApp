@@ -118,13 +118,14 @@ const DeEscalationPage = () => {
                 }}>
                 <Text
                   style={{
-                    fontSize: 20,
-                    fontWeight: "700",
-                    paddingBottom: 5,
+                    fontSize: 22,
+                    fontWeight: "600",
+                    paddingHorizontal:2,
+                    paddingBottom: 8,
                     textAlign: "center",
                     color: "#ffffff",
                   }}>
-                  {strategyCat.title.toLocaleUpperCase()}
+                  {strategyCat.title}
                 </Text>
 
                 <Image

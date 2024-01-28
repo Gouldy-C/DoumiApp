@@ -5,6 +5,7 @@ import { FirestoreComment } from '@utils/types/types';
 import firestore from '@react-native-firebase/firestore';
 import LikeAThing from './LikeAThing';
 import { calculateTimeDifference } from '@utils/timeFunctions';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 interface CommentBoxProps {
@@ -63,17 +64,22 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
 
   return (
     <>
-      <Text style={{fontSize: 20, fontWeight: '700', color: '#424052', textAlign: 'center', textAlignVertical: 'center'}} >
+      <Text style={{fontSize: 20, fontWeight: '700', color: '#424052', textAlign: 'center', textAlignVertical: 'center', marginBottom: 5}} >
         Comments
       </Text>
-      <View style={{flex: 1, marginTop: 2, opacity: isKeyboardOpen ? 0.5 : 1 }}>
+      <LinearGradient
+        start={{ x: 0, y: 0.0 }}
+        end={{ x: 1, y: 0.0 }}
+        colors={['rgba(80, 73, 164, 0.2)', 'rgba(56, 85, 146, 0.2)']}
+        style={{ flex: 1, paddingVertical: 5, gap: 5, marginTop: 2}}
+      >
         {comments.map((comment) => {
           return(
             <View key={comment.comment_id} style={styles.commentContainer}>
               <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
                 <Image
                   source={{uri: comment.photoURL}}
-                  style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
+                  style={{ height: 40, aspectRatio: 1 }}
                 />
                 <View>
                   <Text style={{ fontSize: 17, fontWeight: '500' }}>{comment.displayName}</Text>
@@ -81,17 +87,17 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
                     {comment.timestamp && calculateTimeDifference(comment.timestamp.toDate())}
                   </Text>
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 20 }}>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 0 }}>
                   <LikeAThing post={comment} firestoreRef={commentsRef.doc(comment.comment_id)} scale={0.85}/>
                 </View>
               </View>
               <View>
-                <Text style={{ fontSize: 17, width: "70%", marginLeft: 61 }}>{(comment as FirestoreComment).comment}</Text>
+                <Text style={{ fontSize: 17, width: "84%", marginLeft: 'auto' }}>{(comment as FirestoreComment).comment}</Text>
               </View>
             </View>
           )
         })}
-      </View>
+      </LinearGradient>
     </>
   );
 };
@@ -132,11 +138,11 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     width: "100%",
-    paddingLeft: 10,
+    paddingHorizontal: 8,
     paddingTop: 8,
     paddingBottom: 10,
     backgroundColor: 'white',
     gap: 10,
-    
+    borderRadius: 15,
   }
 })

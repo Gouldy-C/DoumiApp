@@ -72,7 +72,7 @@ const PostListView = ({
                   }}>
                   <Image
                     source={{ uri: post.photoURL }}
-                    style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
+                    style={{ height: 40, aspectRatio: 1 }}
                   />
 
                   <View>
@@ -93,9 +93,13 @@ const PostListView = ({
                   {post.content}
                 </Text>
                 </Pressable>
-                <Text style={{ color: '#2B789D', fontSize: 16, fontWeight: 'bold', paddingVertical: 16, marginLeft: 6 }}>
-                  {post.hashTags.join('     ')}
-                </Text>
+                <ScrollView style={{flexGrow: 0, maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
+                  {
+                    post.hashTags.map((tag) => (
+                        <Text key={tag} style={{color: '#2B789D', fontWeight: '700', fontSize: 16}}>{tag}</Text>
+                      ))
+                  }
+                </ScrollView>
                 <View style={styles.labels}>
                   <LikeAThing post={post} firestoreRef={firestore().collection('Posts').doc(post.post_id)}/>
                   <CommentButton post={post} />

@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Pressable, ScrollView} from 'react-native'
+import {Text, View, StyleSheet, Pressable, ScrollView, KeyboardAvoidingView} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { handlePost } from '@utils/posting/functions';
 import { router } from 'expo-router';
@@ -54,25 +54,19 @@ const NewPost = () => {
 
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+    <KeyboardAvoidingView behavior='padding' style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
       <View style={{flexDirection: 'row', marginVertical: 5, alignItems: 'center'}}>
         <Pressable onPress={() => {router.back()}} style={{paddingRight: 25,}}>
           <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2}/>
         </Pressable>
         <Text style={{fontSize: 32, fontWeight: '500'}}>New Post</Text>
-        <Pressable onPress={resetPost} style={{marginLeft: 'auto'}}>
-          <LinearGradient
-          start={{x: 0, y: 0.0}}
-          end={{x: 1, y: 0.0}}
-          colors={['#FFFFFF', '#FFFFFF']}
-          style={{
-            borderRadius: 60,
-            elevation: 6,
-            paddingVertical: 8,
-            paddingHorizontal: 20,
-            }}>
-              <Text style={{fontSize: 18}}>Clear</Text>
-          </LinearGradient>
+        <Pressable onPress={resetPost} style={{marginLeft: 'auto', borderRadius: 60,
+          elevation: 6,
+          paddingVertical: 8,
+          paddingHorizontal: 20,
+          backgroundColor: '#ffffff'
+        }}>
+          <Text style={{fontSize: 18}}>Clear</Text>
         </Pressable>
       </View>
       <View style={{flex: 1, gap: 40}}>
@@ -82,7 +76,7 @@ const NewPost = () => {
             control={control}
             placeholder={"Write something..."}
             name={"post"}
-            styles={{elevation: 0, borderWidth: 0, textAlignVertical: 'top', paddingVertical: 0, paddingHorizontal: 0, marginVertical: 0, minHeight: 60}}
+            styles={{elevation: 0, borderWidth: 0, textAlignVertical: 'top', paddingVertical: 0, paddingHorizontal: 10, marginVertical: 0}}
             multiline />
         </View>
         <ScrollView style={{flexGrow: 0, maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
@@ -102,17 +96,11 @@ const NewPost = () => {
             style={{flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 10, paddingHorizontal:16, paddingVertical: 10, backgroundColor: '#2B789D'}}
             >
             <CheckListSvg height={17} width={22} color={'#ffffff'} scale={1.1}/>
-            <LinearGradient
-                start={{ x: 0, y: 0.0 }}
-                end={{ x: 1, y: 0.0 }}
-                colors={['rgba(44, 120, 158, 1)', 'rgba(72, 105, 167, 1)']}
-              >
             <Text
               style={{fontWeight: '700', fontSize: 16, color: 'white'}}
               >
               Add/Remove a Tag
             </Text>
-            </LinearGradient>
           </View>
           <View
             style={{width: 33.5 ,backgroundColor: '#2B789D', aspectRatio: 1, borderRadius: 7, transform: [{rotate: '-45deg'}, {translateX: -20.4}, {translateY: -14.7}], zIndex: -5}}
@@ -131,7 +119,7 @@ const NewPost = () => {
         setModalVisible={setModalVisible}
         tagData={selectedTags}
         setModalReturn={setSelectedTags} />
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
