@@ -62,33 +62,37 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
 
 
   return (
-    <FlatList
-      data={comments}
-      keyExtractor={item => item.comment_id}
-      style={{flex: 1, marginTop: 2, opacity: isKeyboardOpen ? 0.5 : 1 }}
-      renderItem={({ item }) => (
-        <View key={item.comment_id} style={styles.commentContainer}>
-            <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
+    <>
+      <Text style={{fontSize: 20, fontWeight: '700', color: '#424052', textAlign: 'center', textAlignVertical: 'center'}} >
+        Comments
+      </Text>
+      <View style={{flex: 1, marginTop: 2, opacity: isKeyboardOpen ? 0.5 : 1 }}>
+        {comments.map((comment) => {
+          return(
+            <View key={comment.comment_id} style={styles.commentContainer}>
+              <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
                 <Image
-                  source={{uri: item.photoURL}}
+                  source={{uri: comment.photoURL}}
                   style={{ height: 35, aspectRatio: 1, borderRadius: 50 }}
                 />
+                <View>
+                  <Text style={{ fontSize: 17, fontWeight: '500' }}>{comment.displayName}</Text>
+                  <Text style={{opacity: 0.7}}>
+                    {comment.timestamp && calculateTimeDifference(comment.timestamp.toDate())}
+                  </Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 20 }}>
+                  <LikeAThing post={comment} firestoreRef={commentsRef.doc(comment.comment_id)} scale={0.85}/>
+                </View>
+              </View>
               <View>
-                <Text style={{ fontSize: 17, fontWeight: '500' }}>{item.displayName}</Text>
-                <Text style={{opacity: 0.7}}>
-                  {item.timestamp && calculateTimeDifference(item.timestamp.toDate())}
-                </Text>
-              </View>
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 20 }}>
-                <LikeAThing post={item} firestoreRef={commentsRef.doc(item.comment_id)}/>
+                <Text style={{ fontSize: 17, width: "70%", marginLeft: 61 }}>{(comment as FirestoreComment).comment}</Text>
               </View>
             </View>
-            <View>
-              <Text style={{ fontSize: 17, width: "70%", marginLeft: 61 }}>{(item as FirestoreComment).comment}</Text>
-            </View>
-        </View>
-      )}
-    />
+          )
+        })}
+      </View>
+    </>
   );
 };
 

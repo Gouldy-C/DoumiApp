@@ -56,36 +56,31 @@ const NewComment = ({post}: {post: FirestorePost}) => {
   
 
   return (
-    <View style={{}}>
-      <View style={styles.container}>
-        <ControlledTextInput
-          keyboardType={'default'}
-          control={control}
-          placeholder={"Write a comment"}
-          name={"commentInput"} 
-          styles={{textAlignVertical: 'top', flex: 1, elevation:0, minHeight: '100%', paddingLeft: 16}}
-          multiline
-        />
-        </View>
-
-        <View>
-          <Pressable 
-            onPress={handleSubmit(submitData)}
-            style={{width: '100%', alignItems: 'center'}}> 
-            <LinearGradient
-              start={{x: 0, y: 0.0}}
-              end={{x: 1, y: 0.0}}
-              colors={['#514AA4', '#744696']}
-              style={styles.button}>
-                <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                  <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '500', color: 'white', marginRight: 15}}>
-                    Publish
-                  </Text>
-                  <PublishArrowSvg color='white' height={14} width={16}/>
-                </View>
-            </LinearGradient>
-          </Pressable>
-      </View>
+    <View style={styles.container}>
+      <ControlledTextInput
+        keyboardType={'default'}
+        control={control}
+        placeholder={"Write a comment"}
+        name={"commentInput"} 
+        styles={{ elevation:0, minHeight: 50, paddingHorizontal: 14, borderBottomWidth: 0, borderTopWidth: 2, borderRadius: 0, paddingVertical:8}}
+        multiline
+      />
+      <Pressable 
+        onPress={handleSubmit(submitData)}
+        style={{width: '100%', alignItems: 'center'}}> 
+        <LinearGradient
+          start={{x: 0, y: 0.0}}
+          end={{x: 1, y: 0.0}}
+          colors={['#514AA4', '#744696']}
+          style={styles.button}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12}}>
+              <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white'}}>
+                Publish
+              </Text>
+              <PublishArrowSvg color='white' height={14} width={16}/>
+            </View>
+        </LinearGradient>
+      </Pressable>
     </View>
   );
 };
@@ -93,21 +88,12 @@ const NewComment = ({post}: {post: FirestorePost}) => {
 export default NewComment
 
 const styles = StyleSheet.create({
-  safeView: {
-    flex: 1,
-    alignItems: "center",
-  },
   container: {
-    paddingBottom: 20,
     width: "100%",
     alignSelf: "center",
-    paddingLeft: 1,
   },
   button: {
-    // borderRadius: 60,
-    elevation: 5,
-    paddingVertical: 8,
+    paddingVertical: 14,
     width: '100%',
-    marginHorizontal: 20,
   },
 })

@@ -1,4 +1,4 @@
-import { Pressable } from 'react-native'
+import { Pressable, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import NotBookmarkedSvg from './svg-components/notBookmarkedSvg'
 import { handleBookMark } from '@utils/posting/functions'
@@ -14,10 +14,10 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const question = "Are you sure you want to remove this post from your saved posts list?"
 
+
   useEffect(() => {
     setBookmarked(post.bookmarkedPosts.includes(userId))
   }, [post.bookmarkedPosts.includes(userId)])
-  
 
   const flipBookmark = async () => {
     setBookmarked((prev) => !prev)
@@ -33,21 +33,20 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
     }
   }
 
+  
   return (
-    <>
-    { userId != post.uid  && (
-      bookmarked ? (
-        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
-          <BookmarkedSvg height={28} width={25} color={'#5049A4'} stroke={'#5049A4'} scale={1}/>
+    <View key={post.post_id}>
+      {bookmarked ?
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 15}}>
+          <BookmarkedSvg height={28} width={25} color={'#5049A4'} scale={1}/>
         </Pressable>
-      ) : (
-        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
-          <NotBookmarkedSvg height={28} width={25} color={'#424052'} stroke={'#5049A4'} scale={1}/>
+          :
+        <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 15}}>
+          <NotBookmarkedSvg height={28} width={25} color={'#424052'} scale={1}/>
         </Pressable>
-      )
-    )}
-    <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} onConfirmFunction={flipBookmark}/>
-  </>
+      }
+      <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} onConfirmFunction={flipBookmark}/>
+    </View>
   )
 }
 

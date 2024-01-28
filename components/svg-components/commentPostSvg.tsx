@@ -4,7 +4,7 @@ import Svg, { SvgProps, Path } from "react-native-svg"
 
 const CommentPostSvg = (props: SvgProps) => (
   <Svg
-    width={props.height}
+    width={props.width}
     height={props.height}
     fill="none"
     stroke={props.stroke}

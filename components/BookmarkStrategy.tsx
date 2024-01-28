@@ -12,9 +12,7 @@ const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
   const isBookmarked = userStore((state) => state.userDoc!.bookmarkedStrategies.includes(strategy_id))
   const [modalVisible, setModalVisible] = useState(false);
   const question = "Are you sure you want to remove this strategy from your saved list?"
-
-  console.log('BookmarkStrategy', strategy_id)
-
+  
 
   const flipBookmark = async () => {
     bookmarkStrategy(strategy_id)

@@ -45,7 +45,7 @@ export const bookmarkStrategy = async (strategy_id: string) => {
         return;
       }
     } else {
-      console.log(`Document with userId ${userId} does not exist`);
+      console.error(`Document with userId ${userId} does not exist`);
     }
   } catch (error) {
     console.error("Error adding like:", error);

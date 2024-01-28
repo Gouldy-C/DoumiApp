@@ -13,7 +13,6 @@ export const deletePost = async (post:FirestorePost) => {
       .collection('Posts')
       .doc(post.post_id)
       .delete()
-      console.log('Document successfully deleted!');
     } catch (error) {
       console.error('Error deleting document:', error);
     }
@@ -42,7 +41,7 @@ export const handleLike = async (docRef:FirebaseFirestoreTypes.DocumentReference
         });
       }
     } else {
-      console.log(`Document does not exist` , docRef.path);
+      console.error(`Document does not exist` , docRef.path);
       // Handle the case where the document doesn't exist (if needed)
     }
   } catch (error) {
@@ -148,7 +147,7 @@ export const handleBookMark = async (post_id: string) => {
         });
       }
     } else {
-      console.log(`Document with post_id ${post_id} does not exist`);
+      console.error(`Document with post_id ${post_id} does not exist`);
       // Handle the case where the document doesn't exist (if needed)
     }
   } catch (error) {

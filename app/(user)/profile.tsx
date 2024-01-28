@@ -10,7 +10,7 @@ import AccountGear from '@components/svg-components/accountGear';
 const UserProfile = () => {
   return (
     <>
-      <View style={{backgroundColor: 'white', paddingBottom: 20, paddingHorizontal: 16}}>
+      <View style={{backgroundColor: 'white', paddingBottom: 10, paddingHorizontal: 16}}>
         <View style={{alignItems:'center', flexDirection: 'row', justifyContent: "space-between", marginVertical: 10}}>
           <DoumiImageLogo color='white' height={50} width={50} />
           <Text style={{fontSize: 32, fontWeight: '500'}}>Profile</Text>
@@ -24,11 +24,11 @@ const UserProfile = () => {
           </LinearGradient>
         </View>
         <View style={{alignSelf: 'center', alignItems:'center', flexDirection: 'row', gap: 10}}>
-          <AccountGear width={35} height={38} color={'#734595'} scale={0.2}/>
+          <AccountGear width={30} height={26} color={'#734595'} scale={0.7} fill={"#5049A4"}/>
           <Text style={{fontSize: 18, fontWeight: '500', color: '#734595'}}>Account Settings</Text>
         </View>
         <View style={{alignSelf: 'center'}}>
-          <Pressable onPress={logout}><Text style={{fontSize: 17, fontWeight: '500', color: '#B50012'}}>Logout</Text></Pressable>
+          <Pressable onPress={logout}><Text style={{fontSize: 17, fontWeight: '500', color: '#B50012', paddingVertical: 10}}>Logout</Text></Pressable>
         </View>
       </View>
       <UserPosts/>

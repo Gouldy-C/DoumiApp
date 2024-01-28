@@ -37,8 +37,8 @@ const CommentButton = ({post} : {
   return (
     <>
       <Pressable style={constStyles.labels} onPress={() => setCommentModalVisible(true)}>
-        <CommentPostSvg stroke='#5049A4' scale={0.73} height={25} width={25}/>
-        <Text style={{fontWeight: 'bold', color: '#5049A4'}}>{count}</Text>
+        <CommentPostSvg stroke='#5049A4' scale={0.77} height={22} width={28}/>
+        <Text style={{fontWeight: 'bold', color: '#5049A4', fontSize: 18, textAlignVertical: 'center'}}>{count}</Text>
       </Pressable>
       <CommentsModal post={post} state={commentModalVisible} setModalVisible={setCommentModalVisible}/>
     </>

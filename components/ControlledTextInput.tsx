@@ -32,7 +32,7 @@ const ControlledTextInput = ({multiline = false, styles, control, placeholder, n
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}/>
               {label && <Text style={style.inputLabel}>{label}</Text>}
-              <Text style={[style.inputError]}>{error?.message}</Text>
+              {error && <Text style={[style.inputError]}>{error?.message}</Text>}
             </>
           )}
         />

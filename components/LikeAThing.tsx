@@ -8,9 +8,10 @@ import { constStyles } from '@constants/Styles';
 import { FirestoreComment, FirestorePost } from '@utils/types/types'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 
-const LikeAThing = ({post, firestoreRef}: {
+const LikeAThing = ({post, firestoreRef, scale=1}: {
     post: FirestorePost| FirestoreComment,
-    firestoreRef: FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>
+    firestoreRef: FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>,
+    scale?: number
   }) => {
   const userId = auth().currentUser?.uid as string
   const [liked, setLiked] = useState(post.likedArray.includes(userId))
@@ -33,14 +34,14 @@ const LikeAThing = ({post, firestoreRef}: {
   return (
     <>
       {liked ?
-        <Pressable style={constStyles.labels} onPress={() => onLikeClick(false)}>
-          <LikedHeart fill="#5049A4" stroke="#5049A4" scale={0.75} height={25} width={25}/>
-          <Text style={{fontWeight: 'bold', color: '#5049A4'}}>{count}</Text>
+        <Pressable style={[constStyles.labels, {transform: [{scale:scale}]}]} onPress={() => onLikeClick(false)}>
+          <LikedHeart fill="#5049A4" stroke="#5049A4" scale={0.78} height={23} width={26}/>
+          <Text style={{fontWeight: 'bold', color: '#5049A4', fontSize: 18, textAlignVertical: 'center'}}>{count}</Text>
         </Pressable>
         :
-        <Pressable style={constStyles.labels} onPress={() => onLikeClick(true)}>
-          <UnlikedHeart stroke="#5049A4" strokeWidth={1} scale={0.75} height={25} width={25}/>
-          <Text style={{fontWeight: 'bold', color: '#5049A4'}}>{count}</Text>
+        <Pressable style={[constStyles.labels, {transform: [{scale:scale}]}]} onPress={() => onLikeClick(true)}>
+          <UnlikedHeart stroke="#5049A4" strokeWidth={1} scale={0.78} height={23} width={26}/>
+          <Text style={{fontWeight: 'bold', color: '#5049A4', fontSize: 18, textAlignVertical: 'center'}}>{count}</Text>
         </Pressable>
       }
     </>

@@ -75,7 +75,7 @@ const mainLogin = () => {
         <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
           <DoumiOnboardingHeader textValue="You're not alone in your dementia care journey." textSize='small' />
           <GoogleButton/>
-          <View style={{backgroundColor: '#CFCFD3', width: '100%', height: 2, marginVertical: 25 }}/>
+          <View style={{backgroundColor: '#CFCFD3', width: '100%', height: 2, marginVertical: 30 }}/>
           <View style={{alignItems: 'center', width: '100%'}}>
             {!emailLogin ?
               <Pressable 
@@ -101,8 +101,8 @@ const mainLogin = () => {
                   label={"Email Address"}
                   styles={{width: '100%'}}
                 />
-                <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)} disabled={!isValid}>
-                  <Text style={{color: '#ffffff', fontSize: 18, fontWeight: '700'}}>Continue</Text>
+                <DefaultPurpleButton styles={{marginVertical: 20}} onPress={handleSubmit(submitData)} disabled={!isValid}>
+                  <Text style={{color: '#ffffff', fontSize: 18, fontWeight: '700'}}>Continue with Email</Text>
                 </DefaultPurpleButton>
                 <Text style={{color: 'red', fontSize:18, textAlign: 'center', paddingTop: 10, paddingHorizontal: 20}}>
                   {submitError}
