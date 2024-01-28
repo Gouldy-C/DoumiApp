@@ -77,12 +77,13 @@ const PostListView = ({
 
                   <View>
                     <Text style={styles.name}>{post.displayName}</Text>
-                    <Text>
+                    <Text style={{opacity: 0.7}}>
                       {post.timestamp?.seconds &&
                         calculateTimeDifference(post.timestamp.toDate())}
                     </Text>
                   </View>
 
+                  <EditDeletePost post={post} />
                 </View>
                 <BookmarkPost post={post} />
               </View>
@@ -92,12 +93,14 @@ const PostListView = ({
                   {post.content}
                 </Text>
                 </Pressable>
+                <Text style={{ color: '#2B789D', fontSize: 16, fontWeight: 'bold', paddingVertical: 16, marginLeft: 6 }}>
+                  {post.hashTags.join('     ')}
+                </Text>
                 <View style={styles.labels}>
                   <LikeAThing post={post} firestoreRef={firestore().collection('Posts').doc(post.post_id)}/>
                   <CommentButton post={post} />
                 </View>
               </View>
-              <EditDeletePost post={post} />
             </View>
           ))}
       </ScrollView>

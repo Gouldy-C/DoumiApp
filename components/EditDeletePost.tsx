@@ -7,7 +7,7 @@ import { deletePost } from '@utils/posting/functions'
 import { FirestorePost } from '@utils/types/types'
 import TrashCanSvg from './svg-components/trashCan'
 import PencilSvg from './svg-components/pencil'
-import EditPostModal from './EditPostmodal'
+import EditPostModal from './EditPostModal'
 
 
 

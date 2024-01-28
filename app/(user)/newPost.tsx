@@ -102,11 +102,17 @@ const NewPost = () => {
             style={{flexDirection: 'row', alignItems: 'center', gap: 8, borderRadius: 10, paddingHorizontal:16, paddingVertical: 10, backgroundColor: '#2B789D'}}
             >
             <CheckListSvg height={17} width={22} color={'#ffffff'} scale={1.1}/>
+            <LinearGradient
+                start={{ x: 0, y: 0.0 }}
+                end={{ x: 1, y: 0.0 }}
+                colors={['rgba(44, 120, 158, 1)', 'rgba(72, 105, 167, 1)']}
+              >
             <Text
-              style={{color: '#ffffff', fontWeight: '700', fontSize: 16}}
+              style={{fontWeight: '700', fontSize: 16, color: 'white'}}
               >
               Add/Remove a Tag
             </Text>
+            </LinearGradient>
           </View>
           <View
             style={{width: 33.5 ,backgroundColor: '#2B789D', aspectRatio: 1, borderRadius: 7, transform: [{rotate: '-45deg'}, {translateX: -20.4}, {translateY: -14.7}], zIndex: -5}}
