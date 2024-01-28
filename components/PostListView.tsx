@@ -46,7 +46,7 @@ const PostListView = ({
 
   return (
     <>
-      <ScrollView contentContainerStyle={{gap:12, marginVertical: 12}}>
+      <ScrollView style={{}} contentContainerStyle={{gap:12, marginTop: 12, marginBottom: 30}}>
         {posts
           ?.sort((a, b) => b.timestamp?.seconds - a.timestamp?.seconds)
           .map((post) => (

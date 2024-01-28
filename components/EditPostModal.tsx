@@ -1,8 +1,7 @@
 import {Text, View, Pressable, ScrollView, Modal} from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { updatePost } from '@utils/posting/functions';
-import { router } from 'expo-router';
-import { ZodType, z } from 'zod';
+import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ControlledTextInput from '@components/ControlledTextInput'
@@ -25,44 +24,50 @@ const EditPostModal = ({state, postId, postContent, postTags, setEditModalVisibl
 }) => {
   const [selectedTags, setSelectedTags] =  useState<string[]>(postTags)
   const [modalVisible, setModalVisible] = useState(false);
-  const schema: ZodType<FormData> = z.object({
+  const schema = z.object({
     post: z
     .string()
     .min(5, "Post must be longer then 5 characters")
     .max(1000,"Post must be less then 1000 characters")
   });
+  
   const isTags = !!selectedTags.length
-  console.log('EditPostModal');
+
   const {
     control,
-    handleSubmit,
     setValue,
-    formState: { isValid },
+    handleSubmit,
+    formState: { isValid  },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
+
+  useEffect(() => {
+    setValue('post', postContent)
+  }, [])
   
-  setValue('post', postContent)
 
   const submitData = async (data: FormData) => {
-    if (isTags) {
+    if (isTags && (postContent != data.post || postTags != selectedTags) ) {
+
       updatePost(postId, data.post, selectedTags)
       closeModal()
     }
   }
+
   const closeModal = () => {
     setEditModalVisible(false)
   }
 
   return (
     <Modal
-        animationType='fade'
-        transparent={true}
-        visible={state}
-        onRequestClose={closeModal}
-        style={{height: '100%', width: '100%'}}
-      >
-      <View style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+      animationType='fade'
+      transparent={true}
+      visible={state}
+      onRequestClose={closeModal}
+      style={{}}
+    >
+      <View style={{height: '100%', width: '100%', backgroundColor: 'white', paddingHorizontal: 16}}>
         <View style={{flexDirection: 'row', marginVertical: 5, alignItems: 'center'}}>
           <Pressable onPress={closeModal} style={{paddingRight: 25,}}>
             <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2}/>
@@ -76,7 +81,7 @@ const EditPostModal = ({state, postId, postContent, postTags, setEditModalVisibl
               control={control}
               placeholder={"Write something..."}
               name={"post"}
-              styles={{elevation: 0, borderWidth: 0, textAlignVertical: 'top', paddingVertical: 0, paddingHorizontal: 0, marginVertical: 0}}
+              styles={{elevation: 0, borderWidth: 0, textAlignVertical: 'top', paddingVertical: 0, paddingHorizontal: 0, marginVertical: 0, minHeight: 60}}
               multiline />
           </View>
           <ScrollView style={{flexGrow: 0, maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
@@ -106,7 +111,7 @@ const EditPostModal = ({state, postId, postContent, postTags, setEditModalVisibl
               style={{width: 33.5 ,backgroundColor: '#2B789D', aspectRatio: 1, borderRadius: 7, transform: [{rotate: '-45deg'}, {translateX: -20.4}, {translateY: -14.7}], zIndex: -5}}
               />
           </Pressable>
-          <DefaultPurpleButton styles={{paddingVertical: 8, marginVertical: 25}} onPress={handleSubmit(submitData)} disabled={isTags ? isValid ? false : true : true }>
+          <DefaultPurpleButton styles={{paddingVertical: 10, marginVertical: 25}} onPress={handleSubmit(submitData)} disabled={isTags ? isValid ? false : true : true }>
             <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginRight: 15}}>Publish</Text>
             <PublishArrowSvg color='white' height={14} width={16}/>
           </DefaultPurpleButton>

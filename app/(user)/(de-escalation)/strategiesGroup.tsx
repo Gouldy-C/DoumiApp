@@ -19,7 +19,6 @@ const StrategiesGroup = () => {
   const backToStrategiesNav = () => {
     router.push('/(user)/(de-escalation)/strategiesNav')
   }
-  console.log('StrategiesGroup');
 
   return(
     <ScrollView contentContainerStyle={{minHeight: '100%', backgroundColor: 'white'}}>
