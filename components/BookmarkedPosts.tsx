@@ -13,16 +13,11 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
   const [bookmarked, setBookmarked] = useState(post.bookmarkedPosts.includes(userId))
   const [modalVisible, setModalVisible] = useState(false);
   const question = "Are you sure you want to remove this post from your saved posts list?"
-  
-
-  useEffect(() => {
-    setBookmarked(post.bookmarkedPosts.includes(userId))
-  }, [post.bookmarkedPosts])
 
 
   const flipBookmark = async () => {
     setBookmarked((prev) => !prev)
-    await handleBookMark(post.post_id)
+    handleBookMark(post.post_id)
   }
 
   const onBookmarkClick = () => {

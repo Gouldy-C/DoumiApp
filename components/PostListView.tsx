@@ -33,6 +33,9 @@ const PostListView = ({
             likedArray: doc.get("likedArray"),
             photoURL: doc.get("photoURL"),
             bookmarkedPosts: doc.get("bookmarkedPosts"),
+            updated: doc.get("updated"),
+            updatedTimestamp: doc.get("updatedTimestamp"),
+            hashTags: doc.get("hashTags"),
           } as FirestorePost);
         });
         setPosts(updatedPosts);

@@ -1,5 +1,5 @@
 import { Pressable, View } from 'react-native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useState } from 'react'
 import NotBookmarkedSvg from './svg-components/notBookmarkedSvg'
 import { bookmarkStrategy } from '@utils/strategiesFunctions'
 import { userStore } from '@utils/stores/userStore'
@@ -9,36 +9,30 @@ import AreYouSureModal from './AreYouSureModal'
 
 
 const BookmarkStrategy = ({strategy_id}:{strategy_id: string}) => {
-  const bookmarkedStrategies = userStore((state) => state.userDoc!.bookmarkedStrategies)
-  const [bookmarked, setBookmarked] = useState(bookmarkedStrategies.includes(strategy_id))
+  const isBookmarked = userStore((state) => state.userDoc!.bookmarkedStrategies.includes(strategy_id))
   const [modalVisible, setModalVisible] = useState(false);
   const question = "Are you sure you want to remove this strategy from your saved list?"
 
-
-  useEffect(() => {
-    setBookmarked(bookmarkedStrategies.includes(strategy_id))
-  }, [bookmarkedStrategies])
+  console.log('BookmarkStrategy', strategy_id)
 
 
   const flipBookmark = async () => {
-    setBookmarked((prev) => !prev)
     bookmarkStrategy(strategy_id)
   }
 
   const onBookmarkClick = () => {
-    if (bookmarked) {
+    if (isBookmarked) {
       setModalVisible(true)
     }
     else {
-      setBookmarked((prev) => !prev)
-      bookmarkStrategy(strategy_id)
+      flipBookmark()
     }
   }
 
 
   return (
     <View key={strategy_id}>
-      {bookmarked ?
+      {isBookmarked ?
         <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 15}}>
           <BookmarkedSvg height={28} width={25} color={'#5049A4'} scale={1}/>
         </Pressable>

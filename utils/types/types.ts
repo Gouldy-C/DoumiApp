@@ -24,7 +24,10 @@ export interface FirestorePost {
   displayName: string;
   likedArray: string[];
   photoURL: string;
-  bookmarkedPosts: string[] 
+  bookmarkedPosts: string[],
+  updated: boolean,
+  updatedTimestamp: null | any,
+  hashTags: string[],
 }
 
 export interface FirestoreComment {

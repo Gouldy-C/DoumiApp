@@ -3,20 +3,21 @@ import { Strategy } from "./types/types";
 import { strategyCatagories } from "@constants/strategiesData/strategyCatagories";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import { userStore } from "./stores/userStore";
 
 // const currentUser = auth().currentUser
 // const usersRef = firestore().collection('Users');
 
 export const filterStrategies = (
-  catIndex: number | 'Bookmarked',
-  usersBookmarkedStrategies: string[]
+  catIndex: number | 'Bookmarked'
 ): Strategy[] => {
   const cat = catIndex !== 'Bookmarked' ? strategyCatagories[catIndex].title : catIndex
   if (cat === "All Strategies") {
     return strategies;
   } else if (cat === "Bookmarked") {
+    const usersBookmarkedStrategies = userStore((state) => state.userDoc?.bookmarkedStrategies)
     return strategies.filter((strategy) =>
-      usersBookmarkedStrategies.includes(strategy.strategyId)
+      usersBookmarkedStrategies!.includes(strategy.strategyId)
     );
   } else {
     return strategies.filter((strategy) => strategy.categories.includes(cat));

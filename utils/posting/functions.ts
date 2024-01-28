@@ -2,6 +2,7 @@ import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firest
 import auth from '@react-native-firebase/auth'
 import * as Crypto from 'expo-crypto'
 import { FirestoreComment, FirestorePost } from '@utils/types/types'
+import { userStore } from '@utils/stores/userStore'
 
 
 // DELETE A POST ****************************************************
@@ -83,7 +84,9 @@ export const handlePost = async (input: string, hashTags?: string[]) => {
           likedArray: [],
           hashTags: hashTags ? hashTags : [],
           photoURL: photoURL,
-          bookmarkedPosts: []
+          bookmarkedPosts: [],
+          updated: false,
+          updatedTimestamp: null
         } as FirestorePost);
 
         // Clear the input after posting
@@ -97,6 +100,29 @@ export const handlePost = async (input: string, hashTags?: string[]) => {
     console.error('Error posting message:', error);
   }
 
+};
+export const updatePost = async (postId: string ,input: string, hashTags: string[]) => {
+  const postRef = firestore().collection('Posts').doc(postId)
+  const authUid = auth().currentUser?.uid
+
+  try {
+      if (!auth().currentUser || input.trim() === '') {
+        return;
+      }
+      const postDocSnapshot = (await postRef.get()).data()
+      if (postDocSnapshot && authUid === postDocSnapshot.uid) {
+        await postRef.update({
+          hashTags: hashTags,
+          content: input,
+          updated: true,
+          updatedTimestamp: firestore.FieldValue.serverTimestamp(),
+        })
+      } else {
+        console.error('User not found in the Users collection');
+      }
+    } catch (error) {
+      console.error('Error posting message:', error);
+    }
 };
 
 // Bookmark a Post****************************************

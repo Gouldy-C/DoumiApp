@@ -5,7 +5,6 @@ import StrategiesGroupScroll from "@components/strategiesGroupScroll";
 import { router, useLocalSearchParams } from "expo-router";
 import StrategiesGroupHeader from "@components/StrategiesGroupHeader";
 import { filterStrategies } from "@utils/strategiesFunctions";
-import { userStore } from "@utils/stores/userStore";
 import CloseXSvg from "@components/svg-components/closeXSvg";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -14,14 +13,13 @@ const StrategiesGroup = () => {
   const params = useLocalSearchParams()
   const catIndex = params.catIndex === "Bookmarked" ? params.catIndex as "Bookmarked" : Number(params.catIndex)
   const bookmarkFlag = catIndex === "Bookmarked"
-  const bookmarkedStrategies = userStore((state) => state.userDoc?.bookmarkedStrategies)
   const [selectedStrategyIndex, setSelectedStrategyIndex] = useState<number | null>(null);
-  const filteredStrategies = filterStrategies(catIndex, bookmarkedStrategies!)
+  const filteredStrategies = filterStrategies(catIndex)
   
   const backToStrategiesNav = () => {
     router.push('/(user)/(de-escalation)/strategiesNav')
   }
-
+  console.log('StrategiesGroup');
 
   return(
     <ScrollView contentContainerStyle={{minHeight: '100%', backgroundColor: 'white'}}>
