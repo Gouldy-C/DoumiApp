@@ -26,8 +26,6 @@ type FormData = {
 
 const NewComment = ({post}: {post: FirestorePost}) => {
   const userDoc = userStore((state) => state.userDoc)
-  const [ isKeyboardVisible, setKeyboardVisible ] = useState(false)
-  
   
   
   const schema: ZodType<FormData> = z.object({
@@ -55,20 +53,7 @@ const NewComment = ({post}: {post: FirestorePost}) => {
     await handleComment({ post_id: post.post_id, input: data.commentInput, userDoc: userDoc!})
   };
 
-
-  // useEffect(()=> {
-  //   const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', ()=> {
-  //     setKeyboardVisible(true);
-  //   });
-  //   const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', ()=> {
-  //     setKeyboardVisible(false);
-  //   });
-
-  //   return () => {
-  //     keyboardDidHideListener.remove();
-  //     keyboardDidShowListener.remove();
-  //   }
-  // },[])
+  
 
   return (
     <View style={{}}>
