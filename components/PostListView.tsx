@@ -1,5 +1,5 @@
 import { FirestorePost } from "@utils/types/types";
-import { Text, View, StyleSheet, Image, ScrollView } from "react-native";
+import { Text, View, StyleSheet, Image, ScrollView,Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { constStyles } from "@constants/Styles";
 import BookmarkPost from "./BookmarkedPosts";
@@ -8,7 +8,7 @@ import CommentButton from "./CommentButton";
 import EditDeletePost from "./EditDeletePost";
 import LikeAThing from "@components/LikeAThing";
 import firestore from '@react-native-firebase/firestore';
-
+import { calculateTimeDifference } from "@utils/timeFunctions";
 
 const PostListView = ({
   postsRef,
@@ -18,6 +18,15 @@ const PostListView = ({
     | FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>;
 }) => {
   const [posts, setPosts] = useState<FirestorePost[]>([]);
+  const [expandedPosts, setExpandedPosts] = useState<string[]>([]);
+
+  const togglePostExpansion = (postId: string) => {
+    setExpandedPosts((prevExpandedPosts)=> 
+      prevExpandedPosts.includes(postId)
+      ? prevExpandedPosts.filter((id)=> id !== postId)
+      : [...prevExpandedPosts, postId]
+    );
+  };
 
   useEffect(() => {
     const subscriber = postsRef.onSnapshot((querySnapshot) => {
@@ -38,7 +47,7 @@ const PostListView = ({
         setPosts(updatedPosts);
       }
     });
-    return subscriber; // On unmount end listener
+    return subscriber; 
   }, []);
 
   return (
@@ -67,14 +76,19 @@ const PostListView = ({
                     <Text style={styles.name}>{post.displayName}</Text>
                     <Text>
                       {post.timestamp?.seconds &&
-                        post.timestamp.toDate().toLocaleString()}
+                        calculateTimeDifference(post.timestamp.toDate())}
                     </Text>
                   </View>
+
                 </View>
                 <BookmarkPost post={post} />
               </View>
               <View>
-                <Text style={constStyles.postText}>{post.content}</Text>
+              <Pressable onPress={() => togglePostExpansion(post.post_id)} style={{paddingRight: 23}}>
+                <Text style={constStyles.postText} numberOfLines={expandedPosts.includes(post.post_id) ? undefined : 4}>
+                  {post.content}
+                </Text>
+                </Pressable>
                 <View style={styles.labels}>
                   <LikeAThing post={post} firestoreRef={firestore().collection('Posts').doc(post.post_id)}/>
                   <CommentButton post={post} />
@@ -110,7 +124,7 @@ const styles = StyleSheet.create({
   postsContainer: {
     width: "100%",
     paddingLeft: 10,
-    paddingBottom: 8,
+    paddingVertical: 5,
     backgroundColor: "white",
     borderRadius: 10,
     gap: 12,

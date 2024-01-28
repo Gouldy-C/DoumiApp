@@ -36,7 +36,8 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
 
   return (
     <>
-    { bookmarked ? (
+    { userId != post.uid  && (
+      bookmarked ? (
         <Pressable onPress={onBookmarkClick} style={{ paddingHorizontal:20, paddingVertical: 25}}>
           <BookmarkedSvg height={28} width={25} color={'#5049A4'} stroke={'#5049A4'} scale={1}/>
         </Pressable>
@@ -45,7 +46,7 @@ const BookmarkPost = ({post}: {post: FirestorePost}) => {
           <NotBookmarkedSvg height={28} width={25} color={'#424052'} stroke={'#5049A4'} scale={1}/>
         </Pressable>
       )
-    }
+    )}
     <AreYouSureModal header={question} state={modalVisible} setModalVisible={setModalVisible} onConfirmFunction={flipBookmark}/>
   </>
   )

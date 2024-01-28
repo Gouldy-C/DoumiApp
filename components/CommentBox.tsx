@@ -4,6 +4,7 @@ import { FirestorePost } from '@utils/types/types';
 import { FirestoreComment } from '@utils/types/types';
 import firestore from '@react-native-firebase/firestore';
 import LikeAThing from './LikeAThing';
+import { calculateTimeDifference } from '@utils/timeFunctions';
 
 
 interface CommentBoxProps {
@@ -33,15 +34,17 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
         setComments(updatedPosts);
     }
     });
+
     return subscriber // On unmount end listener
   }, [post]);
-  console.log(comments)
+
+
 
   return (
     <FlatList
       data={comments}
       keyExtractor={item => item.comment_id}
-      style={{flex: 1}}
+      style={{flex: 1, marginTop: 2}}
       renderItem={({ item }) => (
         <View key={item.comment_id} style={styles.commentContainer}>
             <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
@@ -52,7 +55,7 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
               <View>
                 <Text style={{ fontSize: 17, fontWeight: '500' }}>{item.displayName}</Text>
                 <Text>
-                  {item.timestamp && item.timestamp.toDate().toLocaleString()}
+                  {item.timestamp && calculateTimeDifference(item.timestamp.toDate())}
                 </Text>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 20 }}>
@@ -104,7 +107,6 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     width: "100%",
-    marginVertical: 10,
     paddingLeft: 10,
     paddingTop: 8,
     paddingBottom: 10,
