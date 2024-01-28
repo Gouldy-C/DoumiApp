@@ -33,7 +33,7 @@ const NewComment = ({post}: {post: FirestorePost}) => {
   const schema: ZodType<FormData> = z.object({
     commentInput: z
       .string()
-      .min(5, "Comment must be longer then 2 characters")
+      .min(1, "Comment must be longer then 1 characters")
       .max(1000,"Comment must be less then 1000 characters")
   });
 
