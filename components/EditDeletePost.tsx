@@ -26,7 +26,7 @@ const EditDeletePost = ({post} : {post: FirestorePost}) => {
     <>
       {userId == post.uid && (
         <>
-          <View style={{position: 'absolute', bottom: 0, right: 15}}>
+          <View style={{position: 'absolute', top: -5, right: 15}}>
             <Pressable style={{paddingHorizontal: 18, paddingVertical:15,}} onPress={() => setEditDeleteModalVisible(true)}>
               <EllipsisMenu scale={0.90} height={30} width={20}/>
             </Pressable>

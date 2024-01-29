@@ -70,7 +70,7 @@ const OnboardingUsername = () => {
                 label={"Username"}
                 styles={{width: '100%'}}
               />
-              <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)} disabled={!isValid}>
+              <DefaultPurpleButton styles={{marginVertical: 25}} onPress={handleSubmit(submitData)} disabled={!isValid}>
                 <Text style={{color: '#ffffff', fontSize: 18, fontWeight: '700'}}>Continue</Text>
               </DefaultPurpleButton>
               <Text style={{color: 'red', fontSize:18, textAlign: 'center', paddingVertical: 10, paddingHorizontal: 20}}>{submitError}</Text>

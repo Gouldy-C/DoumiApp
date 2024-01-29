@@ -9,6 +9,7 @@ import EditDeletePost from "./EditDeletePost";
 import LikeAThing from "@components/LikeAThing";
 import firestore from '@react-native-firebase/firestore';
 import { calculateTimeDifference } from "@utils/timeFunctions";
+import auth from '@react-native-firebase/auth'
 
 const PostListView = ({
   postsRef,
@@ -83,9 +84,12 @@ const PostListView = ({
                     </Text>
                   </View>
 
-                  <EditDeletePost post={post} />
                 </View>
-                <BookmarkPost post={post} />
+                {post.uid === auth().currentUser?.uid ? 
+                  <EditDeletePost post={post} />
+                  :
+                  <BookmarkPost post={post} />
+                }
               </View>
               <View>
               <Pressable onPress={() => togglePostExpansion(post.post_id)} style={{paddingRight: 23}}>
