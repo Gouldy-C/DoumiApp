@@ -29,7 +29,7 @@ const FeedLayout = () => {
           <TopTab.Screen
             name="Feed"
             component={UserFeed}
-            options={{ tabBarLabel: 'Latest' }}
+            options={{ tabBarLabel: 'Latest'}}
           />
           <TopTab.Screen
             name="Saved"
