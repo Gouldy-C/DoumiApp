@@ -34,6 +34,7 @@ export default function RootLayout() {
 
   // setUserDoc(null)
   // setAuthUser(null)
+  // auth().signOut()
 
   function userChange(user: FirebaseAuthTypes.User | null) {
     setAuthUser(user)

@@ -72,7 +72,7 @@ const EditPostModal = ({state, postId, postContent, postTags, setEditModalVisibl
           <Pressable onPress={closeModal} style={{paddingRight: 25,}}>
             <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2}/>
           </Pressable>
-          <Text style={{fontSize: 32, fontWeight: '500'}}>New Post</Text>
+          <Text style={{fontSize: 32, fontWeight: '500'}}>Edit Post</Text>
         </View>
         <View style={{flex: 1, gap: 40}}>
           <View style={{flex: 1}}>

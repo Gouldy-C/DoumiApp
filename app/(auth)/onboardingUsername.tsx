@@ -55,7 +55,7 @@ const OnboardingUsername = () => {
 
 
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={{ backgroundColor: 'white', paddingHorizontal: 16}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
           <DoumiOnboardingHeader textValue="What would you like to be called?" textSize='large' />

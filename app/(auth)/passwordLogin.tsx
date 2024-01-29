@@ -63,7 +63,7 @@ const PasswordLogin = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
             <DoumiOnboardingHeader textValue="You're not alone in your dementia care journey." textSize='small' />
@@ -78,7 +78,7 @@ const PasswordLogin = () => {
                   styles={{width: '100%'}}
                   secureTextEntry={secureText}
                 />
-                <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)} disabled={!isValid}>
+                <DefaultPurpleButton styles={{marginVertical: 25}} onPress={handleSubmit(submitData)} disabled={!isValid}>
                   <Text style={{color: '#ffffff', fontSize: 18, fontWeight: '700'}}>Log in</Text>
                 </DefaultPurpleButton>
                 <Text style={{color: 'red', fontSize:18, textAlign: 'center', paddingVertical: 10, paddingHorizontal: 20}}>{submitError}</Text>

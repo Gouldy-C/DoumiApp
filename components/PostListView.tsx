@@ -10,12 +10,14 @@ import LikeAThing from "@components/LikeAThing";
 import firestore from '@react-native-firebase/firestore';
 import { calculateTimeDifference } from "@utils/timeFunctions";
 import auth from '@react-native-firebase/auth'
+import { searchStore } from "@utils/stores/searchStore";
 
 const PostListView = ({
   postsRef,
 }: {
   postsRef: FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>;
 }) => {
+  const setSearch = searchStore((state) => state.setSearch)
   const [posts, setPosts] = useState<FirestorePost[]>([]);
   const [expandedPosts, setExpandedPosts] = useState<string[]>([]);
 
@@ -62,7 +64,7 @@ const PostListView = ({
           .map((post) => (
             <View key={post.post_id} style={styles.postsContainer}>
               <View
-                style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+                style={{ flex: 1, flexDirection: "row", alignItems: "center", paddingHorizontal: 10}}>
                 <View
                   key={post.post_id}
                   style={{
@@ -92,15 +94,15 @@ const PostListView = ({
                 }
               </View>
               <View>
-              <Pressable onPress={() => togglePostExpansion(post.post_id)} style={{paddingRight: 23}}>
+              <Pressable onPress={() => togglePostExpansion(post.post_id)} style={{paddingHorizontal: 10}}>
                 <Text style={constStyles.postText} numberOfLines={expandedPosts.includes(post.post_id) ? undefined : 4}>
                   {post.content}
                 </Text>
                 </Pressable>
-                <ScrollView style={{flexGrow: 0, maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
+                <ScrollView style={{flexGrow: 0, maxHeight: 90, marginVertical: 22, paddingHorizontal: 16}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
                   {
                     post.hashTags.map((tag) => (
-                        <Text key={tag} style={{color: '#2B789D', fontWeight: '700', fontSize: 16}}>{tag}</Text>
+                        <Text key={tag} onPress={() => setSearch([tag])} style={{color: '#2B789D', fontWeight: '700', fontSize: 16}}>{tag}</Text>
                       ))
                   }
                 </ScrollView>
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
   postsContainer: {
     width: "100%",
     paddingLeft: 10,
-    paddingVertical: 5,
+    paddingVertical: 24,
     backgroundColor: "white",
     borderRadius: 10,
     gap: 12,
@@ -151,6 +153,7 @@ const styles = StyleSheet.create({
   },
   labels: {
     flexDirection: "row",
+    paddingHorizontal: 10,
     gap: 15,
     alignItems: "center",
   },

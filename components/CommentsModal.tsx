@@ -44,10 +44,10 @@ const CommentsModal = ({state, setModalVisible, post}: {
       visible={state}
       >
       <ScrollView contentContainerStyle={{ opacity: isKeyboardOpen ? 0.5 : 1  }}>
-        <View style={{ flex: 1, alignItems: 'flex-start',  paddingHorizontal: 14 }}>
+        <View style={{ flex: 1, alignItems: 'flex-start',  paddingHorizontal: 16, marginBottom: 15 }}>
           <View style={{alignItems: 'center', flexDirection: 'row', marginBottom: 10, paddingTop: 8}}>
 
-            <Pressable onPress={() => setModalVisible(false)} style={{ marginLeft: 6, paddingRight:15 }}>
+            <Pressable onPress={() => setModalVisible(false)} style={{ paddingRight:15 }}>
               <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2} />
             </Pressable>
             <Image
@@ -65,8 +65,8 @@ const CommentsModal = ({state, setModalVisible, post}: {
           </View>
 
 
-          <View style={{paddingRight: 25, width: '100%'}}>
-              <Text style={constStyles.postText}>
+          <View style={{ width: '100%'}}>
+              <Text style={{fontSize: 18, paddingBottom: 15, paddingHorizontal: 0}}>
                 {post.content}
               </Text>
           </View>

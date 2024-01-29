@@ -70,12 +70,12 @@ const OnboardingPassword = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
             <DoumiOnboardingHeader textValue="Select Account Password" textSize='large' />
             <Text style={{color: '#424052', fontSize:20, textAlign: 'center', paddingVertical: 20, paddingHorizontal: 20}}>{email}</Text>
-              <View style={{alignItems: 'center', width: '100%'}}>
+              <View style={{alignItems: 'center', width: '100%', gap: 25}}>
                 <ControlledTextInput
                   keyboardType={'default'}
                   control={control}
@@ -94,7 +94,7 @@ const OnboardingPassword = () => {
                   styles={{width: '100%'}}
                   secureTextEntry={secureText}
                 />
-                <DefaultPurpleButton styles={{}} onPress={handleSubmit(submitData)} disabled={!isValid}>
+                <DefaultPurpleButton styles={{marginVertical:25}} onPress={handleSubmit(submitData)} disabled={!isValid}>
                   <Text style={{color: '#ffffff', fontSize: 18, fontWeight: '700'}}>Sign Up</Text>
                 </DefaultPurpleButton>
                 <Text style={{color: 'red', fontSize:18, textAlign: 'center', paddingVertical: 20, paddingHorizontal: 20}}>{submitError}</Text>

@@ -57,28 +57,28 @@ const NewComment = ({post}: {post: FirestorePost}) => {
 
   return (
     <View style={styles.container}>
-      <View style={{}}>
-      <ControlledTextInput
-        keyboardType={'default'}
-        control={control}
-        placeholder={"Write a comment"}
-        name={"commentInput"} 
-        styles={{ elevation:0, minHeight: 50, paddingLeft: 55,paddingRight: 5, borderBottomWidth: 0, borderTopWidth: 2, borderRadius: 0, paddingVertical:8}}
-        multiline
-      />
-      <Image
-        source={{uri: userDoc!.photoURL!}}
-        style={{ height: 45, aspectRatio: 1, position: 'absolute', top: 12,marginHorizontal: 3 }}
-      />
+      <View style={{flexDirection: 'row', borderTopWidth: 2, paddingVertical:7, paddingHorizontal: 16, alignItems: 'center', borderColor: '#42405236' }}>
+        <Image
+          source={{uri: userDoc!.photoURL!}}
+          style={{ height: 45, aspectRatio: 1 }}
+        />
+        <ControlledTextInput
+          keyboardType={'default'}
+          control={control}
+          placeholder={"Write a comment"}
+          name={"commentInput"} 
+          styles={{ elevation:0, minHeight: 50, borderWidth: 0, borderRadius: 0, maxWidth: '90%'}}
+          multiline
+        />
       </View>
       <Pressable 
         onPress={handleSubmit(submitData)}
-        style={{width: '100%', alignItems: 'center'}}> 
+        style={{ alignItems: 'center', marginHorizontal: 16, marginBottom: 16}}> 
         <LinearGradient
           start={{x: 0, y: 0.0}}
           end={{x: 1, y: 0.0}}
           colors={['#514AA4', '#744696']}
-          style={styles.button}>
+          style={[styles.button, {borderRadius: 50}]}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12}}>
               <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white'}}>
                 Publish

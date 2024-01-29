@@ -53,7 +53,7 @@ const StrategyModal = ({
             <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 15}}>
                 <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
             </Pressable>
-            <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 28, textAlignVertical: 'center', maxWidth: '60%'}}>{strategy.title}</Text>
+            <Text style={{textAlign: 'center', fontWeight: '500', fontSize: 28, textAlignVertical: 'center', maxWidth: '60%'}}>{strategy.title}</Text>
             <BookmarkStrategy strategy_id={strategy.strategyId} />
           </View>
           <View style={{alignSelf: 'center'}}>
@@ -62,12 +62,14 @@ const StrategyModal = ({
                   height: 200,
                   width: 180,
                   borderRadius: 25,
+                  marginVertical: 25,
                 }}
                 source={typeof(strategy.image) === 'string' ? {uri: strategy.image} : strategy.image}
                 alt={strategy.title}
               />
           </View>
           <Text style={{fontSize: 18, paddingHorizontal: 20, textAlign: 'center', marginVertical: 30}}>{strategy.description}</Text>
+          <Text style={{fontSize: 16, paddingHorizontal: 20, textAlign: 'center', marginVertical: 15, fontWeight: '400'}}>{strategy.source}</Text>
           { filteredStrategies.length > 1 &&
             <Pressable  onPress={nextStrategy}>
               <LinearGradient

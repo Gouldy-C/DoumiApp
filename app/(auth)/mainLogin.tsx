@@ -70,7 +70,7 @@ const mainLogin = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={-100} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
+    <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={50} style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView contentContainerStyle={{paddingVertical: 76, width: '100%', alignItems: 'center'}}>
           <DoumiOnboardingHeader textValue="You're not alone in your dementia care journey." textSize='small' />

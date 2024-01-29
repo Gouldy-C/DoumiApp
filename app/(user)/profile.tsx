@@ -8,6 +8,8 @@ import MagnifyingGlassSvg from '@components/svg-components/magnifyingGlassSvg'
 import AccountGear from '@components/svg-components/accountGear';
 import SelectHashTagsModal from '@components/SelectHashTagsModal';
 import { searchStore } from '@utils/stores/searchStore';
+import FilterSearchSvg from '@components/svg-components/filterSvg';
+import FilterPostsButton from '@components/FilterPostsButton';
 
 const UserProfile = () => {
   const search = searchStore((state) => state.search)
@@ -20,25 +22,13 @@ const UserProfile = () => {
       <View style={{backgroundColor: 'white', paddingBottom: 8, paddingHorizontal: 12}}>
         <View style={{alignItems:'center', flexDirection: 'row', justifyContent: "space-between", marginVertical: 8}}>
           <DoumiImageLogo color='white' height={50} width={50} />
-          <Text style={{fontSize: 32, fontWeight: '500'}}>Profile</Text>
-          <Pressable onPress={() => setModalVisible(true)}>
-            <LinearGradient
-              start={{x: 0, y: 0.0}}
-              end={{x: 1, y: 0.0}}
-              colors={['#734595', '#4858A7']}
-              style={{ alignItems: 'center', justifyContent: 'center', padding: 10, borderRadius:50}}
-            >
-              <MagnifyingGlassSvg width={27} height={27} scale={1} fill="#FFFFFF" />
-            </LinearGradient>
-          </Pressable>
+          <FilterPostsButton />
         </View>
-        <View style={{alignSelf: 'center', alignItems:'center', flexDirection: 'row', gap: 10}}>
+        <Text style={{fontSize: 32, fontWeight: '500', textAlign: 'center'}}>Profile</Text>
+        <Pressable onPress={logout} style={{alignSelf: 'center', alignItems:'center', flexDirection: 'row', gap: 10, marginVertical: 12}}>
           <AccountGear width={30} height={26} color={'#734595'} scale={0.7} fill={"#5049A4"}/>
           <Text style={{fontSize: 18, fontWeight: '500', color: '#734595'}}>Account Settings</Text>
-        </View>
-        <View style={{alignSelf: 'center'}}>
-          <Pressable onPress={logout}><Text style={{fontSize: 17, fontWeight: '500', color: '#B50012', paddingVertical: 10}}>Logout</Text></Pressable>
-        </View>
+        </Pressable>
       </View>
       <UserPosts/>
       <SelectHashTagsModal 

@@ -21,12 +21,12 @@ const FilterPostsButton = () => {
         <LinearGradient
           start={{x: 0, y: 0.0}}
           end={{x: 1, y: 0.0}}
-          colors={['#5049A4', '#385592']}
+          colors={search.length ? ['#E6E4FF', '#D9E5FF'] : ['#5049A4', '#385592']}
           style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical:9, paddingHorizontal: 15, borderRadius: 50 }}>
-          <Text numberOfLines={1} style={{overflow: 'hidden', fontSize: 17, color: '#ffffff', maxHeight: 24, flex: 1}}>
-            {search.length ? search.length > 1 ? `${search[0]}  -  & ${search.length - 1} others`: `${search[0]}` : 'Filter Posts By Tag'}
+          <Text numberOfLines={1} style={{overflow: 'hidden', fontSize: 17, color: search.length ? '#000000' : '#ffffff', maxHeight: 24, flex: 1}}>
+            {search.length ? `${search.join(', ')}` : 'Filter Posts By Tag'}
             </Text>
-          <FilterSearchSvg width={30} height={30} fill={'#ffffff'} scale={0.86} />
+          <FilterSearchSvg width={30} height={30} fill={search.length ? '#6D6B82' : '#ffffff'} scale={0.86} />
         </LinearGradient>
       </Pressable>
       <SelectHashTagsModal 

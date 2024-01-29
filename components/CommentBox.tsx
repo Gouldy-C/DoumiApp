@@ -64,40 +64,34 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
 
   return (
     <>
-      <Text style={{fontSize: 20, fontWeight: '700', color: '#424052', textAlign: 'center', textAlignVertical: 'center', marginBottom: 5}} >
+      <View style={{ height: 2, backgroundColor: '#D5E4EB' }} />
+      <Text style={{fontSize: 20, fontWeight: '700', color: '#424052', textAlignVertical: 'center', marginBottom: 5, marginHorizontal: 24, marginVertical: 36}} >
         Comments
       </Text>
-      <LinearGradient
-        start={{ x: 0, y: 0.0 }}
-        end={{ x: 1, y: 0.0 }}
-        colors={['rgba(80, 73, 164, 0.2)', 'rgba(56, 85, 146, 0.2)']}
-        style={{ flex: 1, paddingVertical: 5, gap: 5, marginTop: 2}}
-      >
-        {comments.map((comment) => {
-          return(
-            <View key={comment.comment_id} style={styles.commentContainer}>
-              <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
-                <Image
-                  source={{uri: comment.photoURL}}
-                  style={{ height: 40, aspectRatio: 1 }}
-                />
-                <View>
-                  <Text style={{ fontSize: 17, fontWeight: '500' }}>{comment.displayName}</Text>
-                  <Text style={{opacity: 0.7}}>
-                    {comment.timestamp && calculateTimeDifference(comment.timestamp.toDate())}
-                  </Text>
-                </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 0 }}>
-                  <LikeAThing post={comment} firestoreRef={commentsRef.doc(comment.comment_id)} scale={0.85}/>
-                </View>
-              </View>
+      {comments.sort((a, b) => b.timestamp?.seconds - a.timestamp?.seconds).map((comment) => {
+        return(
+          <View key={comment.comment_id} style={styles.commentContainer}>
+            <View style={{ flex: 1, flexDirection: 'row', gap: 15, alignItems: 'center', paddingHorizontal: 12 }}>
+              <Image
+                source={{uri: comment.photoURL}}
+                style={{ height: 40, aspectRatio: 1 }}
+              />
               <View>
-                <Text style={{ fontSize: 17, width: "84%", marginLeft: 'auto' }}>{(comment as FirestoreComment).comment}</Text>
+                <Text style={{ fontSize: 17, fontWeight: '500' }}>{comment.displayName}</Text>
+                <Text style={{opacity: 0.7}}>
+                  {comment.timestamp && calculateTimeDifference(comment.timestamp.toDate())}
+                </Text>
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 0 }}>
+                <LikeAThing post={comment} firestoreRef={commentsRef.doc(comment.comment_id)} scale={0.85}/>
               </View>
             </View>
-          )
-        })}
-      </LinearGradient>
+            <View>
+              <Text style={{ fontSize: 17, width: "84%", marginLeft: 'auto' }}>{(comment as FirestoreComment).comment}</Text>
+            </View>
+          </View>
+        )
+      })}
     </>
   );
 };
@@ -144,5 +138,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     gap: 10,
     borderRadius: 15,
+    marginVertical: 28,
   }
 })

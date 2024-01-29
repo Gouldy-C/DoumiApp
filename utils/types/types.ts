@@ -48,6 +48,7 @@ export interface Strategy {
   categories: string[];
   strategyId: string;
   image: ImageSourcePropType
+  source: string
 }
 
 
