@@ -1,24 +1,19 @@
-import React, { useState} from "react";
-import { userStore } from "@utils/stores/userStore";
-import { Redirect } from "expo-router";
+import React from "react";
 import { TopTabBar } from "@components/CustomTopTabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import UserFeed from "./userFeed";
 import FavoritePosts from "./savedPosts"
-import { Dimensions, View, TextInput, StyleSheet } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { Dimensions, View, StyleSheet } from "react-native";
 import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
-import FilterSearch from "@components/svg-components/filterSvg";
 import FilterPostsButton from "@components/FilterPostsButton";
 
 
 const FeedLayout = () => {
-  const [searchText, setSearchText] = useState('')
   const TopTab = createMaterialTopTabNavigator();
 
   return (
     <View style={{backgroundColor: 'white', flex: 1}}>
-      <View style={{justifyContent: 'center', alignItems:'center', flexDirection: 'row', gap: 10, marginTop: 10, paddingBottom: 10}}>
+      <View style={{justifyContent: 'space-between', alignItems:'center', flexDirection: 'row', gap: 10, marginTop: 8, paddingBottom: 8, paddingHorizontal: 12}}>
         <DoumiImageLogo color='white' height={50} width={50} />
         <FilterPostsButton/>
       </View>

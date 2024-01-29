@@ -13,9 +13,7 @@ import { calculateTimeDifference } from "@utils/timeFunctions";
 const PostListView = ({
   postsRef,
 }: {
-  postsRef:
-    | FirebaseFirestoreTypes.CollectionReference<FirebaseFirestoreTypes.DocumentData>
-    | FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>;
+  postsRef: FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>;
 }) => {
   const [posts, setPosts] = useState<FirestorePost[]>([]);
   const [expandedPosts, setExpandedPosts] = useState<string[]>([]);
@@ -32,32 +30,34 @@ const PostListView = ({
     const subscriber = postsRef.onSnapshot((querySnapshot) => {
       if (querySnapshot) {
         const updatedPosts: FirestorePost[] = [];
-        querySnapshot.forEach((doc) => {
+        console.log(querySnapshot);
+        querySnapshot
+        .docs
+        .map((documentSnapshot) => {
           updatedPosts.push({
-            content: doc.get("content"),
-            uid: doc.get("uid"),
-            timestamp: doc.get("timestamp"),
-            displayName: doc.get("displayName"),
-            post_id: doc.get("post_id"),
-            likedArray: doc.get("likedArray"),
-            photoURL: doc.get("photoURL"),
-            bookmarkedPosts: doc.get("bookmarkedPosts"),
-            updated: doc.get("updated"),
-            updatedTimestamp: doc.get("updatedTimestamp"),
-            hashTags: doc.get("hashTags"),
+            content: documentSnapshot.get("content"),
+            uid: documentSnapshot.get("uid"),
+            timestamp: documentSnapshot.get("timestamp"),
+            displayName: documentSnapshot.get("displayName"),
+            post_id: documentSnapshot.get("post_id"),
+            likedArray: documentSnapshot.get("likedArray"),
+            photoURL: documentSnapshot.get("photoURL"),
+            bookmarkedPosts: documentSnapshot.get("bookmarkedPosts"),
+            updated: documentSnapshot.get("updated"),
+            updatedTimestamp: documentSnapshot.get("updatedTimestamp"),
+            hashTags: documentSnapshot.get("hashTags"),
           } as FirestorePost);
         });
         setPosts(updatedPosts);
       }
-    });
+    }, (error) => console.error(error),);
     return subscriber; 
-  }, []);
+  }, [postsRef]);
 
   return (
     <>
       <ScrollView style={{}} contentContainerStyle={{ gap:12, paddingVertical: 12}}>
         {posts
-          ?.sort((a, b) => b.timestamp?.seconds - a.timestamp?.seconds)
           .map((post) => (
             <View key={post.post_id} style={styles.postsContainer}>
               <View

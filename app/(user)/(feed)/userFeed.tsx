@@ -1,14 +1,19 @@
 import {View, 
   StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { LinearGradient } from 'expo-linear-gradient';
 import PostListView from '@components/PostListView';
+import { searchStore } from '@utils/stores/searchStore';
+import { searchableHashtags } from '@constants/hashtagSearch/hashtagData';
 
 
 const UserFeed = () => {
+  const search = searchStore((state) => state.search)
   const postsRef = firestore().collection('Posts')
+  .where("hashTags", "array-contains-any", search.length ? search : searchableHashtags)
+  .orderBy("timestamp", "desc")
 
   return (
     <LinearGradient

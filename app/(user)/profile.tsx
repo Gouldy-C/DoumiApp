@@ -1,27 +1,36 @@
 import {Text, View, StyleSheet, Button, Image, TextInput, Pressable } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { logout } from '@utils/auth/general'
 import UserPosts from '@components/UserPosts'
 import DoumiImageLogo from "@components/svg-components/doumiImageLogo";
 import { LinearGradient } from 'expo-linear-gradient';
 import MagnifyingGlassSvg from '@components/svg-components/magnifyingGlassSvg'
 import AccountGear from '@components/svg-components/accountGear';
+import SelectHashTagsModal from '@components/SelectHashTagsModal';
+import { searchStore } from '@utils/stores/searchStore';
 
 const UserProfile = () => {
+  const search = searchStore((state) => state.search)
+  const setSearch = searchStore((state) => state.setSearch)
+  const [modalVisible, setModalVisible] = useState(false);
+
+  
   return (
     <>
-      <View style={{backgroundColor: 'white', paddingBottom: 10, paddingHorizontal: 16}}>
-        <View style={{alignItems:'center', flexDirection: 'row', justifyContent: "space-between", marginVertical: 10}}>
+      <View style={{backgroundColor: 'white', paddingBottom: 8, paddingHorizontal: 12}}>
+        <View style={{alignItems:'center', flexDirection: 'row', justifyContent: "space-between", marginVertical: 8}}>
           <DoumiImageLogo color='white' height={50} width={50} />
           <Text style={{fontSize: 32, fontWeight: '500'}}>Profile</Text>
-          <LinearGradient
-                start={{x: 0, y: 0.0}}
-                end={{x: 1, y: 0.0}}
-                colors={['#734595', '#4858A7']}
-                style={{width: '12%', aspectRatio:1, alignItems: 'center', justifyContent: 'center', borderRadius: 15}}
-          >
-          <MagnifyingGlassSvg width={30} height={30} scale={0.5} fill="#FFFFFF" stroke="#FFFFFF" />
-          </LinearGradient>
+          <Pressable onPress={() => setModalVisible(true)}>
+            <LinearGradient
+              start={{x: 0, y: 0.0}}
+              end={{x: 1, y: 0.0}}
+              colors={['#734595', '#4858A7']}
+              style={{ alignItems: 'center', justifyContent: 'center', padding: 10, borderRadius:50}}
+            >
+              <MagnifyingGlassSvg width={27} height={27} scale={1} fill="#FFFFFF" />
+            </LinearGradient>
+          </Pressable>
         </View>
         <View style={{alignSelf: 'center', alignItems:'center', flexDirection: 'row', gap: 10}}>
           <AccountGear width={30} height={26} color={'#734595'} scale={0.7} fill={"#5049A4"}/>
@@ -32,6 +41,13 @@ const UserProfile = () => {
         </View>
       </View>
       <UserPosts/>
+      <SelectHashTagsModal 
+      buttonText={'Search Tags'}
+      body={'Add or remove tags from your search'}
+      state={modalVisible}
+      setModalVisible={setModalVisible}
+      tagData={search}
+      setModalReturn={setSearch} />
     </>
   )
 }

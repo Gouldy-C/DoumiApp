@@ -19,7 +19,7 @@ const SelectHashTagsModal = ({buttonText, body, state, setModalVisible, tagData,
   state: boolean,
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>,
   tagData: string[],
-  setModalReturn: React.Dispatch<React.SetStateAction<string[]>>,
+  setModalReturn: React.Dispatch<React.SetStateAction<string[]>> | ((newSearch: string[]) => void),
 }) => {
   const [hashTagArray, setHashTagArray] = useState<string[]>([...tagData])
   const [search, setSearch] = useState('')

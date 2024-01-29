@@ -6,11 +6,17 @@ import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import { LinearGradient } from 'expo-linear-gradient'
 import PostListView from './PostListView';
+import { searchStore } from '@utils/stores/searchStore';
+import { searchableHashtags } from '@constants/hashtagSearch/hashtagData';
 
 
 const UserPosts = () => {
   const userId = auth().currentUser?.uid
-  const usersPostsRef = firestore().collection('Posts').where("uid", "==", userId)
+  const search = searchStore((state) => state.search)
+  const usersPostsRef = firestore().collection('Posts')
+  .where("uid", "==", userId)
+  .where("hashTags", "array-contains-any", search.length ? search : searchableHashtags)
+  .orderBy("timestamp", "desc")
 
 
   return (

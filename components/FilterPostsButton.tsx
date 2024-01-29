@@ -1,25 +1,42 @@
 import {  Text, Pressable } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import FilterSearchSvg from './svg-components/filterSvg'
 import { LinearGradient } from 'expo-linear-gradient'
 import { searchStore } from '@utils/stores/searchStore'
+import SelectHashTagsModal from './SelectHashTagsModal'
 
 
 const FilterPostsButton = () => {
   const search = searchStore((state) => state.search)
+  const setSearch = searchStore((state) => state.setSearch)
+  const [modalVisible, setModalVisible] = useState(false);
 
 
   return (
-    <Pressable onPress={}>
-      <LinearGradient
-        start={{x: 0, y: 0.0}}
-        end={{x: 1, y: 0.0}}
-        colors={['#5049A4', '#385592']}
-        style={{flexDirection: 'row'}}>
-        <Text>Filter Posts By Tag</Text>
-        <FilterSearchSvg width={25} height={25} fill={'#ffffff'} scale={1} />
-      </LinearGradient>
-    </Pressable>
+    <>
+      <Pressable 
+        onPress={() => setModalVisible(true)}
+        style={{width: 300}}
+      >
+        <LinearGradient
+          start={{x: 0, y: 0.0}}
+          end={{x: 1, y: 0.0}}
+          colors={['#5049A4', '#385592']}
+          style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical:9, paddingHorizontal: 15, borderRadius: 50 }}>
+          <Text numberOfLines={1} style={{overflow: 'hidden', fontSize: 17, color: '#ffffff', maxHeight: 24, flex: 1}}>
+            {search.length ? search.length > 1 ? `${search[0]}  -  & ${search.length - 1} others`: `${search[0]}` : 'Filter Posts By Tag'}
+            </Text>
+          <FilterSearchSvg width={30} height={30} fill={'#ffffff'} scale={0.86} />
+        </LinearGradient>
+      </Pressable>
+      <SelectHashTagsModal 
+      buttonText={'Search Tags'}
+      body={'Add or remove tags from your search'}
+      state={modalVisible}
+      setModalVisible={setModalVisible}
+      tagData={search}
+      setModalReturn={setSearch} />
+    </>
   )
 }
 

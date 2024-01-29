@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Pressable } from 'react-native'
+import {Text, View, StyleSheet, Pressable, Image } from 'react-native'
 import React, { useState} from 'react'
 import { handleComment } from '@utils/commenting/functions';
 import { ZodType, z } from 'zod';
@@ -57,14 +57,20 @@ const NewComment = ({post}: {post: FirestorePost}) => {
 
   return (
     <View style={styles.container}>
+      <View style={{}}>
       <ControlledTextInput
         keyboardType={'default'}
         control={control}
         placeholder={"Write a comment"}
         name={"commentInput"} 
-        styles={{ elevation:0, minHeight: 50, paddingHorizontal: 14, borderBottomWidth: 0, borderTopWidth: 2, borderRadius: 0, paddingVertical:8}}
+        styles={{ elevation:0, minHeight: 50, paddingLeft: 55,paddingRight: 5, borderBottomWidth: 0, borderTopWidth: 2, borderRadius: 0, paddingVertical:8}}
         multiline
       />
+      <Image
+        source={{uri: userDoc!.photoURL!}}
+        style={{ height: 45, aspectRatio: 1, position: 'absolute', top: 12,marginHorizontal: 3 }}
+      />
+      </View>
       <Pressable 
         onPress={handleSubmit(submitData)}
         style={{width: '100%', alignItems: 'center'}}> 

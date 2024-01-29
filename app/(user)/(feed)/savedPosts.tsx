@@ -2,15 +2,20 @@ import {View,
   StyleSheet,
 } from 'react-native';
 import React from 'react';
-import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore'
 import { LinearGradient } from 'expo-linear-gradient';
 import PostListView from '@components/PostListView';
 import auth from '@react-native-firebase/auth';
+import { searchStore } from '@utils/stores/searchStore'
 
 
 const UserFeed = () => {
   const userId = auth().currentUser?.uid
-  const postsRef = firestore().collection('Posts').where("bookmarkedPosts", "array-contains", userId)
+  const search = searchStore((state) => state.search)
+  const postsRef = firestore().collection('Posts')
+  .where("bookmarkedPosts", "array-contains", userId)
+  //.where("hashTags", "array-contains-any", search.length ? search : searchableHashtags)
+  .orderBy("timestamp", "desc")
   
 
   return (
