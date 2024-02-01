@@ -37,14 +37,14 @@ const EditDeletePost = ({post} : {post: FirestorePost}) => {
               onRequestClose={closeModal}
             >
               <TouchableOpacity style={{height: '100%', width: '100%', backgroundColor: '#00000024', justifyContent: 'center', alignItems: 'center'}} onPress={closeModal}>
-                <View style={{backgroundColor:'#EDF1FF', position: 'absolute', padding: 2, gap: 2}}>
+                <View style={{backgroundColor:'#EDF1FF', position: 'absolute', padding: 2, gap: 2, width: '40%'}}>
                   <Pressable style={{paddingHorizontal: 24, paddingVertical:16, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, backgroundColor: '#ffffff'}} onPress={() => {setDeleteModalVisible(true); closeModal()}}>
                     <TrashCanSvg scale={1} height={20} width={20} color={'#5049A4'}/>
-                    <Text style={{color: '#5049A4', fontWeight: '600', fontSize: 18, width: 60}}>Delete</Text>
+                    <Text style={{color: '#5049A4', fontWeight: '600', fontSize: 18, width: 80}}>DELETE</Text>
                   </Pressable>
                   <Pressable style={{paddingHorizontal: 24, paddingVertical:16, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, backgroundColor: '#ffffff'}} onPress={() => {setEditModalVisible(true); closeModal()}}>
                     <PencilSvg scale={1} height={20} width={20} color={'#5049A4'}/>
-                    <Text style={{color: '#5049A4', fontWeight: '600', fontSize: 18, width: 60}}>Edit</Text>
+                    <Text style={{color: '#5049A4', fontWeight: '600', fontSize: 18, width: 60}}>EDIT</Text>
                   </Pressable>
                 </View>
               </TouchableOpacity>

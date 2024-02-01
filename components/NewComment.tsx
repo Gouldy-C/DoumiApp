@@ -10,6 +10,7 @@ import PublishArrowSvg from '@components/svg-components/publishArrowSvg';
 import { FirestorePost } from '@utils/types/types'
 import { Control } from 'react-hook-form'
 import { userStore } from '@utils/stores/userStore';
+import { useFonts } from 'expo-font';
 
 type ControlledInputProps = {
   control: Control<any>,
@@ -53,6 +54,21 @@ const NewComment = ({post}: {post: FirestorePost}) => {
     await handleComment({ post_id: post.post_id, input: data.commentInput, userDoc: userDoc!})
   };
 
+  const [loaded, error] = useFonts({
+    Inter: require('../assets/fonts/Inter-Medium.ttf'),
+    VerdanaBold: require('../assets/fonts/verdana-bold.ttf'),
+    Verdana: require('../assets/fonts/verdana.ttf'),
+    InterSemibold: require('../assets/fonts/Inter-SemiBold.ttf'),
+  });
+
+
+  if (error) {
+    console.error('Font loading error:', error);
+  }
+  
+  if (!loaded) {
+    return null; 
+  }
   
 
   return (
@@ -80,7 +96,7 @@ const NewComment = ({post}: {post: FirestorePost}) => {
           colors={['#514AA4', '#744696']}
           style={[styles.button, {borderRadius: 50}]}>
             <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12}}>
-              <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white'}}>
+              <Text style={{ textAlign: 'center', fontSize: 18, fontFamily: 'InterSemibold', color: 'white'}}>
                 Publish
               </Text>
               <PublishArrowSvg color='white' height={14} width={16}/>

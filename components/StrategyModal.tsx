@@ -5,7 +5,7 @@ import { Strategy } from '@utils/types/types';
 import BackArrowSvg from './svg-components/backArrowSvg';
 import BookmarkStrategy from './BookmarkStrategy';
 import CloseXSvg from './svg-components/closeXSvg';
-
+import { useFonts } from 'expo-font';
 
 
 const StrategyModal = ({
@@ -40,6 +40,22 @@ const StrategyModal = ({
     }
   }, [selectedStrategyIndex])
 
+  const [loaded, error] = useFonts({
+    Inter: require('../assets/fonts/Inter-Medium.ttf'),
+    VerdanaBold: require('../assets/fonts/verdana-bold.ttf'),
+    Verdana: require('../assets/fonts/verdana.ttf'),
+    InterSemibold: require('../assets/fonts/Inter-SemiBold.ttf'),
+  });
+
+
+  if (error) {
+    console.error('Font loading error:', error);
+  }
+  
+  if (!loaded) {
+    return null; 
+  }
+
   return (
     <Modal
         animationType='fade'
@@ -53,7 +69,7 @@ const StrategyModal = ({
             <Pressable onPress={closeModal} style={{paddingHorizontal:15, paddingVertical: 15}}>
                 <CloseXSvg height={22} width={22} color={'#424052'} scale={1}/>
             </Pressable>
-            <Text style={{textAlign: 'center', fontWeight: '500', fontSize: 28, textAlignVertical: 'center', maxWidth: '60%'}}>{strategy.title}</Text>
+            <Text style={{textAlign: 'center', fontFamily:"Inter", fontSize: 28, textAlignVertical: 'center', maxWidth: '60%'}}>{strategy.title}</Text>
             <BookmarkStrategy strategy_id={strategy.strategyId} />
           </View>
           <View style={{alignSelf: 'center'}}>
@@ -68,7 +84,7 @@ const StrategyModal = ({
                 alt={strategy.title}
               />
           </View>
-          <Text style={{fontSize: 18, paddingHorizontal: 20, textAlign: 'center', marginVertical: 30}}>{strategy.description}</Text>
+          <Text style={{fontSize: 18, fontFamily: "Verdana", paddingHorizontal: 20, textAlign: 'center', marginVertical: 30}}>{strategy.description}</Text>
           <Text style={{fontSize: 16, paddingHorizontal: 20, textAlign: 'center', marginVertical: 15, fontWeight: '400'}}>{strategy.source}</Text>
           { filteredStrategies.length > 1 &&
             <Pressable  onPress={nextStrategy}>
@@ -78,7 +94,7 @@ const StrategyModal = ({
                 colors={['#514AA4', '#744696']}
                 style={styles.button}>
                   <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10}}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 15}}>Next Strategy</Text>
+                    <Text style={{ fontFamily:"InterSemibold", textAlign: 'center', fontSize: 18, color: 'white', marginLeft: 15}}>Next Strategy</Text>
                     <BackArrowSvg height={20} width={10} scale={0.95} color={'white'} rotation={180}/>
                   </View>
               </LinearGradient>

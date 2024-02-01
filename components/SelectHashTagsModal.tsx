@@ -11,6 +11,7 @@ import Checkbox from 'expo-checkbox';
 import { LinearGradient } from 'expo-linear-gradient';
 import { searchableHashtags } from '@constants/hashtagSearch/hashtagData';
 import DoumiTextLogo from './svg-components/doumiTextLogo'
+import { useFonts } from 'expo-font';
 
 
 const SelectHashTagsModal = ({buttonText, body, state, setModalVisible, tagData, setModalReturn}: {
@@ -53,6 +54,21 @@ const SelectHashTagsModal = ({buttonText, body, state, setModalVisible, tagData,
   }, [tagData])
   
 
+  const [loaded, error] = useFonts({
+    Inter: require('../assets/fonts/Inter-Medium.ttf'),
+    VerdanaBold: require('../assets/fonts/verdana-bold.ttf'),
+    Verdana: require('../assets/fonts/verdana.ttf'),
+    InterSemibold: require('../assets/fonts/Inter-SemiBold.ttf'),
+  });
+
+
+  if (error) {
+    console.error('Font loading error:', error);
+  }
+  
+  if (!loaded) {
+    return null; 
+  }
   
   return (
     <Modal
@@ -113,7 +129,7 @@ const SelectHashTagsModal = ({buttonText, body, state, setModalVisible, tagData,
           >
             <Checkbox style={{marginHorizontal: 15, marginVertical: 7}} color={'#2B789D'} value={hashTagArray.includes(hashTag)} onValueChange={() => selectHashTag(hashTag)} />
             <Text
-              style={{color: '#2B789D', fontWeight: '700', fontSize: 18}}
+              style={{color: '#2B789D', fontWeight: 'bold', fontSize: 16, fontFamily: 'Verdana'}}
             >
               {hashTag}
             </Text>
@@ -134,7 +150,7 @@ const SelectHashTagsModal = ({buttonText, body, state, setModalVisible, tagData,
                 paddingVertical: 10,
               }}>
               <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginLeft: 15}}>{buttonText}</Text>
+                <Text style={{ fontFamily: 'InterSemibold', textAlign: 'center', fontSize: 18, color: 'white', marginLeft: 15}}>{buttonText}</Text>
               </View>
           </LinearGradient>
         </Pressable>

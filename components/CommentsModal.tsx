@@ -7,8 +7,8 @@ import BackArrowSvg from './svg-components/backArrowSvg'
 import { FirestorePost } from '@utils/types/types'
 import BookmarkPost from './BookmarkedPosts'
 import { calculateTimeDifference } from '@utils/timeFunctions'
-import { constStyles } from '@constants/Styles'
 import { Keyboard } from 'react-native';
+import { useFonts } from 'expo-font';
 
 const CommentsModal = ({state, setModalVisible, post}: {
   state: boolean,
@@ -38,6 +38,22 @@ const CommentsModal = ({state, setModalVisible, post}: {
     };
   }, []);
 
+  const [loaded, error] = useFonts({
+    Inter: require('../assets/fonts/Inter-Medium.ttf'),
+    VerdanaBold: require('../assets/fonts/verdana-bold.ttf'),
+    Verdana: require('../assets/fonts/verdana.ttf'),
+    InterSemibold: require('../assets/fonts/Inter-SemiBold.ttf'),
+  });
+
+
+  if (error) {
+    console.error('Font loading error:', error);
+  }
+  
+  if (!loaded) {
+    return null; 
+  }
+
   return (
     <Modal
       animationType='slide'
@@ -56,8 +72,8 @@ const CommentsModal = ({state, setModalVisible, post}: {
             />
 
             <View>
-              <Text style={{ fontSize: 19, fontWeight: '500' }}>{post.displayName}</Text>
-              <Text style={{opacity: 0.7}}>{post.timestamp?.seconds && calculateTimeDifference(post.timestamp.toDate())}</Text>
+              <Text style={{ fontFamily: 'Inter', fontSize: 19, fontWeight: '500' }}>{post.displayName}</Text>
+              <Text style={{fontFamily: 'Verdana', opacity: 0.7}}>{post.timestamp?.seconds && calculateTimeDifference(post.timestamp.toDate())}</Text>
             </View>
           </View>
           <View style={{position: 'absolute', right: 0, top: 0 }}>
@@ -66,14 +82,14 @@ const CommentsModal = ({state, setModalVisible, post}: {
 
 
           <View style={{ width: '100%'}}>
-              <Text style={{fontSize: 18, paddingBottom: 15, paddingHorizontal: 0}}>
+              <Text style={{fontSize: 18, paddingBottom: 15, paddingHorizontal: 0, fontFamily: 'Verdana'}}>
                 {post.content}
               </Text>
           </View>
           <ScrollView style={{flexGrow: 0, maxHeight: 90, marginBottom: 10}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
             {
               post.hashTags.map((tag) => (
-                  <Text key={tag} style={{color: '#2B789D', fontWeight: '700', fontSize: 16}}>{tag}</Text>
+                  <Text key={tag} style={{color: '#2B789D', fontWeight: 'bold', fontSize: 16, fontFamily: 'Verdana' }}>{tag}</Text>
                 ))
             }
           </ScrollView>

@@ -6,6 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 import LikeAThing from './LikeAThing';
 import { calculateTimeDifference } from '@utils/timeFunctions';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useFonts } from 'expo-font';
 
 
 interface CommentBoxProps {
@@ -60,7 +61,21 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
     return subscriber // On unmount end listener
   }, [post]);
 
+  const [loaded, error] = useFonts({
+    Inter: require('../assets/fonts/Inter-Medium.ttf'),
+    VerdanaBold: require('../assets/fonts/verdana-bold.ttf'),
+    Verdana: require('../assets/fonts/verdana.ttf'),
+    InterSemibold: require('../assets/fonts/Inter-SemiBold.ttf'),
+  });
 
+
+  if (error) {
+    console.error('Font loading error:', error);
+  }
+  
+  if (!loaded) {
+    return null; 
+  }
 
   return (
     <>
@@ -77,17 +92,17 @@ const CommentBox: React.FC<CommentBoxProps> = ({post}) => {
                 style={{ height: 40, aspectRatio: 1 }}
               />
               <View>
-                <Text style={{ fontSize: 17, fontWeight: '500' }}>{comment.displayName}</Text>
-                <Text style={{opacity: 0.7}}>
+                <Text style={{ fontSize: 17, fontWeight: '500', fontFamily: 'Inter' }}>{comment.displayName}</Text>
+                <Text style={{opacity: 0.7, fontFamily: 'Verdana'}}>
                   {comment.timestamp && calculateTimeDifference(comment.timestamp.toDate())}
                 </Text>
               </View>
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 0 }}>
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end', paddingRight: 0, }}>
                 <LikeAThing post={comment} firestoreRef={commentsRef.doc(comment.comment_id)} scale={0.85}/>
               </View>
             </View>
             <View>
-              <Text style={{ fontSize: 17, width: "84%", marginLeft: 'auto' }}>{(comment as FirestoreComment).comment}</Text>
+              <Text style={{ fontSize: 17, width: "84%", paddingRight: 50, marginLeft: 'auto', fontFamily: 'Verdana' }}>{(comment as FirestoreComment).comment}</Text>
             </View>
           </View>
         )

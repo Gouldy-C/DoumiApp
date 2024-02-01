@@ -12,7 +12,7 @@ import BackArrowSvg from '@components/svg-components/backArrowSvg';
 import CheckListSvg from '@components/svg-components/checkListSvg';
 import SelectHashTagsModal from '@components/SelectHashTagsModal';
 import DefaultPurpleButton from '@components/DefaultPurpleButton';
-
+import { useFonts } from 'expo-font';
 
 type FormData = {
   post: string;
@@ -53,13 +53,30 @@ const NewPost = () => {
   }
 
 
+  
+  const [loaded, error] = useFonts({
+    Inter: require('../../assets/fonts/Inter-Medium.ttf'),
+    VerdanaBold: require('../../assets/fonts/verdana-bold.ttf'),
+    Verdana: require('../../assets/fonts/verdana.ttf'),
+    InterSemibold: require('../../assets/fonts/Inter-SemiBold.ttf'),
+  });
+
+
+  if (error) {
+    console.error('Font loading error:', error);
+  }
+  
+  if (!loaded) {
+    return null; 
+  }
+
   return (
     <KeyboardAvoidingView behavior='padding' style={{flex: 1, backgroundColor: 'white', paddingHorizontal: 16}}>
       <View style={{flexDirection: 'row', marginVertical: 5, alignItems: 'center'}}>
         <Pressable onPress={() => {router.back()}} style={{paddingRight: 25,}}>
           <BackArrowSvg height={24} width={20} color={'#424052'} scale={1.2}/>
         </Pressable>
-        <Text style={{fontSize: 32, fontWeight: '500'}}>New Post</Text>
+        <Text style={{fontSize: 32, fontWeight: '500', fontFamily: "Inter"}}>New Post</Text>
         <Pressable onPress={resetPost} style={{marginLeft: 'auto', borderRadius: 60,
           elevation: 6,
           paddingVertical: 8,
@@ -97,7 +114,7 @@ const NewPost = () => {
             >
             <CheckListSvg height={17} width={22} color={'#ffffff'} scale={1.1}/>
             <Text
-              style={{fontWeight: '700', fontSize: 16, color: 'white'}}
+              style={{fontWeight: 'bold', fontSize: 16, color: 'white', fontFamily: 'Verdana'}}
               >
               Add/Remove a Tag
             </Text>
@@ -107,7 +124,7 @@ const NewPost = () => {
             />
         </Pressable>
         <DefaultPurpleButton styles={{paddingVertical: 10, marginVertical: 25}} onPress={handleSubmit(submitData)} disabled={isTags ? isValid ? false : true : true }>
-          <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '500', color: 'white', marginRight: 15}}>Publish</Text>
+          <Text style={{ textAlign: 'center', fontSize: 18, color: 'white', marginRight: 15, fontFamily: 'InterSemibold'}}>Publish</Text>
           <PublishArrowSvg color='white' height={14} width={16}/>
         </DefaultPurpleButton>
       </View>

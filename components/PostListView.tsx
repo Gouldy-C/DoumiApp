@@ -1,7 +1,6 @@
 import { FirestorePost } from "@utils/types/types";
-import { Text, View, StyleSheet, Image, ScrollView,Pressable } from "react-native";
+import { Text, View, StyleSheet, Image, FlatList, ScrollView,Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
-import { constStyles } from "@constants/Styles";
 import BookmarkPost from "./BookmarkedPosts";
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import CommentButton from "./CommentButton";
@@ -11,12 +10,14 @@ import firestore from '@react-native-firebase/firestore';
 import { calculateTimeDifference } from "@utils/timeFunctions";
 import auth from '@react-native-firebase/auth'
 import { searchStore } from "@utils/stores/searchStore";
+import { useFonts } from 'expo-font';
 
 const PostListView = ({
   postsRef,
 }: {
   postsRef: FirebaseFirestoreTypes.Query<FirebaseFirestoreTypes.DocumentData>;
 }) => {
+  const postCollection = firestore().collection('Posts')
   const setSearch = searchStore((state) => state.setSearch)
   const [posts, setPosts] = useState<FirestorePost[]>([]);
   const [expandedPosts, setExpandedPosts] = useState<string[]>([]);
@@ -29,14 +30,14 @@ const PostListView = ({
     );
   };
 
+  
+  
+
   useEffect(() => {
     const subscriber = postsRef.onSnapshot((querySnapshot) => {
       if (querySnapshot) {
         const updatedPosts: FirestorePost[] = [];
-        console.log(querySnapshot);
-        querySnapshot
-        .docs
-        .map((documentSnapshot) => {
+        querySnapshot.docs.map((documentSnapshot) => {
           updatedPosts.push({
             content: documentSnapshot.get("content"),
             uid: documentSnapshot.get("uid"),
@@ -53,15 +54,34 @@ const PostListView = ({
         });
         setPosts(updatedPosts);
       }
-    }, (error) => console.error(error),);
-    return subscriber; 
+    }, (error) => console.error(error));
+  
+    return subscriber;
   }, [postsRef]);
 
+ 
+  const [loaded, error] = useFonts({
+    Inter: require('../assets/fonts/Inter-Medium.ttf'),
+    VerdanaBold: require('../assets/fonts/verdana-bold.ttf'),
+    Verdana: require('../assets/fonts/verdana.ttf'),
+  });
+
+
+  if (error) {
+    console.error('Font loading error:', error);
+  }
+  
+  if (!loaded) {
+    return null; 
+  }
+
   return (
-    <>
-      <ScrollView style={{}} contentContainerStyle={{ gap:12, paddingVertical: 12}}>
-        {posts
-          .map((post) => (
+    <FlatList
+    data={posts}
+    style={{}}
+    contentContainerStyle={{ gap:12, paddingVertical: 12}}
+    keyExtractor={(item) => item.post_id}
+    renderItem={({ item: post }) => (
             <View key={post.post_id} style={styles.postsContainer}>
               <View
                 style={{ flex: 1, flexDirection: "row", alignItems: "center", paddingHorizontal: 10}}>
@@ -80,7 +100,7 @@ const PostListView = ({
 
                   <View>
                     <Text style={styles.name}>{post.displayName}</Text>
-                    <Text style={{opacity: 0.7}}>
+                    <Text style={{opacity: 0.7, fontFamily: 'Inter' }}>
                       {post.timestamp?.seconds &&
                         calculateTimeDifference(post.timestamp.toDate())}
                     </Text>
@@ -95,14 +115,14 @@ const PostListView = ({
               </View>
               <View>
               <Pressable onPress={() => togglePostExpansion(post.post_id)} style={{paddingHorizontal: 10}}>
-                <Text style={constStyles.postText} numberOfLines={expandedPosts.includes(post.post_id) ? undefined : 4}>
+                <Text style={styles.postText} numberOfLines={expandedPosts.includes(post.post_id) ? undefined : 4}>
                   {post.content}
                 </Text>
                 </Pressable>
                 <ScrollView style={{flexGrow: 0, maxHeight: 90, marginVertical: 22, paddingHorizontal: 16}} contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap', gap: 12}}>
                   {
                     post.hashTags.map((tag) => (
-                        <Text key={tag} onPress={() => setSearch([tag])} style={{color: '#2B789D', fontWeight: '700', fontSize: 16}}>{tag}</Text>
+                        <Text key={tag} onPress={() => setSearch([tag])} style={{color: '#2B789D', fontSize: 16, fontFamily: "VerdanaBold", paddingRight: '3%'}}>{tag}</Text>
                       ))
                   }
                 </ScrollView>
@@ -112,9 +132,8 @@ const PostListView = ({
                 </View>
               </View>
             </View>
-          ))}
-      </ScrollView>
-    </>
+          )}
+    />
   );
 };
 
@@ -159,6 +178,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 19,
+    fontFamily: "Inter"
   },
   commentContainer: {
     width: "100%",
@@ -166,6 +186,12 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 10,
     backgroundColor: "white",
-    gap: 8,
+    gap: 8
   },
+  postText: {
+    fontSize: 18,
+    paddingBottom: 15,
+    paddingHorizontal: 8,
+    fontFamily: "Verdana"
+  }
 });
