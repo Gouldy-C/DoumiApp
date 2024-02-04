@@ -32,10 +32,11 @@ export default function RootLayout() {
     ...FontAwesome.font,
   })
 
-  // setUserDoc(null)
+
   // setAuthUser(null)
   // auth().signOut()
-
+  // setUserDoc(null)
+  
   function userChange(user: FirebaseAuthTypes.User | null) {
     setAuthUser(user)
     if (user) {

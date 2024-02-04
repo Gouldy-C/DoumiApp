@@ -1,7 +1,7 @@
 import {View, 
   StyleSheet,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { LinearGradient } from 'expo-linear-gradient';
 import PostListView from '@components/PostListView';
