@@ -13,9 +13,8 @@ Doumi envisions a future where caregivers caring for  patients find support in a
 ### Full Stack Developer: [Christian Gouldy](https://www.linkedin.com/in/gouldy-c)
 
 ### Full Stack Developer: [Klhee Jacobs](https://www.linkedin.com/in/klhee-jacobs-99743a161/)
-## 
-### 
-## Product Experience
+
+# Product Experience
 
 ### Problem Space
 
