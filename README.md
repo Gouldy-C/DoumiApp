@@ -1,8 +1,6 @@
-Doumi Mobile App
-=====
+# Doumi Mobile App
 
 Doumi envisions a future where caregivers caring for  patients find support in a judge-free community and expert guidance on how to redirect agitated patients.
-
 
 ### [View Github Repo](https://github.com/Gouldy-C/DoumiApp)
 
