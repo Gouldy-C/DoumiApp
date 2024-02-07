@@ -4,7 +4,6 @@ Doumi Mobile App
 Doumi envisions a future where caregivers caring for  patients find support in a judge-free community and expert guidance on how to redirect agitated patients.
 
 
-
 ### [View Github Repo](https://github.com/Gouldy-C/DoumiApp)
 
 ### Product Manager: [Sophia](https://www.joincolab.io/product/doumi#)
@@ -14,7 +13,6 @@ Doumi envisions a future where caregivers caring for  patients find support in a
 ### Full Stack Developer: [Christian Gouldy](https://www.linkedin.com/in/gouldy-c)
 
 ### Full Stack Developer: [Klhee Jacobs](https://www.linkedin.com/in/klhee-jacobs-99743a161/)
-
 ## 
 
 ## Product Experience
